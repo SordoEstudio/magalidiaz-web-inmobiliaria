@@ -36,7 +36,7 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section className="py-16 bg-muted/30">
+    <section className="py-16 bg-gradient-to-b from-muted/20 to-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
@@ -51,9 +51,9 @@ export function ServicesSection() {
           {services.map((service, index) => {
             const Icon = service.icon
             return (
-              <Card key={index} className="group hover:shadow-lg transition-all duration-300 border-border/50">
+              <Card key={index} className="group hover:shadow-xl transition-all duration-300 border-border/50 hover:border-primary/20 hover:scale-[1.02] bg-card">
                 <CardContent className="p-6 text-center">
-                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
+                  <div className="w-16 h-16 bg-primary/15 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/25 transition-colors">
                     <Icon className="h-8 w-8 text-primary" />
                   </div>
                   <h3 className="text-xl font-semibold text-card-foreground mb-3">{service.title}</h3>

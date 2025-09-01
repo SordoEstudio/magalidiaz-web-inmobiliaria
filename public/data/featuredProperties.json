@@ -1,0 +1,46 @@
+[
+    {
+      "id": "1",
+      "title": "Departamento 2 ambientes en San Vicente Centro",
+      "price": 180000,
+      "currency": "USD", 
+      "location": "San Vicente Centro, Buenos Aires",
+      "image": "/modern-apartment-exterior.png",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "area": 65,
+      "hasGarage": true,
+      "isNew": true,
+      "isFeatured": true,
+      "publishedDays": 2
+    },
+    {
+      "id": "2",
+      "title": "Casa 3 dormitorios con jardín y piscina",
+      "price": 350000,
+      "currency": "ARS",
+      "location": "Quilmes Oeste, Buenos Aires", 
+      "image": "/house-with-garden-and-pool.png",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "area": 120,
+      "hasGarage": true,
+      "isNew": false,
+      "isFeatured": true,
+      "publishedDays": 5
+    },
+    {
+      "id": "3",
+      "title": "Departamento de lujo con amenities",
+      "price": 0,
+      "location": "Puerto Madero, CABA",
+      "image": "/luxury-apartment-building-modern.png",
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "area": 95,
+      "hasGarage": true,
+      "isNew": true,
+      "isFeatured": true,
+      "publishedDays": 1
+    }
+  ]

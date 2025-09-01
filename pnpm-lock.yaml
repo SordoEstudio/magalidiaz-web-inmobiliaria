@@ -8,6 +8,21 @@ importers:
 
   .:
     dependencies:
+      '@fortawesome/fontawesome-svg-core':
+        specifier: ^7.0.0
+        version: 7.0.0
+      '@fortawesome/free-brands-svg-icons':
+        specifier: ^7.0.0
+        version: 7.0.0
+      '@fortawesome/free-regular-svg-icons':
+        specifier: ^7.0.0
+        version: 7.0.0
+      '@fortawesome/free-solid-svg-icons':
+        specifier: ^7.0.0
+        version: 7.0.0
+      '@fortawesome/react-fontawesome':
+        specifier: ^3.0.2
+        version: 3.0.2(@fortawesome/fontawesome-svg-core@7.0.0)(react@19.0.0)
       '@hookform/resolvers':
         specifier: ^3.10.0
         version: 3.10.0(react-hook-form@7.60.0(react@19.0.0))
@@ -126,8 +141,8 @@ importers:
         specifier: 1.4.1
         version: 1.4.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       lucide-react:
-        specifier: ^0.454.0
-        version: 0.454.0(react@19.0.0)
+        specifier: ^0.542.0
+        version: 0.542.0(react@19.0.0)
       next:
         specifier: 15.2.4
         version: 15.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -146,6 +161,9 @@ importers:
       react-hook-form:
         specifier: ^7.60.0
         version: 7.60.0(react@19.0.0)
+      react-icons:
+        specifier: ^5.5.0
+        version: 5.5.0(react@19.0.0)
       react-resizable-panels:
         specifier: ^2.1.7
         version: 2.1.7(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -409,6 +427,33 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@fortawesome/fontawesome-common-types@7.0.0':
+    resolution: {integrity: sha512-PGMrIYXLGA5K8RWy8zwBkd4vFi4z7ubxtet6Yn13Plf6krRTwPbdlCwlcfmoX0R7B4Z643QvrtHmdQ5fNtfFCg==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/fontawesome-svg-core@7.0.0':
+    resolution: {integrity: sha512-obBEF+zd98r/KtKVW6A+8UGWeaOoyMpl6Q9P3FzHsOnsg742aXsl8v+H/zp09qSSu/a/Hxe9LNKzbBaQq1CEbA==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/free-brands-svg-icons@7.0.0':
+    resolution: {integrity: sha512-C8oY28gq/Qx/cHReJa2AunKJUHvUZDVoPlSTHtAvjriaNfi+5nugW4cx7yA/xN3f/nYkElw11gFBoJ2xUDDFgg==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/free-regular-svg-icons@7.0.0':
+    resolution: {integrity: sha512-qAh0mTaCY22sQzMK2lKBrtn/aR4keUu5XmtdYR7d702laMe0h+Ab4Kj2pExR9HZkKhjKoq8pbwt8Td+mjW/ipQ==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/free-solid-svg-icons@7.0.0':
+    resolution: {integrity: sha512-njSLAllkOddYDCXgTFboXn54Oe5FcvpkWq+FoetOHR64PbN0608kM02Lze0xtISGpXgP+i26VyXRQA0Irh3Obw==}
+    engines: {node: '>=6'}
+
+  '@fortawesome/react-fontawesome@3.0.2':
+    resolution: {integrity: sha512-cmp/nT0pPC7HUALF8uc3+D5ECwEBWxYQbOIHwtGUWEu72sWtZc26k5onr920HWOViF0nYaC+Qzz6Ln56SQcaVg==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@fortawesome/fontawesome-svg-core': ~6 || ~7
+      react: ^18.0.0 || ^19.0.0
 
   '@hookform/resolvers@3.10.0':
     resolution: {integrity: sha512-79Dv+3mDF7i+2ajj7SkypSKHhl1cbln1OGavqrsF7p6mbUv11xpqpacPsGDCTRvCSjEEIez2ef1NveSVL3b0Ag==}
@@ -2167,10 +2212,10 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
-  lucide-react@0.454.0:
-    resolution: {integrity: sha512-hw7zMDwykCLnEzgncEEjHeA6+45aeEzRYuKHuyRSOPkhko+J3ySGjGIzu+mmMfDFG1vazHepMaYFYHbTFAZAAQ==}
+  lucide-react@0.542.0:
+    resolution: {integrity: sha512-w3hD8/SQB7+lzU2r4VdFyzzOzKnUjTZIF/MQJGSSvni7Llewni4vuViRppfRAa2guOsY5k4jZyxw/i9DQHv+dw==}
     peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0-rc
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   magic-string@0.30.18:
     resolution: {integrity: sha512-yi8swmWbO17qHhwIBNeeZxTceJMeBvWJaId6dyvTSOwTipqeHhMhOrz6513r1sOKnpvQ7zkhlG8tPrpilwTxHQ==}
@@ -2283,6 +2328,11 @@ packages:
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
+
+  react-icons@5.5.0:
+    resolution: {integrity: sha512-MEFcXdkP3dLo8uumGI5xN3lDFNsRtrjbOEKDLD7yv76v4wpnEq2Lt2qeHaQOr34I/wPN3s3+N08WkQ+CW37Xiw==}
+    peerDependencies:
+      react: '*'
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
@@ -2714,6 +2764,29 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@fortawesome/fontawesome-common-types@7.0.0': {}
+
+  '@fortawesome/fontawesome-svg-core@7.0.0':
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 7.0.0
+
+  '@fortawesome/free-brands-svg-icons@7.0.0':
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 7.0.0
+
+  '@fortawesome/free-regular-svg-icons@7.0.0':
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 7.0.0
+
+  '@fortawesome/free-solid-svg-icons@7.0.0':
+    dependencies:
+      '@fortawesome/fontawesome-common-types': 7.0.0
+
+  '@fortawesome/react-fontawesome@3.0.2(@fortawesome/fontawesome-svg-core@7.0.0)(react@19.0.0)':
+    dependencies:
+      '@fortawesome/fontawesome-svg-core': 7.0.0
+      react: 19.0.0
 
   '@hookform/resolvers@3.10.0(react-hook-form@7.60.0(react@19.0.0))':
     dependencies:
@@ -4341,7 +4414,7 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
-  lucide-react@0.454.0(react@19.0.0):
+  lucide-react@0.542.0(react@19.0.0):
     dependencies:
       react: 19.0.0
 
@@ -4444,6 +4517,10 @@ snapshots:
       scheduler: 0.25.0
 
   react-hook-form@7.60.0(react@19.0.0):
+    dependencies:
+      react: 19.0.0
+
+  react-icons@5.5.0(react@19.0.0):
     dependencies:
       react: 19.0.0
 

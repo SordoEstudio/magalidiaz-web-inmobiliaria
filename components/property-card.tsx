@@ -1,15 +1,17 @@
 "use client"
 
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Heart, MessageCircle, Share2, Bed, Bath, Car, Maximize } from "lucide-react"
-
+import { Heart, MessageCircle, Share2, Bed, Bath, Car, Maximize, MapPin } from "lucide-react"
+import Link from "next/link"
+import { FaWhatsapp } from "react-icons/fa"
 interface PropertyCardProps {
   id: string
   title: string
-  price: string
+  price: number 
+  currency: string
   location: string
   image: string
   bedrooms: number
@@ -25,6 +27,7 @@ export function PropertyCard({
   id,
   title,
   price,
+  currency,
   location,
   image,
   bedrooms,
@@ -35,8 +38,13 @@ export function PropertyCard({
   isFeatured = false,
   publishedDays,
 }: PropertyCardProps) {
-  const [isFavorite, setIsFavorite] = useState(false)
-
+const formatPrice = useCallback((price: number, currency: string) => {
+  if (currency === "USD") {
+    return `USD ${Math.round(price).toLocaleString('es-AR')}`
+  } else {
+    return `$ ${Math.round(price).toLocaleString('es-AR')}`
+  }
+}, [])
   const handleWhatsAppContact = () => {
     const message = `Hola! Me interesa la propiedad: ${title} - ${price}`
     const whatsappUrl = `https://wa.me/5491123456789?text=${encodeURIComponent(message)}`
@@ -56,12 +64,13 @@ export function PropertyCard({
   }
 
   return (
-    <Card className="group overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02] bg-card border-border">
+    <Link href={`/propiedad/${id}`} className="block">
+      <Card className="group overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] bg-card border-border/50 hover:border-primary/20 pt-0">
       <div className="relative">
         <img
           src={image || "/placeholder.svg"}
           alt={title}
-          className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+          className="w-full h-48 object-cover "
         />
 
         {/* Badges */}
@@ -71,23 +80,23 @@ export function PropertyCard({
         </div>
 
         {/* Favorite Button */}
-        <Button
+{/*         <Button
           variant="ghost"
           size="icon"
-          className="absolute top-3 right-3 bg-white/80 hover:bg-white text-foreground"
+          className="absolute top-3 right-3 bg-white/90 hover:bg-white text-foreground shadow-sm"
           onClick={() => setIsFavorite(!isFavorite)}
         >
-          <Heart className={`h-4 w-4 ${isFavorite ? "fill-accent text-accent" : ""}`} />
-        </Button>
+          <Heart className={`h-4 w-4 ${isFavorite ? "fill-primary text-primary" : ""}`} />
+        </Button> */}
 
         {/* Floating CTA on hover */}
         <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <div className="flex gap-2">
             <Button onClick={handleWhatsAppContact} className="flex-1 bg-green-600 hover:bg-green-700 text-white">
-              <MessageCircle className="h-4 w-4 mr-2" />
+              <FaWhatsapp className="h-4 w-4 mr-2" />
               WhatsApp
             </Button>
-            <Button variant="secondary" onClick={handleShare} className="bg-white/90 hover:bg-white text-foreground">
+            <Button variant="secondary" onClick={handleShare} className="bg-white/95 hover:bg-white text-foreground">
               <Share2 className="h-4 w-4" />
             </Button>
           </div>
@@ -97,13 +106,18 @@ export function PropertyCard({
       <CardContent className="p-4">
         <div className="space-y-3">
           {/* Price */}
-          <div className="text-2xl font-bold text-primary">{price}</div>
+{price !== 0 ? ( <div className="text-2xl font-bold text-primary">{formatPrice(price, currency)}</div>):(<Button variant="outline" className="w-full  bg-transparent border-primary/20 hover:bg-primary/5 hover:border-primary/40 text-primary">
+            Consultar precio
+          </Button>)}
+          
 
           {/* Title */}
           <h3 className="font-semibold text-card-foreground line-clamp-2 text-balance">{title}</h3>
 
           {/* Location */}
-          <p className="text-muted-foreground text-sm">📍 {location}</p>
+          <p className="flex items-center gap-2 text-foreground text-sm"><MapPin className="h-4 w-4" /> 
+          <span> {location}</span>
+          </p>
 
           {/* Features */}
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -131,11 +145,13 @@ export function PropertyCard({
           <p className="text-xs text-muted-foreground">Publicado hace {publishedDays} días</p>
 
           {/* View Details Button */}
-          <Button variant="outline" className="w-full mt-3 bg-transparent">
+          <p className="mt-auto mx-auto border-primary/20 text-primary opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-4 left-1/2 -translate-x-1/2">
             Ver detalle
-          </Button>
+          </p>
         </div>
       </CardContent>
     </Card>
+    </Link>
+
   )
 }

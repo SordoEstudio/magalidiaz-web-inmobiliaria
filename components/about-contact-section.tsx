@@ -1,98 +1,103 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Phone, Mail, MessageCircle, MapPin, Award, Clock } from "lucide-react"
+import {  Award, Clock } from "lucide-react"
+import { FaWhatsapp, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaInstagram } from "react-icons/fa"
+import aboutData from "@/public/data/aboutSection.json"
+import contactData from "@/public/data/contactSection.json"
 
 export function AboutContactSection() {
+const renderIcon = (icon: string) => {
+  switch (icon) {
+    case "FaWhatsapp": return <FaWhatsapp className="h-5 w-5 text-primary" />
+    case "FaPhone": return <FaPhone className="h-5 w-5 text-primary" />
+    case "FaEnvelope": return <FaEnvelope className="h-5 w-5 text-primary" />
+    case "FaMapMarkerAlt": return <FaMapMarkerAlt className="h-5 w-5 text-primary" />
+    case "FaInstagram": return <FaInstagram className="h-5 w-5 text-primary" />
+  }
+}
+  const handleClick = (link: string) => {
+    window.open(link, '_blank')
+  }
+
   return (
-    <section className="py-16 bg-background">
+    <section className="py-16 bg-gradient-to-b from-background to-muted/20">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* About Section */}
-          <div className="space-y-6">
-            <div>
-              <Badge variant="secondary" className="mb-4">
-                Matrícula CUCICBA N° 12345
+          <div className="space-y-6 max-w-2xl mx-auto p-6 ">
+            <div className="flex justify-center">
+              <img src={aboutData.image} alt={aboutData.nombre} width={100} height={100} className="rounded-full" />
+            </div>
+            <div className="text-center">
+              <Badge variant="secondary" className="mb-4 bg-primary/10 text-primary border-primary/20">
+                {aboutData.matricula}
               </Badge>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-                María <span className="text-primary">González</span>
+                {aboutData.nombre} <span className="text-primary">{aboutData.apellido}</span>
               </h2>
               <p className="text-lg text-muted-foreground text-pretty mb-6">
-                Con más de 10 años de experiencia en el mercado inmobiliario de Buenos Aires, me especializo en ayudar a
-                familias y inversores a encontrar la propiedad perfecta. Mi compromiso es brindar un servicio
-                personalizado y transparente en cada operación.
+                {aboutData.descripcion}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                  <Award className="h-5 w-5 text-accent" />
+                <div className="w-10 h-10 bg-primary/15 rounded-full flex items-center justify-center">
+                  <Award className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">+500</p>
+                  <p className="font-semibold text-foreground">{aboutData.stats.operaciones}</p>
                   <p className="text-sm text-muted-foreground">Operaciones</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
-                  <Clock className="h-5 w-5 text-accent" />
+                <div className="w-10 h-10 bg-primary/15 rounded-full flex items-center justify-center">
+                  <Clock className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-semibold text-foreground">10+ años</p>
+                  <p className="font-semibold text-foreground">{aboutData.stats.experiencia}</p>
                   <p className="text-sm text-muted-foreground">Experiencia</p>
                 </div>
               </div>
             </div>
 
-            <Button size="lg" variant="outline">
-              Conocé más sobre mí
-            </Button>
+{/*             <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
+              {aboutData.cta}
+            </Button> */}
           </div>
 
           {/* Contact Section */}
           <div>
-            <Card className="border-border/50 shadow-lg">
+            <Card className="border-border/50 shadow-xl bg-card">
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-card-foreground mb-6 text-center">Contacto directo</h3>
-
+                <h3 className="text-2xl font-bold text-card-foreground mb-6 text-center border-b border-primary/50 pb-4">Contacto</h3>
                 <div className="space-y-4">
-                  <Button size="lg" className="w-full justify-start gap-3 h-14">
-                    <MessageCircle className="h-5 w-5" />
+                  {contactData.contactLinks.map((contact) => (
+                    <Button variant="ghost" size="lg" className="w-full justify-start gap-3 h-14  cursor-pointer" onClick={() => handleClick(contact.link)}>
+                      {renderIcon(contact.icon)}
                     <div className="text-left">
-                      <p className="font-semibold">WhatsApp</p>
-                      <p className="text-sm opacity-90">+54 11 1234-5678</p>
+                      <p className="font-semibold text-foreground">{contact.name}</p>
+                      <p className="text-sm opacity-90 text-muted-foreground">{contact.label}</p>
                     </div>
                   </Button>
+                ))}
 
-                  <Button size="lg" variant="outline" className="w-full justify-start gap-3 h-14 bg-transparent">
-                    <Phone className="h-5 w-5" />
-                    <div className="text-left">
-                      <p className="font-semibold">Teléfono</p>
-                      <p className="text-sm text-muted-foreground">+54 11 1234-5678</p>
-                    </div>
-                  </Button>
 
-                  <Button size="lg" variant="outline" className="w-full justify-start gap-3 h-14 bg-transparent">
-                    <Mail className="h-5 w-5" />
-                    <div className="text-left">
-                      <p className="font-semibold">Email</p>
-                      <p className="text-sm text-muted-foreground">maria@inmobiliaria.com</p>
-                    </div>
-                  </Button>
-
-                  <div className="flex items-start gap-3 p-4 bg-muted/50 rounded-lg">
-                    <MapPin className="h-5 w-5 text-primary mt-0.5" />
+                  <div className="flex items-start gap-3 p-4  border-t-2 border-foreground/10">
+                    <FaClock className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                      <p className="font-semibold text-foreground">Oficina</p>
+                      <p className="font-semibold text-foreground">Horario de atención</p>
                       <p className="text-sm text-muted-foreground">
-                        Av. Corrientes 1234, CABA
-                        <br />
-                        Lunes a Viernes 9:00 - 18:00
+                        {contactData.horario}
                       </p>
                     </div>
                   </div>
-                </div>
+
+</div>
+                
               </CardContent>
             </Card>
           </div>

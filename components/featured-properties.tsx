@@ -4,54 +4,11 @@ import { PropertyCard } from "@/components/property-card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 
-const featuredProperties = [
-  {
-    id: "1",
-    title: "Departamento 2 ambientes en San Vicente Centro",
-    price: "$180.000",
-    location: "San Vicente Centro, Buenos Aires",
-    image: "/modern-apartment-exterior.png",
-    bedrooms: 2,
-    bathrooms: 1,
-    area: 65,
-    hasGarage: true,
-    isNew: true,
-    isFeatured: true,
-    publishedDays: 2,
-  },
-  {
-    id: "2",
-    title: "Casa 3 dormitorios con jardín y piscina",
-    price: "$350.000",
-    location: "Quilmes Oeste, Buenos Aires",
-    image: "/house-with-garden-and-pool.png",
-    bedrooms: 3,
-    bathrooms: 2,
-    area: 120,
-    hasGarage: true,
-    isNew: false,
-    isFeatured: true,
-    publishedDays: 5,
-  },
-  {
-    id: "3",
-    title: "Departamento de lujo con amenities",
-    price: "$450.000",
-    location: "Puerto Madero, CABA",
-    image: "/luxury-apartment-building-modern.png",
-    bedrooms: 2,
-    bathrooms: 2,
-    area: 95,
-    hasGarage: true,
-    isNew: true,
-    isFeatured: true,
-    publishedDays: 1,
-  },
-]
+import featuredProperties from "@/public/data/featuredProperties.json"
 
 export function FeaturedProperties() {
   return (
-    <section className="py-16 bg-background">
+    <section className="py-16 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
@@ -69,7 +26,7 @@ export function FeaturedProperties() {
         </div>
 
         <div className="text-center">
-          <Button size="lg" variant="outline" className="group bg-transparent">
+          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground group">
             Ver más propiedades
             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>
