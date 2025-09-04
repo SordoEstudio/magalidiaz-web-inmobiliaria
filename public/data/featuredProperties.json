@@ -12,7 +12,8 @@
       "hasGarage": true,
       "isNew": true,
       "isFeatured": true,
-      "publishedDays": 2
+      "publishedDays": 2,
+      "tags": ["En venta", "San Vicente Centro"]
     },
     {
       "id": "2",
@@ -27,7 +28,8 @@
       "hasGarage": true,
       "isNew": false,
       "isFeatured": true,
-      "publishedDays": 5
+      "publishedDays": 5,
+      "tags": ["Alquiler", "Amueblado","Piscina"]
     },
     {
       "id": "3",
@@ -41,6 +43,23 @@
       "hasGarage": true,
       "isNew": true,
       "isFeatured": true,
-      "publishedDays": 1
+      "publishedDays": 1,
+      "tags": ["Alquiler", "Puerto Madero", "CABA"]
+    },
+    {
+      "id": "4",
+      "title": "Departamento 2 ambientes en San Vicente Centro",
+      "price": 180000,
+      "currency": "USD", 
+      "location": "San Vicente Centro, Buenos Aires",
+      "image": "/modern-apartment-exterior.png",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "area": 65,
+      "hasGarage": true,
+      "isNew": true,
+      "isFeatured": true,
+      "publishedDays": 2,
+      "tags": ["En venta", "San Vicente Centro"]
     }
   ]

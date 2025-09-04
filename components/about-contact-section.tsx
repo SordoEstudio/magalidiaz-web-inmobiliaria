@@ -3,8 +3,8 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import {  Award, Clock } from "lucide-react"
-import { FaWhatsapp, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaInstagram } from "react-icons/fa"
+import {  Award, Clock, House } from "lucide-react"
+import { FaWhatsapp, FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaInstagram, FaFacebook } from "react-icons/fa"
 import aboutData from "@/public/data/aboutSection.json"
 import contactData from "@/public/data/contactSection.json"
 
@@ -16,6 +16,7 @@ const renderIcon = (icon: string) => {
     case "FaEnvelope": return <FaEnvelope className="h-5 w-5 text-primary" />
     case "FaMapMarkerAlt": return <FaMapMarkerAlt className="h-5 w-5 text-primary" />
     case "FaInstagram": return <FaInstagram className="h-5 w-5 text-primary" />
+    case "FaFacebook": return <FaFacebook className="h-5 w-5 text-primary" />
   }
 }
   const handleClick = (link: string) => {
@@ -32,18 +33,26 @@ const renderIcon = (icon: string) => {
               <img src={aboutData.image} alt={aboutData.nombre} width={100} height={100} className="rounded-full" />
             </div>
             <div className="text-center">
-              <Badge variant="secondary" className="mb-4 bg-primary/10 text-primary border-primary/20">
-                {aboutData.matricula}
-              </Badge>
               <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
                 {aboutData.nombre} <span className="text-primary">{aboutData.apellido}</span>
               </h2>
+                {aboutData.titulos.map((titulo) => (
+              <div  className="mb-4 items-center justify-center  mx-auto">
+                    <p className="text-sm text-foreground font-bold">{titulo.titulo}{" - "}<span className="text-sm text-muted-foreground">{titulo.matricula}</span>
+                    </p>
+          
+                </div>
+                ))}
               <p className="text-lg text-muted-foreground text-pretty mb-6">
                 {aboutData.descripcion}
               </p>
+              <p className="text-lg text-muted-foreground text-pretty mb-6">
+                La propiedad que buscar puede estar a un par de clics de distancia.
+            </p>
+              
             </div>
-
-            <div className="grid grid-cols-2 gap-4">
+{/* STATS */}
+{/*             <div className="grid grid-cols-3 gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-primary/15 rounded-full flex items-center justify-center">
                   <Award className="h-5 w-5 text-primary" />
@@ -62,7 +71,16 @@ const renderIcon = (icon: string) => {
                   <p className="text-sm text-muted-foreground">Experiencia</p>
                 </div>
               </div>
-            </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/15 rounded-full flex items-center justify-center">
+                  <House className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">{aboutData.stats.propiedades}</p>
+                  <p className="text-sm text-muted-foreground">Propiedades</p>
+                </div>
+              </div>
+            </div> */}
 
 {/*             <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
               {aboutData.cta}
@@ -78,15 +96,16 @@ const renderIcon = (icon: string) => {
                   {contactData.contactLinks.map((contact) => (
                     <Button variant="ghost" size="lg" className="w-full justify-start gap-3 h-14  cursor-pointer" onClick={() => handleClick(contact.link)}>
                       {renderIcon(contact.icon)}
-                    <div className="text-left">
-                      <p className="font-semibold text-foreground">{contact.name}</p>
-                      <p className="text-sm opacity-90 text-muted-foreground">{contact.label}</p>
+                    <div className="text-left ">
+                      <p className="text-muted-foreground text-md font-semibold">{contact.name}</p>
+                      <p className="text-sm font-semibold text-foreground">{contact.label}</p>
+                      {contact.horario && <p className="text-sm opacity-90 text-muted-foreground">{contact.horario}</p>}
                     </div>
                   </Button>
                 ))}
 
 
-                  <div className="flex items-start gap-3 p-4  border-t-2 border-foreground/10">
+{/*      {contactData.horario &&             <div className="flex items-start gap-3 p-4  border-t-2 border-foreground/10">
                     <FaClock className="h-5 w-5 text-primary mt-0.5" />
                     <div>
                       <p className="font-semibold text-foreground">Horario de atención</p>
@@ -94,7 +113,7 @@ const renderIcon = (icon: string) => {
                         {contactData.horario}
                       </p>
                     </div>
-                  </div>
+                  </div>} */}
 
 </div>
                 

@@ -18,7 +18,7 @@ export function HeroSearch() {
   
         <Image src={heroImg} alt="Hero Search" className="absolute inset-0 w-full h-full object-cover" fill />
         {/* Overlay con gradiente usando la nueva paleta lila */}
-        <div className="absolute inset-0 bg-black/50 " />
+        <div className="absolute inset-0 bg-black/70 " />
   
       
 

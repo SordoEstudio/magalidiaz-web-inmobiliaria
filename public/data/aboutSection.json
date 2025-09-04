@@ -1,14 +1,19 @@
 {
     "image": "/client01.jpg",
-    "imageAlt": "Foto de María González",
-    "matricula": "Matrícula CUCICBA N° 12345", 
-    "nombre": "María",
-    "apellido": "González",
-    "descripcion": "Con más de 10 años de experiencia en el mercado inmobiliario de Buenos Aires, me especializo en ayudar a familias y inversores a encontrar la propiedad perfecta. Mi compromiso es brindar un servicio personalizado y transparente en cada operación.",
+    "imageAlt": "Foto de Magalí Diaz",
+    "titulos": [
+       { "titulo":"Corredora Inmobiliaria", "matricula": "Mat. 737"},
+{
+  "titulo":"Martillera pública", "matricula": "Mat. 1456"
+} 
+    ],
+    "nombre": "Magalí",
+    "apellido": "Díaz",
+    "descripcion": "Con más de 10 años de experiencia en el mercado inmobiliario , me especializo en ayudar a familias y inversores a encontrar la propiedad perfecta. Mi compromiso es brindar un servicio personalizado y transparente en cada operación.",
     "stats": {
       "operaciones": "+500",
-      "experiencia": "10+ años"
+      "experiencia": "10+ años",
+      "propiedades": "100+"
     },
-    "cta": "Conocé más sobre mí"
-
+    "cta": "Contactar"
   }

@@ -26,7 +26,7 @@ export function FeaturedProperties() {
         </div>
 
         <div className="text-center">
-          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground group">
+          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground group cursor-pointer" href="/propiedades">
             Ver más propiedades
             <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </Button>

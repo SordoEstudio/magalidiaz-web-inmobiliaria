@@ -1,0 +1,277 @@
+{
+  "herobanners": [
+    {
+      "id": "hero-main",
+      "type": "hero",
+      "image": "/country-house-large-yard.png",
+      "title": "Encontrá tu Hogar Ideal",
+      "subtitle": "Inmobiliaria Premium",
+      "text": "Miles de propiedades verificadas en las mejores ubicaciones de Buenos Aires. Tu próximo hogar te está esperando.",
+      "bulletPoints": [
+        "Asesoramiento personalizado gratuito",
+        "Propiedades verificadas y certificadas",
+        "Financiamiento disponible hasta 30 años",
+        "Acompañamiento en toda la operación"
+      ],
+      "cta": {
+        "text": "Explorar propiedades",
+        "action": "/propiedades",
+        "type": "link"
+      },
+      "variant": "dark",
+      "overlay": "dark",
+      "alignment": "center"
+    },
+    {
+      "id": "hero-investment",
+      "type": "hero",
+      "image": "/luxury-apartment-building-modern.png",
+      "title": "Invertí en Propiedades",
+      "subtitle": "Oportunidades de Inversión",
+      "text": "Descubrí las mejores oportunidades de inversión inmobiliaria con rentabilidad garantizada.",
+      "bulletPoints": [
+        "ROI promedio del 8% anual",
+        "Propiedades en zonas premium",
+        "Asesoramiento de inversión especializado"
+      ],
+      "cta": {
+        "text": "Ver oportunidades",
+        "action": "/inversiones",
+        "type": "link"
+      },
+      "variant": "secondary",
+      "overlay": "dark",
+      "alignment": "left"
+    },
+    {
+      "id": "hero-contact",
+      "type": "hero",
+      "image": "/house-with-garden-and-pool.png",
+      "title": "¿Necesitás Ayuda?",
+      "subtitle": "Contacto Directo",
+      "text": "Nuestro equipo de expertos está listo para ayudarte a encontrar la propiedad perfecta.",
+      "cta": {
+        "text": "Contactar ahora",
+        "action": "https://wa.me/5491123456789?text=Hola! Necesito ayuda para encontrar una propiedad",
+        "type": "external"
+      },
+      "variant": "accent",
+      "overlay": "dark",
+      "alignment": "right"
+    }
+  ],
+  "cardbanners": [
+    {
+      "id": "card-valuation",
+      "type": "card",
+      "image": "/house-with-garden-and-pool.png",
+      "title": "Tasación Gratuita",
+      "subtitle": "Oferta Especial",
+      "text": "Conocé el valor real de tu propiedad con una evaluación profesional completamente gratuita. Sin compromiso.",
+      "bulletPoints": [
+        "Evaluación profesional certificada",
+        "Informe detallado del mercado",
+        "Análisis comparativo de precios",
+        "Recomendaciones de mejoras"
+      ],
+      "cta": {
+        "text": "Solicitar tasación",
+        "action": "https://wa.me/5491123456789?text=Hola! Quiero solicitar una tasación gratuita",
+        "type": "external"
+      },
+      "variant": "primary",
+      "imagePosition": "left",
+      "size": "medium"
+    },
+    {
+      "id": "card-services",
+      "type": "card",
+      "image": "/house-with-garden-and-pool.png",
+      "title": "Administración de Alquileres",
+      "subtitle": "Servicio Completo",
+      "text": "Dejá que nos ocupemos de todo. Administramos tu propiedad de forma profesional y transparente.",
+      "bulletPoints": [
+        "Búsqueda y selección de inquilinos",
+        "Cobro mensual garantizado",
+        "Mantenimiento y reparaciones",
+        "Informes mensuales detallados"
+      ],
+      "cta": {
+        "text": "Más información",
+        "action": "/servicios/administracion",
+        "type": "link"
+      },
+      "variant": "secondary",
+      "imagePosition": "right",
+      "size": "large"
+    },
+    {
+      "id": "card-financing",
+      "type": "card",
+      "image": "/house-with-garden-and-pool.png",
+      "title": "Financiamiento Disponible",
+      "subtitle": "Créditos Hipotecarios",
+      "text": "Te ayudamos a conseguir el mejor crédito hipotecario del mercado con las tasas más competitivas.",
+      "bulletPoints": [
+        "Hasta 30 años de financiación",
+        "Tasas preferenciales",
+        "Gestión completa de trámites"
+      ],
+      "cta": {
+        "text": "Simular crédito",
+        "action": "/financiamiento",
+        "type": "link"
+      },
+      "variant": "accent",
+      "imagePosition": "left",
+      "size": "small"
+    }
+  ],
+  "minimalbanners": [
+    {
+      "id": "minimal-news",
+      "type": "minimal",
+      "image": "/placeholder-logo.png",
+      "title": "Nuevas Propiedades Agregadas",
+      "text": "Se agregaron 25 nuevas propiedades esta semana en Palermo, Belgrano y Puerto Madero.",
+      "cta": {
+        "text": "Ver novedades",
+        "action": "/propiedades?filter=new",
+        "type": "link"
+      },
+      "variant": "primary",
+      "layout": "horizontal",
+      "backgroundColor": "card"
+    },
+    {
+      "id": "minimal-alert",
+      "type": "minimal",
+      "title": "¡Oferta Especial!",
+      "text": "Hasta el 31 de diciembre: tasaciones gratuitas para todas las propiedades.",
+      "bulletPoints": [
+        "Sin costo de evaluación",
+        "Informe profesional incluido"
+      ],
+      "cta": {
+        "text": "Aprovechar oferta",
+        "action": "tel:+5491123456789",
+        "type": "phone"
+      },
+      "variant": "secondary",
+      "layout": "vertical",
+      "backgroundColor": "muted"
+    },
+    {
+      "id": "minimal-contact",
+      "type": "minimal",
+      "image": "/placeholder-user.jpg",
+      "title": "Consultá con un Experto",
+      "subtitle": "Asesoramiento Personalizado",
+      "text": "¿Tenés dudas? Nuestros asesores están disponibles para ayudarte.",
+      "cta": {
+        "text": "Contactar",
+        "action": "https://wa.me/5491123456789",
+        "type": "external"
+      },
+      "variant": "accent",
+      "layout": "horizontal",
+      "backgroundColor": "transparent"
+    },
+    {
+      "id": "minimal-newsletter",
+      "type": "minimal",
+      "title": "Mantenete Informado",
+      "text": "Recibí las mejores oportunidades inmobiliarias directamente en tu email.",
+      "cta": {
+        "text": "Suscribirme",
+        "action": "/newsletter",
+        "type": "link"
+      },
+      "variant": "primary",
+      "layout": "vertical",
+      "backgroundColor": "card"
+    }
+  ],
+  "seasonalbanners": [
+    {
+      "id": "seasonal-summer",
+      "type": "hero",
+      "image": "/house-with-garden-and-pool.png",
+      "title": "Verano en tu Nueva Casa",
+      "subtitle": "Temporada Alta",
+      "text": "Encontrá la casa perfecta con jardín y piscina para disfrutar el verano en familia.",
+      "bulletPoints": [
+        "Propiedades con espacios al aire libre",
+        "Jardines y piscinas disponibles",
+        "Zonas residenciales tranquilas"
+      ],
+      "cta": {
+        "text": "Ver casas con piscina",
+        "action": "/propiedades?amenities=pool",
+        "type": "link"
+      },
+      "variant": "accent",
+      "overlay": "gradient",
+      "alignment": "center"
+    },
+    {
+      "id": "seasonal-newyear",
+      "type": "card",
+      "image": "/luxury-apartment-building-modern.png",
+      "title": "Nuevo Año, Nueva Casa",
+      "subtitle": "Promoción Especial",
+      "text": "Comenzá el año en tu hogar ideal. Ofertas especiales en propiedades premium hasta fin de enero.",
+      "bulletPoints": [
+        "Descuentos de hasta 15%",
+        "Financiación especial",
+        "Sin gastos de escrituración"
+      ],
+      "cta": {
+        "text": "Ver promociones",
+        "action": "/promociones/año-nuevo",
+        "type": "link"
+      },
+      "variant": "primary",
+      "imagePosition": "right",
+      "size": "large"
+    }
+  ],
+  "ctabanners": [
+    {
+      "id": "cta-sell",
+      "type": "card",
+      "image": "/house-with-garden-and-pool.png",
+      "title": "¿Querés Vender tu Propiedad?",
+      "subtitle": "Vendé Rápido y al Mejor Precio",
+      "text": "Te ayudamos a vender tu propiedad en el menor tiempo posible y al mejor precio del mercado.",
+      "bulletPoints": [
+        "Evaluación gratuita de mercado",
+        "Marketing digital especializado",
+        "Red de compradores calificados",
+        "Acompañamiento legal completo"
+      ],
+      "cta": {
+        "text": "Quiero vender",
+        "action": "https://wa.me/5491123456789?text=Hola! Quiero vender mi propiedad",
+        "type": "external"
+      },
+      "variant": "primary",
+      "imagePosition": "left",
+      "size": "medium"
+    },
+    {
+      "id": "cta-rent",
+      "type": "minimal",
+      "title": "¿Buscás Alquilar?",
+      "text": "Tenemos más de 500 propiedades en alquiler en las mejores zonas de Buenos Aires.",
+      "cta": {
+        "text": "Ver alquileres",
+        "action": "/propiedades?type=rent",
+        "type": "link"
+      },
+      "variant": "secondary",
+      "layout": "horizontal",
+      "backgroundColor": "muted"
+    }
+  ]
+}

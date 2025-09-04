@@ -10,7 +10,7 @@ export function PromotionalBanner() {
   if (!isVisible) return null
 
   return (
-    <div className="bg-gradient-to-r from-primary/15 via-accent/10 to-secondary/15 border-y border-primary/20 ">
+    <div className="fixed top-0 left-0 w-full z-50 bg-background/90 border-y border-primary/20 shadow-md">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -26,14 +26,14 @@ export function PromotionalBanner() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Button size="sm" className="hidden sm:inline-flex bg-primary hover:bg-primary/90">
+            <Button size="sm" className="hidden sm:inline-flex bg-primary  cursor-pointer">
               Más información
             </Button>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsVisible(false)}
-              className="text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground cursor-pointer"
             >
               <X className="h-4 w-4" />
             </Button>

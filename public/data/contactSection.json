@@ -3,34 +3,38 @@
     {
         "icon": "FaWhatsapp",
         "name": "WhatsApp",
-        "label": "3492 678 898",
-        "link": "https://wa.me/541112345678"
-    },
-    {
-        "icon": "FaPhone",
-        "name": "Teléfono",
-        "label": "3492 678 898",
-        "link": "tel:+541112345678"
+        "label": "3492 693 712",
+        "link": "https://wa.me/5493492693712",
+        "horario": "Lunes a Viernes 9 a 20hs"
     },
     {
         "icon": "FaEnvelope",
         "name": "Email",
-        "label": "maria@inmobiliaria.com",
-        "link": "mailto:maria@inmobiliaria.com"
+        "label": "magalidiaz.cimp@gmail.com",
+        "link": "mailto:magalidiaz.cimp@gmail.com"
     },
     {
         "icon": "FaMapMarkerAlt",
         "name": "Oficina",
-        "label": "Av. Corrientes 1234, CABA",
-        "link": "https://maps.app.goo.gl/1234567890"
-    },    {
+        "label": "Alte. Brown 295, San Vicente, Santa Fe",
+        "link": "https://maps.app.goo.gl/1234567890",
+        "horario": "Lunes a Viernes 11 a 17hs - Con cita previa"
+
+    },    
+    {
         "icon": "FaInstagram",
         "name": "Instagram",
-        "label": "@MariaInmobiliaria",
-        "link": "https://www.instagram.com/inmobiliaria"
+        "label": "@md.asesor.inmobiliario",
+        "link": "https://www.instagram.com/md.asesor.inmobiliario"
+    },
+    {
+        "icon": "FaFacebook",
+        "name": "Facebook",
+        "label": "@md.asesor.inmobiliario",
+        "link": "https://www.facebook.com/magali.diaz.asesorinmobiliario"
     }
-],
-    "horario": "Lunes a Viernes 9:00 - 18:00"
+]
+
 }
 
 
