@@ -46,8 +46,8 @@ const renderIcon = (icon: string) => {
               <p className="text-lg text-muted-foreground text-pretty mb-6">
                 {aboutData.descripcion}
               </p>
-              <p className="text-lg text-muted-foreground text-pretty mb-6">
-                La propiedad que buscar puede estar a un par de clics de distancia.
+              <p className="text-lg text-muted-foreground text-pretty mb-6 italic">
+                {aboutData.featuredText}
             </p>
               
             </div>
@@ -92,16 +92,19 @@ const renderIcon = (icon: string) => {
             <Card className="border-border/50 shadow-xl bg-card">
               <CardContent className="p-8">
                 <h3 className="text-2xl font-bold text-card-foreground mb-6 text-center border-b border-primary/50 pb-4">Contacto</h3>
-                <div className="space-y-4">
+                <div className="space-y-2">
                   {contactData.contactLinks.map((contact) => (
-                    <Button variant="ghost" size="lg" className="w-full justify-start gap-3 h-14  cursor-pointer" onClick={() => handleClick(contact.link)}>
+                    
+                    <div key={contact.name} className="group py-2 cursor-pointer " >
+                    <Button variant="ghost" size="default" className="w-full hover:bg-transparent justify-start  gap-3 h-14  cursor-pointer " onClick={() => handleClick(contact.link)}>
                       {renderIcon(contact.icon)}
-                    <div className="text-left ">
-                      <p className="text-muted-foreground text-md font-semibold">{contact.name}</p>
-                      <p className="text-sm font-semibold text-foreground">{contact.label}</p>
+                    <div className="text-left py-4  group-hover:border-primary/50 border-b border-transparent">
+                      <p className="text-muted-foreground text-md font-semibold ">{contact.name}</p>
+                      <p className="text-sm font-semibold text-foreground group-hover:text-primary">{contact.label}</p>
                       {contact.horario && <p className="text-sm opacity-90 text-muted-foreground">{contact.horario}</p>}
                     </div>
                   </Button>
+                  </div>
                 ))}
 
 

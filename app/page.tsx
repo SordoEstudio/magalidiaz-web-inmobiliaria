@@ -42,10 +42,17 @@ export default function HomePage() {
 <ServicesSectionV2 />
 
 <ServicesSectionSimple /> */}
-<BannerHero {...herobanners[2]} />
-<BannerMinimal {...minimalbanners[0]} />
-<BannerCard {...cardbanners[0]} />
+<BannerHero {...herobanners[0]} />
+{/* <BannerMinimal {...minimalbanners[0]} />
+<BannerMinimal {...minimalbanners[1]} />
+<BannerMinimal {...minimalbanners[2]} /> */}
+{/* <BannerCard {...cardbanners[0]} /> */}
+<BannerCard {...cardbanners[1]} />
+{/* <BannerCard {...cardbanners[2]} /> */}
+<BannerHero {...herobanners[1]} />
+
 <ServicesSectionHybrid />
+<BannerHero {...herobanners[2]} />
       {/* About & Contact Split Section */}
       <AboutContactSection  />
 

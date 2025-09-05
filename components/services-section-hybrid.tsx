@@ -1,8 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, ExternalLink, Phone } from "lucide-react"
+import Link from "next/link"
 
 interface ServiceCardProps {
   icon: React.ComponentType<{ className?: string }>
@@ -105,7 +104,7 @@ const services: ServiceCardProps[] = [
       </div>
     ),
     title: "Asesoramiento personalizado",
-    description: "Atención dedicada y profesional para encontrar la solución que mejor se adapte a vos.",
+    description: "Atención personalizada para encontrar la solución que mejor se adapte a vos.",
     cta: {
       text: "Agendar consulta",
       action: "https://wa.me/5491123456789?text=Hola! Quiero agendar una consulta",
@@ -115,34 +114,10 @@ const services: ServiceCardProps[] = [
 ]
 
 function ServiceCard({ icon: Icon, title, description, cta }: ServiceCardProps) {
-  const handleCTAAction = (action: string, type: string) => {
-    switch (type) {
-      case 'phone':
-        window.location.href = action
-        break
-      case 'external':
-        window.open(action, '_blank')
-        break
-      case 'link':
-        window.location.href = action
-        break
-    }
-  }
 
-  const getCTAIcon = (type: string) => {
-    switch (type) {
-      case 'phone':
-        return <Phone className="w-4 h-4" />
-      case 'external':
-        return <ExternalLink className="w-4 h-4" />
-      case 'link':
-        return <ArrowRight className="w-4 h-4" />
-      default:
-        return <ArrowRight className="w-4 h-4" />
-    }
-  }
 
   return (
+        <Link href={cta.action} className="block">
     <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border-border/50 hover:border-primary/30 bg-card">
       <CardContent className="p-6 text-center">
         {/* Icon with gradient background */}
@@ -162,17 +137,16 @@ function ServiceCard({ icon: Icon, title, description, cta }: ServiceCardProps) 
       </CardContent>
 
       {/* Footer with single CTA */}
-      <CardFooter className="p-6 pt-0">
-        <Button 
-          onClick={() => handleCTAAction(cta.action, cta.type)}
-          variant="outline"
-          className="w-full bg-primary/5 text-foreground font-medium transition-all duration-300 group-hover:shadow-lg hover:text-primary"
+      <CardFooter className="p-6 pt-0 text-center">
+        <div 
+          className="w-full flex items-center justify-center text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity"
         >
           {cta.text}
-          {getCTAIcon(cta.type)}
-        </Button>
+        </div>
       </CardFooter>
     </Card>
+            </Link>
+
   )
 }
 

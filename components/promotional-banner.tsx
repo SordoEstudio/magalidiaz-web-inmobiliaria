@@ -33,7 +33,7 @@ export function PromotionalBanner() {
               variant="ghost"
               size="sm"
               onClick={() => setIsVisible(false)}
-              className="text-muted-foreground hover:text-foreground cursor-pointer"
+              className="text-muted-foreground hover:text-foreground cursor-pointer hover:bg-transparent"
             >
               <X className="h-4 w-4" />
             </Button>

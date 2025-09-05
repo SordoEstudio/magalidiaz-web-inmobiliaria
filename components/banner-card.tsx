@@ -90,7 +90,7 @@ export function BannerCard({
   return (
     <section className={`${getSizeClasses()} bg-gradient-to-b from-background to-muted/20`}>
       <div className="container mx-auto px-4">
-        <Card className={`overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br ${getVariantClasses()}`}>
+        <Card className={`overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br ${getVariantClasses()} px-4`}>
           <CardContent className="p-0">
             <div className={`flex flex-col ${getImageClasses()} items-center min-h-[400px]`}>
               {/* Image Section */}
@@ -100,7 +100,7 @@ export function BannerCard({
                     src={image} 
                     alt={title || "Banner"} 
                     fill
-                    className="object-cover"
+                    className="object-cover rounded-lg"
                     priority
                     sizes="(max-width: 1024px) 100vw, 50vw"
                   />

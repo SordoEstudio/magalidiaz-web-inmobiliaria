@@ -61,9 +61,9 @@ export function BannerMinimal({
   const getVariantClasses = () => {
     switch (variant) {
       case 'secondary':
-        return 'text-secondary border-secondary/20'
+        return 'text-primary border-primary/20'
       case 'accent':
-        return 'text-accent border-accent/20'
+        return 'text-primary border-primary/20'
       default:
         return 'text-primary border-primary/20'
     }

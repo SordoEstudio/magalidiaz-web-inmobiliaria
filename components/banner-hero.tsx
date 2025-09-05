@@ -92,7 +92,7 @@ export function BannerHero({
   }
 
   return (
-    <section className="relative min-h-[60vh] flex items-center justify-center">
+    <section className="relative min-h-[60vh] flex items-center justify-center py-10">
       {/* Background Image */}
       {image && (
         <div className="absolute inset-0">

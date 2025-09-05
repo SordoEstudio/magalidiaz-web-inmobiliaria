@@ -11,7 +11,10 @@ export function FeaturedPropertiesCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null)
 
   // Calcular si se pueden mostrar más propiedades
-  const canGoNext = currentIndex < featuredProperties.length - 3
+  // En mobile: 1 card, en desktop: 3 cards
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
+  const cardsToShow = isMobile ? 1 : 3
+  const canGoNext = currentIndex < featuredProperties.length - cardsToShow
   const canGoPrevious = currentIndex > 0
 
   // Navigation functions
@@ -57,9 +60,29 @@ export function FeaturedPropertiesCarousel() {
     setTouchEnd(null)
   }
 
-  // Get current properties to display (siempre 3)
+  // Get current properties to display
   const getCurrentProperties = () => {
-    return featuredProperties.slice(currentIndex, currentIndex + 3)
+    return featuredProperties.slice(currentIndex, currentIndex + cardsToShow)
+  }
+
+  // Corregir el tipo de datos para PropertyCard
+  const formatPropertyForCard = (property: any) => {
+    return {
+      id: property.id,
+      title: property.title,
+      price: property.price, // Convertir a string
+      currency: property.currency || 'USD', // Asegurar que existe
+      location: property.location,
+      image: property.image,
+      bedrooms: property.bedrooms,
+      bathrooms: property.bathrooms,
+      area: property.area,
+      hasGarage: property.hasGarage,
+      isNew: property.isNew,
+      isFeatured: property.isFeatured,
+      publishedDays: property.publishedDays,
+      tags: property.tags || []
+    }
   }
 
   return (
@@ -80,20 +103,20 @@ export function FeaturedPropertiesCarousel() {
           {canGoPrevious && (
             <button
               onClick={goToPrevious}
-              className="absolute left-[-20px] top-1/2 transform hover:-translate-x-[10px] z-10 w-12 h-12 bg-primary  shadow-sm rounded-full flex items-center justify-center  transition-all duration-300 cursor-pointer hover:shadow-lg"
+              className="absolute left-[-20px] top-[214px] transform hover:-translate-x-[10px] z-10 w-12 h-12 bg-primary shadow-sm rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-lg"
               aria-label="Propiedad anterior"
             >
-              <ChevronLeft className="w-6 h-6 text-white font-bold " />
+              <ChevronLeft className="w-6 h-6 text-white font-bold" />
             </button>
           )}
 
           {canGoNext && (
             <button
               onClick={goToNext}
-              className="absolute right-[-20px] top-1/2 transform hover:-translate-x-[-10px] z-10 w-12 h-12 bg-primary  shadow-sm rounded-full flex items-center justify-center  transition-all duration-300 cursor-pointer hover:shadow-lg"
+              className="absolute right-[-20px] top-[214px] transform hover:-translate-x-[-10px] z-10 w-12 h-12 bg-primary shadow-sm rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-lg"
               aria-label="Siguiente propiedad"
             >
-              <ChevronRight className="w-6 h-6 text-white font-bold " />
+              <ChevronRight className="w-6 h-6 text-white font-bold" />
             </button>
           )}
 
@@ -105,9 +128,39 @@ export function FeaturedPropertiesCarousel() {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 pb-12">
-              {getCurrentProperties().map((property) => (
-                <PropertyCard key={property.id} {...property} />
+            {/* Mobile: Una card por vez */}
+            <div className="block md:hidden">
+              <div className="flex justify-center px-4">
+                <div className="w-full max-w-sm">
+                  <PropertyCard {...formatPropertyForCard(getCurrentProperties()[0])} />
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop: Grid de 3 cards */}
+            <div className="hidden md:block">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 pb-12">
+                {getCurrentProperties().map((property) => (
+                  <PropertyCard key={property.id} {...formatPropertyForCard(property)} />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Indicadores de posición - solo en mobile */}
+          <div className="flex justify-center mt-6 md:hidden">
+            <div className="flex space-x-2">
+              {featuredProperties.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === currentIndex 
+                      ? 'bg-primary w-6' 
+                      : 'bg-muted-foreground/30'
+                  }`}
+                  aria-label={`Ir a propiedad ${index + 1}`}
+                />
               ))}
             </div>
           </div>
@@ -127,4 +180,4 @@ export function FeaturedPropertiesCarousel() {
       </div>
     </section>
   )
-} 
+}
