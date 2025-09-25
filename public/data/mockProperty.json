@@ -1,0 +1,51 @@
+{
+  "id": "1",
+  "title": "Casa 3 dormitorios con piscina",
+  "address": "Manuel Belgrano 565",
+  "location": "San Vicente, Santa Fe",
+  "price": 350000,
+  "currency": "USD",
+  "transactionType": "en venta",
+  "propertyType": "casa",
+  "condition": "excelente estado",
+  "status": "disponible",
+  "rooms":{
+    "Cocina": 1,
+    "Living": 1,
+    "Comedor": 1,
+    "Patio": 1,
+    "Jardín": 1,
+    "Quincho": 1,
+    "Balcón": 1,
+    "Terraza": 1,
+    "Baño": 2,
+    "Dormitorio": 3,
+    "Garage": 2,
+    "Estudio": 1
+  },
+  "year": 2025,
+  "images": [
+    "/house-with-garden-and-pool.png",
+    "/modern-apartment-exterior.png",
+    "/two-story-townhouse-urban.png",
+    "/placeholder-1ejfl.png",
+    "/placeholder-0quu7.png",
+    "/placeholder-z0zdt.png"
+  ],
+  "features": {
+    "bathrooms": 2,
+    "bedrooms": 3,
+    "garage": 2,
+    "coveredArea": 120,
+    "totalArea": 250
+  },
+  "tags": ["Centro", "ConPiscina", "Estrenar", "Financiación"],
+  "description": "Hermosa casa de 3 dormitorios ubicada en el corazón de San Vicente. Esta propiedad cuenta con amplios espacios, diseño moderno y excelente ubicación.\n\nLa casa dispone de un living-comedor integrado con cocina equipada, 3 dormitorios (el principal en suite), 2 baños completos y un hermoso jardín con piscina.\n\nIdeal para familias que buscan comodidad y tranquilidad sin alejarse del centro. A pocas cuadras de escuelas, comercios y transporte público.\n\nLa propiedad se entrega en excelente estado, lista para habitar. Posibilidad de financiación directa con el propietario.",
+  "amenities": ["Aire acondicionado", "Calefacción", "Gas natural", "Agua corriente", "Cloacas", "Internet / WiFi", "Cable / TV satelital", "Balcón", "Terraza", "Jardín", "Patio", "Quincho", "Parrilla", "Piscina", "Solárium", "Cochera cubierta", "Cochera descubierta", "Acceso para personas con movilidad reducida", "Amoblado", "Mascotas permitidas", "Ascensor"],
+
+  "coordinates": {
+    "lat": -34.6037,
+    "lng": -58.3816
+  },
+  "addressLink": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3394.6175567299865!2d-61.56373892360999!3d-31.699021474132532!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95ca8e55450e6c37%3A0x5064bc9b5cc4b206!2sManuel%20Belgrano%20565%2C%20S2447%20San%20Vicente%2C%20Santa%20Fe!5e0!3m2!1ses!2sar!4v1758060596938!5m2!1ses!2sar"
+}

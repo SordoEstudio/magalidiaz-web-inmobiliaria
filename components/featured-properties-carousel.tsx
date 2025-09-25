@@ -1,20 +1,35 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { PropertyCard } from "@/components/property-card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
-import featuredProperties from "@/public/data/featuredProperties.json"
+import { useFeaturedProperties, getPropertyKey } from "@/lib/hooks/useProperties"
+import Link from "next/link"
 
 export function FeaturedPropertiesCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
 
+  // Usar hook de API para obtener propiedades destacadas
+  const { featuredProperties, loading, error } = useFeaturedProperties()
+
+  // Detectar si es mobile
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+    
+    checkIsMobile()
+    window.addEventListener('resize', checkIsMobile)
+    
+    return () => window.removeEventListener('resize', checkIsMobile)
+  }, [])
+
   // Calcular si se pueden mostrar más propiedades
-  // En mobile: 1 card, en desktop: 3 cards
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
   const cardsToShow = isMobile ? 1 : 3
-  const canGoNext = currentIndex < featuredProperties.length - cardsToShow
+  const canGoNext = currentIndex < (featuredProperties?.length || 0) - cardsToShow
   const canGoPrevious = currentIndex > 0
 
   // Navigation functions
@@ -60,124 +75,159 @@ export function FeaturedPropertiesCarousel() {
     setTouchEnd(null)
   }
 
-  // Get current properties to display
-  const getCurrentProperties = () => {
-    return featuredProperties.slice(currentIndex, currentIndex + cardsToShow)
+  // Reset index when properties change
+  useEffect(() => {
+    setCurrentIndex(0)
+  }, [featuredProperties])
+
+  // Mostrar loading si está cargando
+  if (loading) {
+    return (
+      <div className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Propiedades Destacadas
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Cargando propiedades destacadas...
+            </p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
-  // Corregir el tipo de datos para PropertyCard
-  const formatPropertyForCard = (property: any) => {
-    return {
-      id: property.id,
-      title: property.title,
-      price: property.price, // Convertir a string
-      currency: property.currency || 'USD', // Asegurar que existe
-      location: property.location,
-      image: property.image,
-      bedrooms: property.bedrooms,
-      bathrooms: property.bathrooms,
-      area: property.area,
-      hasGarage: property.hasGarage,
-      isNew: property.isNew,
-      isFeatured: property.isFeatured,
-      publishedDays: property.publishedDays,
-      tags: property.tags || []
-    }
+  // Mostrar error si hay problema
+  if (error || !featuredProperties || featuredProperties.length === 0) {
+    return (
+      <div className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              Propiedades Destacadas
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              No se pudieron cargar las propiedades destacadas.
+            </p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <section className="py-16 bg-gradient-to-b from-background to-muted/30">
+    <div className="py-16 bg-background">
       <div className="container mx-auto px-4">
+        {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-            Propiedades <span className="text-primary">destacadas</span>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            Propiedades Destacadas
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Descubrí las mejores oportunidades del mercado inmobiliario seleccionadas especialmente para vos.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Descubrí las mejores oportunidades inmobiliarias seleccionadas especialmente para vos
           </p>
         </div>
 
         {/* Carousel Container */}
-        <div className="relative mb-12">
-          {/* Navigation Arrows - solo cuando corresponda */}
-          {canGoPrevious && (
-            <button
+        <div className="relative">
+          {/* Navigation Buttons - Desktop */}
+          <div className="hidden md:block">
+            <Button
+              variant="outline"
+              size="icon"
+              className={`${canGoPrevious ? 'opacity-100' : 'hidden'} absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-background/80 backdrop-blur-sm hover:bg-background`}
               onClick={goToPrevious}
-              className="absolute left-[-20px] top-[214px] transform hover:-translate-x-[10px] z-10 w-12 h-12 bg-primary shadow-sm rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-lg"
-              aria-label="Propiedad anterior"
             >
-              <ChevronLeft className="w-6 h-6 text-white font-bold" />
-            </button>
-          )}
-
-          {canGoNext && (
-            <button
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            
+            <Button
+              variant="outline"
+              size="icon"
+              className={`${canGoNext ? 'opacity-100' : 'hidden'} absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-background/80 backdrop-blur-sm hover:bg-background`}
               onClick={goToNext}
-              className="absolute right-[-20px] top-[214px] transform hover:-translate-x-[-10px] z-10 w-12 h-12 bg-primary shadow-sm rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer hover:shadow-lg"
-              aria-label="Siguiente propiedad"
+  
             >
-              <ChevronRight className="w-6 h-6 text-white font-bold" />
-            </button>
-          )}
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
 
-          {/* Carousel Content */}
-          <div 
+          {/* Properties Grid */}
+          <div
             ref={carouselRef}
-            className="relative overflow-hidden rounded-2xl"
+            className="overflow-hidden"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Mobile: Una card por vez */}
-            <div className="block md:hidden">
-              <div className="flex justify-center px-4">
-                <div className="w-full max-w-sm">
-                  <PropertyCard {...formatPropertyForCard(getCurrentProperties()[0])} />
+            <div
+              className="flex transition-transform duration-300 ease-in-out"
+              style={{
+                transform: `translateX(-${currentIndex * (100 / cardsToShow)}%)`,
+              }}
+            >
+              {featuredProperties.map((property, index) => (
+                <div
+                  key={getPropertyKey(property, index)}
+                  className="flex-shrink-0 px-3"
+                  style={{ width: `${100 / cardsToShow}%` }}
+                >
+                  <PropertyCard {...property} />
                 </div>
-              </div>
-            </div>
-
-            {/* Desktop: Grid de 3 cards */}
-            <div className="hidden md:block">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4 pb-12">
-                {getCurrentProperties().map((property) => (
-                  <PropertyCard key={property.id} {...formatPropertyForCard(property)} />
-                ))}
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Indicadores de posición - solo en mobile */}
-          <div className="flex justify-center mt-6 md:hidden">
-            <div className="flex space-x-2">
-              {featuredProperties.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex 
-                      ? 'bg-primary w-6' 
-                      : 'bg-muted-foreground/30'
-                  }`}
-                  aria-label={`Ir a propiedad ${index + 1}`}
-                />
-              ))}
-            </div>
+          {/* Mobile Navigation */}
+          <div className="md:hidden flex justify-center mt-6 space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={goToPrevious}
+              disabled={!canGoPrevious}
+            >
+              <ChevronLeft className="h-4 w-4 mr-1" />
+              Anterior
+            </Button>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={goToNext}
+              disabled={!canGoNext}
+            >
+              Siguiente
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
+          </div>
+
+          {/* Dots Indicator */}
+          <div className="flex justify-center mt-6 space-x-2">
+            {Array.from({ length: Math.ceil(featuredProperties.length / cardsToShow) }).map((_, index) => (
+              <button
+                key={index}
+                className={`w-2 h-2 rounded-full transition-colors ${
+                  index === Math.floor(currentIndex / cardsToShow)
+                    ? 'bg-primary'
+                    : 'bg-muted-foreground/30'
+                }`}
+                onClick={() => setCurrentIndex(index * cardsToShow)}
+              />
+            ))}
           </div>
         </div>
 
         {/* CTA Button */}
-        <div className="text-center">
-          <Button 
-            size="lg" 
-            className="bg-primary hover:bg-primary/90 text-primary-foreground group cursor-pointer"
-            onClick={() => window.location.href = '/propiedades'}
-          >
-            Ver más propiedades
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+        <div className="text-center mt-12">
+          <Button size="lg" className="group cursor-pointer" asChild>
+            <Link href="/propiedades">
+            Ver todas las propiedades
+            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Link>
           </Button>
         </div>
       </div>
-    </section>
+    </div>
   )
 }

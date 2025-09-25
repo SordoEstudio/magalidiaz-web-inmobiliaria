@@ -3,19 +3,28 @@
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import {
+  Snowflake,
+  Flame,
+  Wifi,
+  Car,
   Waves,
   Trees,
-  Flame,
-  Snowflake,
-  Wifi,
-  Shield,
-  Car,
-  Dumbbell,
-  ChevronDown,
-  ChevronUp,
+  Building,
+  Droplet,
+  Droplets,
+  FlameKindling,
+  Tv,
+  Home,
   Sparkles,
+  Building2,
+  CookingPot,
+  PawPrint,
+  Sofa,
+  Accessibility,
+  Sun,
+  ChevronUp,
+  ChevronDown,
 } from "lucide-react"
 
 interface PropertyAmenitiesProps {
@@ -23,14 +32,27 @@ interface PropertyAmenitiesProps {
 }
 
 const amenityIcons: Record<string, any> = {
-  Pileta: Waves,
-  Jardín: Trees,
-  Parrilla: Flame,
-  "Aire Acondicionado": Snowflake,
-  WiFi: Wifi,
-  Seguridad: Shield,
-  Cochera: Car,
-  Gimnasio: Dumbbell,
+"Aire acondicionado": Snowflake,
+  "Calefacción": Sun,
+  "Gas natural": Flame,
+  "Agua corriente": Droplet,
+  "Cloacas": Droplets,
+  "Internet / WiFi": Wifi,
+  "Cable / TV satelital": Tv,
+  "Balcón": Building2,
+  "Terraza": Building,
+  "Jardín": Trees,
+  "Patio": Trees,
+  "Quincho": Home,
+  "Parrilla": FlameKindling,
+  "Piscina": Waves,
+  "Solárium": Sun,
+  "Cochera cubierta": Car,
+  "Cochera descubierta": Car,
+  "Acceso para personas con movilidad reducida": Accessibility,
+  "Amoblado": Sofa,
+  "Mascotas permitidas": PawPrint,
+  "Cocina equipada": CookingPot,
   default: Sparkles,
 }
 
@@ -55,14 +77,14 @@ export function PropertyAmenities({ amenities }: PropertyAmenitiesProps) {
       <CardContent>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {displayedAmenities.map((amenity, index) => (
-            <Badge
+            <div
               key={index}
-              variant="secondary"
+            
               className="flex items-center gap-2 p-3 justify-start text-sm font-medium"
             >
               {getIcon(amenity)}
               {amenity}
-            </Badge>
+            </div>
           ))}
         </div>
 

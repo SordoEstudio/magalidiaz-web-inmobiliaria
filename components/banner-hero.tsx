@@ -160,7 +160,7 @@ export function BannerHero({
               <Button 
                 size="lg"
                 onClick={() => handleCTAAction(cta.action, cta.type)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-3 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-3 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
               >
                 {cta.text}
                 {getCTAIcon(cta.type)}

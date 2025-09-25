@@ -37,7 +37,7 @@ const renderIcon = (icon: string) => {
                 {aboutData.nombre} <span className="text-primary">{aboutData.apellido}</span>
               </h2>
                 {aboutData.titulos.map((titulo) => (
-              <div  className="mb-4 items-center justify-center  mx-auto">
+              <div  key={titulo.titulo} className="mb-4 items-center justify-center  mx-auto">
                     <p className="text-sm text-foreground font-bold">{titulo.titulo}{" - "}<span className="text-sm text-muted-foreground">{titulo.matricula}</span>
                     </p>
           

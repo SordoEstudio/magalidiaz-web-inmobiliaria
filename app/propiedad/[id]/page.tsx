@@ -1,50 +1,59 @@
-import { PropertyGallery } from "@/components/property-gallery"
+"use client"
+
+import { use } from "react"
 import { PropertyInfo } from "@/components/property-info"
-import { PropertyMap } from "@/components/property-map"
 import { PropertyDescription } from "@/components/property-description"
 import { PropertyAmenities } from "@/components/property-amenities"
 import { PropertyContact } from "@/components/property-contact"
+import { PropertyGallery } from "@/components/property-gallery-v2"
+import { PropertyMap } from "@/components/property-map-v2"
+import { PropertyRooms } from "@/components/property-rooms"
+import { useProperty } from "@/lib/hooks/useProperties"
 
-// Mock data - in production this would come from your database
-const mockProperty = {
-  id: "1",
-  title: "Casa 3 dormitorios con piscina",
-  address: "B° Centro, San Vicente, Buenos Aires",
-  price: "$350.000",
-  type: "venta" as const,
-  images: [
-    "/house-with-garden-and-pool.png",
-    "/modern-apartment-exterior.png",
-    "/two-story-townhouse-urban.png",
-    "/placeholder-1ejfl.png",
-    "/placeholder-0quu7.png",
-    "/placeholder-z0zdt.png",
-  ],
-  features: {
-    bedrooms: 3,
-    bathrooms: 2,
-    garage: 2,
-    coveredArea: 120,
-    totalArea: 250,
-  },
-  tags: ["Centro", "ConPiscina", "Estrenar", "Financiación"],
-  description: `Hermosa casa de 3 dormitorios ubicada en el corazón de San Vicente. Esta propiedad cuenta con amplios espacios, diseño moderno y excelente ubicación.
-
-La casa dispone de un living-comedor integrado con cocina equipada, 3 dormitorios (el principal en suite), 2 baños completos y un hermoso jardín con piscina.
-
-Ideal para familias que buscan comodidad y tranquilidad sin alejarse del centro. A pocas cuadras de escuelas, comercios y transporte público.
-
-La propiedad se entrega en excelente estado, lista para habitar. Posibilidad de financiación directa con el propietario.`,
-  amenities: ["Pileta", "Jardín", "Parrilla", "Aire Acondicionado", "Cochera", "Seguridad", "WiFi", "Gimnasio"],
-  coordinates: {
-    lat: -34.6037,
-    lng: -58.3816,
-  },
+interface PropertyDetailPageProps {
+  params: Promise<{ id: string }>
 }
 
-export default function PropertyDetailPage({ params }: { params: { id: string } }) {
-  // In production, fetch property data based on params.id
-  const property = mockProperty
+export default function PropertyDetailPage({ params }: PropertyDetailPageProps) {
+  // Unwrap params using React.use()
+  const { id } = use(params)
+  
+  // Usar hook de API para obtener la propiedad específica
+  const { property, loading, error } = useProperty(id)
+
+  // Mostrar loading
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex justify-center items-center h-64">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Cargando propiedad...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Mostrar error si hay problema
+  if (error || !property) {
+    return (
+      <div className="min-h-screen bg-background">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex justify-center items-center h-64">
+            <div className="text-center">
+              <p className="text-muted-foreground mb-4">Error al cargar la propiedad o propiedad no encontrada.</p>
+              <a href="/propiedades" className="text-primary hover:underline">
+                Volver a propiedades
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -53,23 +62,30 @@ export default function PropertyDetailPage({ params }: { params: { id: string } 
           {/* Main content */}
           <div className="lg:col-span-2 space-y-8">
             {/* Gallery */}
-            <PropertyGallery images={property.images} title={property.title} />
-
-            {/* Property Info */}
-            <PropertyInfo
+            <PropertyGallery
+              images={property.images}
               title={property.title}
-              address={property.address}
-              price={property.price}
-              type={property.type}
-              features={property.features}
-              tags={property.tags}
+              mode="embedded"
+              showThumbnails={true}
+              showCounter={true}
+              showFullscreenButton={true}
             />
-
-            {/* Map */}
-            <PropertyMap address={property.address} coordinates={property.coordinates} />
-
+            
+            {/* Property Info */}
+            <PropertyInfo {...property} />
+            
+            {/* Rooms */}
+            <PropertyRooms rooms={property.rooms} />
+            
             {/* Description */}
             <PropertyDescription description={property.description} />
+
+            {/* Map */}
+            <PropertyMap 
+              address={property.address} 
+              coordinates={property.coordinates} 
+              googleMapsLink={property.addressLink} 
+            />
 
             {/* Amenities */}
             <PropertyAmenities amenities={property.amenities} />
@@ -85,27 +101,6 @@ export default function PropertyDetailPage({ params }: { params: { id: string } 
           </div>
         </div>
       </div>
-
-      {/* Minimal Footer */}
-      <footer className="bg-muted/30 border-t border-border/50 py-8 mt-16">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-6 h-6 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">I</span>
-              </div>
-              <span className="font-semibold text-foreground">Inmobiliaria</span>
-            </div>
-
-            <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <span>© 2024 Inmobiliaria. Todos los derechos reservados.</span>
-              <a href="#" className="hover:text-foreground transition-colors">
-                Políticas de privacidad
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }

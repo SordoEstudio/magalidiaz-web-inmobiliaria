@@ -4,6 +4,7 @@ import { DM_Sans } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
+import { Footer } from "@/components/footer"
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -26,10 +27,12 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`font-sans ${dmSans.variable} antialiased`}>
+        {/* Coloca solo el contenido principal dentro de Suspense, y deja el Footer fuera para que se renderice solo cuando todo el contenido haya cargado */}
         <Suspense fallback={<div>Loading...</div>}>
           {children}
           <Analytics />
         </Suspense>
+        <Footer/>
       </body>
     </html>
   )

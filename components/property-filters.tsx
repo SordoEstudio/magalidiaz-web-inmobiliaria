@@ -4,9 +4,9 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent } from "@/components/ui/card"
 import { Search, SlidersHorizontal, X, MapPin } from "lucide-react"
 
@@ -15,15 +15,24 @@ interface PropertyFiltersProps {
 }
 
 export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
-  const [searchTerm, setSearchTerm] = useState("")
   const [propertyType, setPropertyType] = useState("")
   const [operation, setOperation] = useState("")
-  const [priceRange, setPriceRange] = useState([0, 1000000])
   const [bedrooms, setBedrooms] = useState("")
   const [bathrooms, setBathrooms] = useState("")
   const [location, setLocation] = useState("")
   const [amenities, setAmenities] = useState<string[]>([])
-  const [sortBy, setSortBy] = useState("recent")
+
+  // Función para aplicar filtros automáticamente
+  const applyFilters = () => {
+    onFiltersChange({
+      propertyType,
+      operation,
+      bedrooms,
+      bathrooms,
+      location,
+      amenities
+    })
+  }
 
   const handleAmenityChange = (amenity: string, checked: boolean) => {
     if (checked) {
@@ -31,18 +40,36 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
     } else {
       setAmenities(amenities.filter((a) => a !== amenity))
     }
+    // Aplicar filtros automáticamente después del cambio
+    setTimeout(() => {
+      onFiltersChange({
+        propertyType,
+        operation,
+        bedrooms,
+        bathrooms,
+        location,
+        amenities: checked ? [...amenities, amenity] : amenities.filter((a) => a !== amenity)
+      })
+    }, 0)
   }
 
   const resetFilters = () => {
-    setSearchTerm("")
     setPropertyType("")
     setOperation("")
-    setPriceRange([0, 1000000])
     setBedrooms("")
     setBathrooms("")
     setLocation("")
     setAmenities([])
-    setSortBy("recent")
+    
+    // Aplicar filtros vacíos inmediatamente
+    onFiltersChange({
+      propertyType: "",
+      operation: "",
+      bedrooms: "",
+      bathrooms: "",
+      location: "",
+      amenities: []
+    })
   }
 
   return (
@@ -61,28 +88,33 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
             </Button>
           </div>
 
-          {/* Search Bar */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Buscar propiedades..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
-          </div>
-
           {/* Operation Type */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Operación</Label>
-            <Select value={operation} onValueChange={setOperation}>
+            <Select 
+              value={operation} 
+              onValueChange={(value) => {
+                setOperation(value)
+                // Aplicar filtros automáticamente
+                setTimeout(() => {
+                  onFiltersChange({
+                    propertyType,
+                    operation: value,
+                    bedrooms,
+                    bathrooms,
+                    location,
+                    amenities
+                  })
+                }, 0)
+              }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Seleccionar operación" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="venta">Venta</SelectItem>
                 <SelectItem value="alquiler">Alquiler</SelectItem>
-                <SelectItem value="alquiler-temporal">Alquiler Temporal</SelectItem>
+                <SelectItem value="alquiler_temporario">Alquiler Temporario</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -90,17 +122,36 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
           {/* Property Type */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Tipo de Propiedad</Label>
-            <Select value={propertyType} onValueChange={setPropertyType}>
+            <Select 
+              value={propertyType} 
+              onValueChange={(value) => {
+                setPropertyType(value)
+                // Aplicar filtros automáticamente
+                setTimeout(() => {
+                  onFiltersChange({
+                    propertyType: value,
+                    operation,
+                    bedrooms,
+                    bathrooms,
+                    location,
+                    amenities
+                  })
+                }, 0)
+              }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Seleccionar tipo" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="departamento">Departamento</SelectItem>
                 <SelectItem value="casa">Casa</SelectItem>
-                <SelectItem value="ph">PH</SelectItem>
-                <SelectItem value="oficina">Oficina</SelectItem>
-                <SelectItem value="local">Local Comercial</SelectItem>
                 <SelectItem value="terreno">Terreno</SelectItem>
+                <SelectItem value="lote">Lote</SelectItem>
+                <SelectItem value="local_comercial">Local Comercial</SelectItem>
+                <SelectItem value="oficina">Oficina</SelectItem>
+                <SelectItem value="campo">Campo</SelectItem>
+                <SelectItem value="deposito">Depósito</SelectItem>
+                <SelectItem value="galpon">Galpón</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -113,34 +164,48 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
               <Input
                 placeholder="Barrio, ciudad o zona"
                 value={location}
-                onChange={(e) => setLocation(e.target.value)}
+                onChange={(e) => {
+                  setLocation(e.target.value)
+                  // Aplicar filtros automáticamente
+                  setTimeout(() => {
+                    onFiltersChange({
+                      propertyType,
+                      operation,
+                      bedrooms,
+                      bathrooms,
+                      location: e.target.value,
+                      amenities
+                    })
+                  }, 0)
+                }}
                 className="pl-10"
               />
             </div>
-          </div>
-
-          {/* Price Range */}
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">
-              Rango de Precio: ${priceRange[0].toLocaleString()} - ${priceRange[1].toLocaleString()}
-            </Label>
-            <Slider
-              value={priceRange}
-              onValueChange={setPriceRange}
-              max={1000000}
-              min={0}
-              step={10000}
-              className="w-full"
-            />
           </div>
 
           {/* Bedrooms and Bathrooms */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label className="text-sm font-medium">Dormitorios</Label>
-              <Select value={bedrooms} onValueChange={setBedrooms}>
+              <Select 
+                value={bedrooms} 
+                onValueChange={(value) => {
+                  setBedrooms(value)
+                  // Aplicar filtros automáticamente
+                  setTimeout(() => {
+                    onFiltersChange({
+                      propertyType,
+                      operation,
+                      bedrooms: value,
+                      bathrooms,
+                      location,
+                      amenities
+                    })
+                  }, 0)
+                }}
+              >
                 <SelectTrigger>
-                  <SelectValue placeholder="Cualquiera" />
+                  <SelectValue placeholder="1+" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="1">1+</SelectItem>
@@ -150,11 +215,28 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
                 </SelectContent>
               </Select>
             </div>
+            
             <div className="space-y-2">
               <Label className="text-sm font-medium">Baños</Label>
-              <Select value={bathrooms} onValueChange={setBathrooms}>
+              <Select 
+                value={bathrooms} 
+                onValueChange={(value) => {
+                  setBathrooms(value)
+                  // Aplicar filtros automáticamente
+                  setTimeout(() => {
+                    onFiltersChange({
+                      propertyType,
+                      operation,
+                      bedrooms,
+                      bathrooms: value,
+                      location,
+                      amenities
+                    })
+                  }, 0)
+                }}
+              >
                 <SelectTrigger>
-                  <SelectValue placeholder="Cualquiera" />
+                  <SelectValue placeholder="1+" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="1">1+</SelectItem>
@@ -181,6 +263,7 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
                   <Checkbox
                     id={amenity.id}
                     checked={amenities.includes(amenity.id)}
+                    className="border-primary/50"
                     onCheckedChange={(checked) => handleAmenityChange(amenity.id, checked as boolean)}
                   />
                   <Label htmlFor={amenity.id} className="text-sm">
@@ -190,42 +273,6 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
               ))}
             </div>
           </div>
-
-          {/* Sort By */}
-          <div className="space-y-2">
-            <Label className="text-sm font-medium">Ordenar por</Label>
-            <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="recent">Más recientes</SelectItem>
-                <SelectItem value="price-low">Precio: menor a mayor</SelectItem>
-                <SelectItem value="price-high">Precio: mayor a menor</SelectItem>
-                <SelectItem value="area">Superficie</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {/* Apply Filters Button */}
-          <Button
-            className="w-full"
-            onClick={() =>
-              onFiltersChange({
-                searchTerm,
-                propertyType,
-                operation,
-                priceRange,
-                bedrooms,
-                bathrooms,
-                location,
-                amenities,
-                sortBy,
-              })
-            }
-          >
-            Aplicar Filtros
-          </Button>
         </div>
       </CardContent>
     </Card>

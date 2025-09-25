@@ -4,6 +4,7 @@ import { useState } from "react"
 import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { GaleryModalFullscreen } from "./galery-modal-fullscreen"
 
 interface PropertyGalleryProps {
   images: string[]
@@ -86,44 +87,7 @@ export function PropertyGallery({ images, title }: PropertyGalleryProps) {
       </div>
 
       {/* Fullscreen modal */}
-      <Dialog open={isFullscreen} onOpenChange={setIsFullscreen}>
-        <DialogContent className="max-w-screen-xl w-full h-full p-0 bg-black/95">
-          <div className="relative w-full h-full flex items-center justify-center">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute top-4 right-4 text-white hover:bg-white/20 z-10"
-              onClick={() => setIsFullscreen(false)}
-            >
-              <X className="h-6 w-6" />
-            </Button>
-
-            <img
-              src={images[currentIndex] || "/placeholder.svg"}
-              alt={`${title} - Imagen ${currentIndex + 1}`}
-              className="max-w-full max-h-full object-contain"
-            />
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20"
-              onClick={prevImage}
-            >
-              <ChevronLeft className="h-6 w-6" />
-            </Button>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white hover:bg-white/20"
-              onClick={nextImage}
-            >
-              <ChevronRight className="h-6 w-6" />
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <GaleryModalFullscreen isFullscreen={isFullscreen} setIsFullscreen={setIsFullscreen} images={images} title={title} currentIndex={currentIndex} prevImage={prevImage} nextImage={nextImage} />
     </>
   )
 }

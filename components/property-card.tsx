@@ -14,10 +14,13 @@ interface PropertyCardProps {
   currency: string
   location: string
   image: string
-  bedrooms: number
-  bathrooms: number
-  area: number
-  hasGarage: boolean
+  features: {
+    bedrooms: number
+    bathrooms: number
+    coveredArea: number
+    totalArea: number
+    garage: number
+  }
   isNew?: boolean
   isFeatured?: boolean
   publishedDays: number
@@ -31,15 +34,13 @@ export function PropertyCard({
   currency,
   location,
   image,
-  bedrooms,
-  bathrooms,
-  area,
-  hasGarage,
+features,
   isNew = false,
   isFeatured = false,
   publishedDays,
   tags = [],
 }: PropertyCardProps) {
+  const { bedrooms, bathrooms, coveredArea, totalArea, garage } = features
 const formatPrice = useCallback((price: number, currency: string) => {
   if (currency === "USD") {
     return `USD ${Math.round(price).toLocaleString('es-AR')}`
@@ -125,22 +126,27 @@ const formatPrice = useCallback((price: number, currency: string) => {
 
           {/* Amenities */}
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
+{coveredArea > 0 &&            <div className="flex items-center gap-1">
               <Maximize className="h-4 w-4" />
-              <span>{area}m²</span>
-            </div>
-            <div className="flex items-center gap-1">
+              <span>{coveredArea}m² cubiertos</span>
+            </div>}
+{totalArea > 0 &&            <div className="flex items-center gap-1">
+              <Maximize className="h-4 w-4" />
+              <span>{totalArea}m² totales</span>
+            </div>}
+{bedrooms > 0 &&            <div className="flex items-center gap-1">
               <Bed className="h-4 w-4" />
               <span>{bedrooms}</span>
-            </div>
-            <div className="flex items-center gap-1">
+            </div>}
+{bathrooms > 0 &&            <div className="flex items-center gap-1">
               <Bath className="h-4 w-4" />
               <span>{bathrooms}</span>
-            </div>
-            {hasGarage && (
+            </div>}
+
+            {garage > 0 && (
               <div className="flex items-center gap-1">
                 <Car className="h-4 w-4" />
-                <span>Cochera</span>
+                <span>{garage}</span>
               </div>
             )}
           </div>

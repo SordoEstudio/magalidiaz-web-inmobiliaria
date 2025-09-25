@@ -152,7 +152,7 @@ export function BannerCard({
                     <Button 
                       size="lg"
                       onClick={() => handleCTAAction(cta.action, cta.type)}
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
                     >
                       {cta.text}
                       {getCTAIcon(cta.type)}

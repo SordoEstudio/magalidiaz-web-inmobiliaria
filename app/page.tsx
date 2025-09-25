@@ -1,3 +1,7 @@
+"use client"
+
+import { FAQSection } from "@/components/faq-section"
+import { FAQExample } from "@/components/faq-example"
 import { HeroSearch } from "@/components/hero-search"
 import { FeaturedProperties } from "@/components/featured-properties"
 import { ServicesSection } from "@/components/services-section"
@@ -13,12 +17,16 @@ import { FeaturedPropertiesPlaceholder } from "@/components/featured-properties-
 import { BannerHero } from "@/components/banner-hero"
 import { BannerMinimal } from "@/components/banner-minimal"
 import { BannerCard } from "@/components/banner-card"
+import { FAQSimple } from "@/components/faq-simple"
+import { useFeaturedProperties } from "@/lib/hooks/useProperties"
+import { Loader2 } from "lucide-react"
 
 import dataForBanners from "@/public/data/banners.json"
 
 export default function HomePage() {
-
+  const { featuredProperties, loading, error } = useFeaturedProperties()
   const { herobanners, cardbanners, minimalbanners, seasonalbanners, ctabanners } = dataForBanners
+
   return (
     <div className="min-h-screen bg-background">
       {/* Promotional Banner */}
@@ -28,36 +36,39 @@ export default function HomePage() {
       <HeroSearch />
 
       {/* Featured Properties */}
-{/*   VERSION CLASICA    
-<FeaturedProperties />
- */}
- {/*   VERSION CAROUSEL    */}
-       <FeaturedPropertiesCarousel />
- 
-{/*   VERSION CON PLACEHOLDER
-<FeaturedPropertiesIntegrated />
- */}
+      {loading ? (
+        <div className="container mx-auto px-4 py-16">
+          <div className="flex flex-col items-center space-y-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-muted-foreground">Cargando propiedades destacadas...</p>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="container mx-auto px-4 py-16">
+          <div className="text-center space-y-4">
+            <p className="text-destructive">Error al cargar propiedades destacadas: {error}</p>
+            <p className="text-muted-foreground">Mostrando propiedades de ejemplo...</p>
+            <FeaturedPropertiesCarousel />
+          </div>
+        </div>
+      ) : (
+        <FeaturedPropertiesCarousel properties={featuredProperties} />
+      )}
+
       {/* Services Section */}
-{/*       <ServicesSection />
-<ServicesSectionV2 />
+      <BannerHero {...herobanners[0]} />
+      <BannerCard {...cardbanners[0]} />
+      <BannerCard {...cardbanners[1]} />
+      <BannerCard {...cardbanners[2]} />
+      <BannerHero {...herobanners[1]} />
 
-<ServicesSectionSimple /> */}
-<BannerHero {...herobanners[0]} />
-{/* <BannerMinimal {...minimalbanners[0]} />
-<BannerMinimal {...minimalbanners[1]} />
-<BannerMinimal {...minimalbanners[2]} /> */}
-{/* <BannerCard {...cardbanners[0]} /> */}
-<BannerCard {...cardbanners[1]} />
-{/* <BannerCard {...cardbanners[2]} /> */}
-<BannerHero {...herobanners[1]} />
+      <ServicesSectionHybrid />
+      <BannerHero {...herobanners[2]} />
 
-<ServicesSectionHybrid />
-<BannerHero {...herobanners[2]} />
+      <FAQSimple />
+      
       {/* About & Contact Split Section */}
-      <AboutContactSection  />
-
-      {/* Minimal Footer */}
-<Footer />
+      <AboutContactSection />
     </div>
   )
 }

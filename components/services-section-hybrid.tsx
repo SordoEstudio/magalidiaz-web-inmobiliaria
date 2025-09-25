@@ -4,12 +4,13 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import Link from "next/link"
 
 interface ServiceCardProps {
-  icon: React.ComponentType<{ className?: string }>
-  title: string
-  description: string
+  icon: React.ComponentType<{ className?: string }>,
+  title: string,
+  description: string,
+  isFeatured: boolean,
   cta: {
-    text: string
-    action: string
+    text: string,
+    action: string,
     type: 'link' | 'phone' | 'external'
   }
 }
@@ -25,6 +26,7 @@ const services: ServiceCardProps[] = [
     ),
     title: "Corretaje de inmuebles",
     description: "Asesoramiento integral en compra y venta de propiedades con el mejor precio del mercado.",
+    isFeatured: true,
     cta: {
       text: "Consultar",
       action: "https://wa.me/5491123456789",
@@ -41,6 +43,7 @@ const services: ServiceCardProps[] = [
     ),
     title: "Tasaciones",
     description: "Valuaciones profesionales y certificadas para conocer el valor real de tu propiedad.",
+    isFeatured: false,
     cta: {
       text: "Solicitar tasación",
       action: "https://wa.me/5491123456789?text=Hola! Quiero solicitar una tasación",
@@ -57,6 +60,7 @@ const services: ServiceCardProps[] = [
     ),
     title: "Administración de alquileres",
     description: "Gestión completa de propiedades en alquiler, desde la búsqueda hasta el cobro.",
+    isFeatured: false,
     cta: {
       text: "Administrar mi propiedad",
       action: "tel:+5491123456789",
@@ -73,6 +77,7 @@ const services: ServiceCardProps[] = [
     ),
     title: "Estudios de títulos",
     description: "Análisis legal completo para garantizar operaciones seguras y sin inconvenientes.",
+    isFeatured: false,
     cta: {
       text: "Consultar estudio",
       action: "https://wa.me/5491123456789?text=Hola! Necesito un estudio de título",
@@ -89,6 +94,7 @@ const services: ServiceCardProps[] = [
     ),
     title: "Venta y alquiler",
     description: "Amplio portfolio de propiedades en venta y alquiler en las mejores ubicaciones.",
+    isFeatured: false,
     cta: {
       text: "Ver propiedades",
       action: "/propiedades",
@@ -105,6 +111,7 @@ const services: ServiceCardProps[] = [
     ),
     title: "Asesoramiento personalizado",
     description: "Atención personalizada para encontrar la solución que mejor se adapte a vos.",
+    isFeatured: false,
     cta: {
       text: "Agendar consulta",
       action: "https://wa.me/5491123456789?text=Hola! Quiero agendar una consulta",
@@ -113,20 +120,20 @@ const services: ServiceCardProps[] = [
   },
 ]
 
-function ServiceCard({ icon: Icon, title, description, cta }: ServiceCardProps) {
+function ServiceCard({ icon: Icon, title, description, cta, isFeatured=false }: ServiceCardProps) {
 
 
   return (
-        <Link href={cta.action} className="block">
-    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border-border/50 hover:border-primary/30 bg-card">
-      <CardContent className="p-6 text-center">
+        <Link href={cta.action} className="block" target="_blank" rel="noopener noreferrer">
+    <Card className={`group relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:scale-[1.02] border-border/50 hover:border-primary/30 bg-card ${isFeatured ? 'border-2 border-primary/50 bg-primary/10' : ''}`}>
+      <CardContent className="md:p-6 text-center">
         {/* Icon with gradient background */}
-        <div className="mb-4">
-          <Icon className="mx-auto" />
+        <div className="mb-2 md:mb-4 w">
+          <Icon className="mx-auto " />
         </div>
 
         {/* Title */}
-        <h3 className="text-xl font-semibold text-card-foreground mb-3 group-hover:text-primary transition-colors">
+        <h3 className="text-lg md:text-xl md:mb-3 font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors">
           {title}
         </h3>
 
@@ -137,7 +144,7 @@ function ServiceCard({ icon: Icon, title, description, cta }: ServiceCardProps) 
       </CardContent>
 
       {/* Footer with single CTA */}
-      <CardFooter className="p-6 pt-0 text-center">
+      <CardFooter className="p-6 pt-0 text-center hidden sm:block">
         <div 
           className="w-full flex items-center justify-center text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity"
         >

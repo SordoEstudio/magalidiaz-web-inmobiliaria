@@ -1,0 +1,239 @@
+"use client"
+
+import { useState } from "react"
+import { PropertyCard } from "@/components/property-card"
+import { PropertyFilters } from "@/components/property-filters"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { Search, Grid3X3, List, Map, Bell, User } from "lucide-react"
+import { useProperties, getPropertyKey, objectIdToString } from "@/lib/hooks/useProperties"
+import { useFilteredProperties } from "@/lib/hooks/usePropertyFilters"
+import Link from "next/link"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
+export default function PropertySearchPage() {
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const [showMap, setShowMap] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
+  const [sortBy, setSortBy] = useState("recent")
+  const [filters, setFilters] = useState({
+    transactionType: "",
+    propertyType: "",
+    location: "",
+    bedrooms: "",
+    bathrooms: "",
+    amenities: [] as string[]
+  })
+
+  // Usar hook de API para obtener propiedades
+  const { properties, loading, error } = useProperties()
+
+  // Aplicar filtros del lado del cliente
+  const filteredProperties = useFilteredProperties(properties, {
+    ...filters,
+    search: searchTerm
+  })
+
+  // Función para mapear datos de la API al formato del PropertyCard
+  const mapPropertyToCard = (property: any) => {
+    return {
+      id: property._id.toString(), // Convertir _id a string
+      title: property.title,
+      price: property.price,
+      currency: property.currency,
+      location: property.location,
+      image: property.image || '',
+      features: {
+        bedrooms: property.features?.bedrooms || 0,
+        bathrooms: property.features?.bathrooms || 0,
+        coveredArea: property.features?.coveredArea || 0,
+        totalArea: property.features?.totalArea || 0,
+        garage: property.features?.garage || 0
+      },
+      isNew: property.year && property.year >= new Date().getFullYear() - 1,
+      isFeatured: property.isFeatured,
+      publishedDays: property.publishedAt ? 
+        Math.floor((Date.now() - new Date(property.publishedAt).getTime()) / (1000 * 60 * 60 * 24)) : 
+        0,
+      tags: property.tags || []
+    }
+  }
+
+  const handleFiltersChange = (newFilters: any) => {
+    setFilters(newFilters)
+  }
+
+  // Mostrar loading
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <Link href="/">
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                    <span className="text-primary-foreground font-bold text-lg">I</span>
+                  </div>
+                  <span className="text-xl font-bold text-foreground">Inmobiliaria</span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </header>
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-center items-center h-64">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Cargando propiedades...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Mostrar error si hay problema
+  if (error) {
+    return (
+      <div className="min-h-screen bg-background">
+        <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <Link href="/">
+                <div className="flex items-center space-x-2">
+                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                    <span className="text-primary-foreground font-bold text-lg">I</span>
+                  </div>
+                  <span className="text-xl font-bold text-foreground">Inmobiliaria</span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </header>
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex justify-center items-center h-64">
+            <div className="text-center">
+              <p className="text-muted-foreground mb-4">Error al cargar las propiedades.</p>
+              <Button onClick={() => window.location.reload()}>
+                Reintentar
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link href="/">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-lg">I</span>
+              </div>
+              <span className="text-xl font-bold text-foreground">Inmobiliaria</span>
+            </div>
+            </Link>
+
+            {/* Search Bar */}
+            <div className="flex-1 max-w-2xl mx-8">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Buscar propiedades por ubicación, tipo..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 pr-4 py-2 w-full"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex gap-6">
+          {/* Filters Sidebar */}
+          <aside className="w-80 flex-shrink-0">
+            <PropertyFilters onFiltersChange={handleFiltersChange} />
+          </aside>
+
+          {/* Main Content */}
+          <main className="flex-1">
+            {/* Results Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <h1 className="text-2xl font-bold text-foreground">Propiedades Disponibles</h1>
+                <Badge variant="secondary" className="text-sm">
+                  {filteredProperties.length} resultados
+                </Badge>
+              </div>
+
+              {/* View Controls */}
+              <div className="flex items-center gap-2">
+                {/* Sort By */}
+                <div className="flex items-center space-x-2">
+                  <Label className="text-sm font-medium">Ordenar por</Label>
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-48">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="recent">Más recientes</SelectItem>
+                      <SelectItem value="area">Mayor precio</SelectItem>
+                      <SelectItem value="price-low">Menor precio</SelectItem>
+                      <SelectItem value="area">Mayor superficie</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <Button
+                  variant={viewMode === "grid" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setViewMode("grid")}
+                >
+                  <Grid3X3 className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant={viewMode === "list" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setViewMode("list")}
+                >
+                  <List className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Properties Grid */}
+            <div
+              className={`grid gap-6 ${
+                viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" : "grid-cols-1"
+              }`}
+            >
+              {filteredProperties.map((property) => (
+                <PropertyCard 
+                  key={property._id.toString()} 
+                  {...mapPropertyToCard(property)}
+                />
+              ))}
+            </div>
+
+            {/* Load More */}
+{/*             <div className="flex justify-center mt-8">
+              <Button variant="outline" size="lg">
+                Cargar más propiedades
+              </Button>
+            </div> */}
+          </main>
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -19,7 +19,8 @@ export function PromotionalBanner() {
             </div>
             <div>
               <p className="font-semibold text-foreground">¡Tasación sin cargo hasta fin de mes!</p>
-              <p className="text-sm text-muted-foreground">
+
+              <p className="text-sm text-muted-foreground hidden sm:block">
                 Conocé el valor real de tu propiedad con nuestros expertos
               </p>
             </div>
