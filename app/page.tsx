@@ -18,6 +18,7 @@ import { BannerHero } from "@/components/banner-hero"
 import { BannerMinimal } from "@/components/banner-minimal"
 import { BannerCard } from "@/components/banner-card"
 import { FAQSimple } from "@/components/faq-simple"
+import { DebugConfig } from "@/components/debug-config"
 import { useFeaturedProperties } from "@/lib/hooks/useProperties"
 import { Loader2 } from "lucide-react"
 
@@ -69,6 +70,9 @@ export default function HomePage() {
       
       {/* About & Contact Split Section */}
       <AboutContactSection />
+      
+      {/* Debug Config Component (solo en desarrollo) */}
+      <DebugConfig />
     </div>
   )
 }

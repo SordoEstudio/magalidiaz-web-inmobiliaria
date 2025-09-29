@@ -9,28 +9,39 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Configuración para desarrollo con API externa
+  
+  // Configuración condicional para desarrollo con proxy
   async rewrites() {
-    return [
-      {
-        source: '/api/public/v1/:path*',
-        destination: 'http://localhost:3000/api/public/v1/:path*',
-      },
-    ];
+    // Solo usar proxy si está habilitado en desarrollo
+    if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_PROXY === 'true') {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      
+      return [
+        {
+          source: '/api/public/v1/:path*',
+          destination: `${apiUrl}/api/public/v1/:path*`,
+        },
+      ];
+    }
+    return [];
   },
-  // Headers para CORS en desarrollo
+  
+  // Headers para CORS solo en desarrollo
   async headers() {
-    return [
-      {
-        source: '/api/:path*',
-        headers: [
-          { key: 'Access-Control-Allow-Credentials', value: 'true' },
-          { key: 'Access-Control-Allow-Origin', value: '*' },
-          { key: 'Access-Control-Allow-Methods', value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT' },
-          { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' },
-        ],
-      },
-    ];
+    if (process.env.NODE_ENV === 'development') {
+      return [
+        {
+          source: '/api/:path*',
+          headers: [
+            { key: 'Access-Control-Allow-Credentials', value: 'true' },
+            { key: 'Access-Control-Allow-Origin', value: '*' },
+            { key: 'Access-Control-Allow-Methods', value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT' },
+            { key: 'Access-Control-Allow-Headers', value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version' },
+          ],
+        },
+      ];
+    }
+    return [];
   },
 }
 

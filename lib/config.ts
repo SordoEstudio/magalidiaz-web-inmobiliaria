@@ -1,10 +1,26 @@
-// Configuración unificada de la API y cliente
+// Configuración de entorno
+const isProduction = process.env.NODE_ENV === 'production';
+const isDevelopment = process.env.NODE_ENV === 'development';
+
+// Configuración de API basada en entorno
 export const API_CONFIG = {
-  // URL base para desarrollo
-  BASE_URL: '/api/public/v1',
+  // URL base según entorno
+  BASE_URL: (() => {
+    // En producción: usar la URL completa de la API
+    if (isProduction) {
+      return process.env.NEXT_PUBLIC_API_URL ;
+    }
+    
+    // En desarrollo: usar proxy local o URL directa
+    if (process.env.NEXT_PUBLIC_USE_PROXY === 'true') {
+      return '/api/public/v1'; // Usa el proxy de Next.js
+    }
+    
+    return process.env.NEXT_PUBLIC_API_URL ;
+  })(),
   
-  // Cliente para pruebas
-  CLIENT_SLUG: 'harvestech',
+  // Cliente configurado por variable de entorno
+  CLIENT_SLUG: process.env.NEXT_PUBLIC_CLIENT_SLUG ,
   
   // Endpoints
   ENDPOINTS: {
@@ -16,7 +32,27 @@ export const API_CONFIG = {
 
 // Función para construir URLs completas con clientSlug
 export const buildApiUrl = (endpoint: string, params?: Record<string, string>) => {
-  const url = new URL(`${API_CONFIG.BASE_URL}${endpoint}`, window.location.origin);
+  let baseUrl: string;
+  
+  // En el cliente (browser)
+  if (typeof window !== 'undefined') {
+    // Si la BASE_URL es relativa, usar el origin actual
+    if (API_CONFIG.BASE_URL.startsWith('/')) {
+      baseUrl = `${window.location.origin}${API_CONFIG.BASE_URL}${endpoint}`;
+    } else {
+      baseUrl = `${API_CONFIG.BASE_URL}${endpoint}`;
+    }
+  } else {
+    // En el servidor (SSR/SSG)
+    if (API_CONFIG.BASE_URL.startsWith('/')) {
+      // Para rutas relativas en servidor, usar localhost
+      baseUrl = `http://localhost:3000${API_CONFIG.BASE_URL}${endpoint}`;
+    } else {
+      baseUrl = `${API_CONFIG.BASE_URL}${endpoint}`;
+    }
+  }
+  
+  const url = new URL(baseUrl);
   
   // Agregar clientSlug automáticamente
   url.searchParams.append('clientSlug', API_CONFIG.CLIENT_SLUG);
@@ -29,4 +65,16 @@ export const buildApiUrl = (endpoint: string, params?: Record<string, string>) =
   }
   
   return url.toString();
+};
+
+// Función para debug de configuración
+export const getConfigInfo = () => {
+  return {
+    environment: process.env.NODE_ENV,
+    baseUrl: API_CONFIG.BASE_URL,
+    clientSlug: API_CONFIG.CLIENT_SLUG,
+    useProxy: process.env.NEXT_PUBLIC_USE_PROXY,
+    apiUrl: process.env.NEXT_PUBLIC_API_URL,
+    isClient: typeof window !== 'undefined'
+  };
 };

@@ -1,4 +1,5 @@
 // Configuración de la API
+
 export const API_CONFIG = {
   // URL base de la API (backend en puerto 3000)
   BASE_URL: process.env.NEXT_PUBLIC_API_URL ,
