@@ -63,7 +63,7 @@ export default function PropertyDetailPage({ params }: PropertyDetailPageProps) 
           <div className="lg:col-span-2 space-y-8">
             {/* Gallery */}
             <PropertyGallery
-              images={property.images}
+              gallery={property.gallery}
               title={property.title}
               mode="embedded"
               showThumbnails={true}
@@ -72,7 +72,7 @@ export default function PropertyDetailPage({ params }: PropertyDetailPageProps) 
             />
             
             {/* Property Info */}
-            <PropertyInfo {...property} />
+              <PropertyInfo {...property} />
             
             {/* Rooms */}
             <PropertyRooms rooms={property.rooms} />

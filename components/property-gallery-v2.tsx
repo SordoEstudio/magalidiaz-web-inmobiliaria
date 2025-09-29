@@ -4,9 +4,10 @@ import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Maximize2, X, ZoomIn } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
-
+// url
 interface PropertyGalleryProps {
-  images: string[]
+  gallery: {url: string, alt: string}[]
+  image: string
   title: string
   mode?: 'embedded' | 'fullscreen' | 'modal'
   className?: string
@@ -18,8 +19,9 @@ interface PropertyGalleryProps {
 }
 
 export function PropertyGallery({
-  images,
+  gallery=[],
   title,
+  image,
   mode = 'embedded',
   className = '',
   showThumbnails = true,
@@ -34,20 +36,20 @@ export function PropertyGallery({
 
   // Auto-play functionality
   useEffect(() => {
-    if (isAutoPlaying && images.length > 1) {
+    if (isAutoPlaying && gallery.length > 1) {
       const interval = setInterval(() => {
-        setCurrentIndex((prev) => (prev + 1) % images.length)
+        setCurrentIndex((prev) => (prev + 1) % gallery.length)
       }, autoPlayInterval)
       return () => clearInterval(interval)
     }
-  }, [isAutoPlaying, images.length, autoPlayInterval])
+  }, [isAutoPlaying, gallery.length, autoPlayInterval])
 
   const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % images.length)
+    setCurrentIndex((prev) => (prev + 1) % gallery.length)
   }
 
   const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
+    setCurrentIndex((prev) => (prev - 1 + gallery.length) % gallery.length)
   }
 
   const goToImage = (index: number) => {
@@ -112,7 +114,7 @@ export function PropertyGallery({
 
   // Render navigation arrows
   const renderNavigationArrows = () => {
-    if (images.length <= 1) return null
+    if (gallery.length <= 1) return null
 
     return (
       <>
@@ -158,22 +160,22 @@ export function PropertyGallery({
 
   // Render image counter
   const renderImageCounter = () => {
-    if (!showCounter || images.length <= 1) return null
+    if (!showCounter || gallery.length <= 1) return null
 
     return (
       <div className="absolute bottom-4 left-4 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium z-10">
-        {currentIndex + 1} / {images.length}
+        {currentIndex + 1} / {gallery.length}
       </div>
     )
   }
 
   // Render thumbnails
   const renderThumbnails = () => {
-    if (!showThumbnails || images.length <= 1) return null
+    if (!showThumbnails || gallery.length <= 1) return null
 
     return (
       <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-        {images.map((image, index) => (
+        {gallery.map((image, index) => (
           <button
             key={index}
             onClick={() => goToImage(index)}
@@ -185,7 +187,7 @@ export function PropertyGallery({
             aria-label={`Ver imagen ${index + 1}`}
           >
             <Image
-              src={image || "/placeholder.svg"}
+              src={image.url || "/placeholder.svg"}
               alt={`Thumbnail ${index + 1}`}
               width={80}
               height={64}
@@ -208,7 +210,7 @@ export function PropertyGallery({
       onTouchEnd={handleTouchEnd}
     >
       <Image
-        src={images[currentIndex] || "/placeholder.svg"}
+        src={gallery[currentIndex].url || "/placeholder.svg"}
         alt={`${title} - Imagen ${currentIndex + 1}`}
         fill
         className={`transition-all duration-300 ${
@@ -242,7 +244,7 @@ export function PropertyGallery({
         {/* Fullscreen image */}
         <div className="relative w-full h-full flex items-center justify-center">
           <Image
-            src={images[currentIndex] || "/placeholder.svg"}
+            src={gallery[currentIndex].url || "/placeholder.svg"}
             alt={`${title} - Imagen ${currentIndex + 1}`}
             fill
             className="object-contain"
@@ -252,7 +254,7 @@ export function PropertyGallery({
         </div>
 
         {/* Fullscreen navigation */}
-        {images.length > 1 && (
+          {gallery.length > 1 && (
           <>
             <Button
               variant="ghost"
@@ -278,7 +280,7 @@ export function PropertyGallery({
 
         {/* Fullscreen counter */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 backdrop-blur-sm px-4 py-2 rounded-full text-white text-sm font-medium z-20">
-          {currentIndex + 1} / {images.length}
+          {currentIndex + 1} / {gallery.length}
         </div>
       </div>
     </div>

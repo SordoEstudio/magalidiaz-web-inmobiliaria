@@ -26,7 +26,7 @@ interface Property {
   };
   rooms: Record<string, number>;
   image?: string;
-  images: Array<{ url: string; alt: string }>;
+  gallery: Array<{ url: string; alt: string }>;
   tags: string[];
   amenities: string[];
   year?: number;

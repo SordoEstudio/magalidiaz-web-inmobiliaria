@@ -12,7 +12,7 @@
       "status": "disponible",
       "year": 2025,
       "image": "/modern-apartment-exterior.png",
-      "images": [
+      "gallery": [
         {"url": "/modern-studio-apartment.png", "alt": "Departamento 2 ambientes en San Vicente Centro"},
         {"url": "/luxury-apartment-building-modern.png", "alt": "Departamento 2 ambientes en San Vicente Centro"}
       ],

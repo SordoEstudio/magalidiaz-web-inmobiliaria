@@ -40,7 +40,7 @@ export interface Property {
   features: PropertyFeatures;
   rooms: Record<string, number>;
   image?: string;
-  images: PropertyImage[];
+  gallery: PropertyImage[];
   tags: string[];
   amenities: string[];
   year?: number;

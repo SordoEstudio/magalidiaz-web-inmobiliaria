@@ -3,11 +3,9 @@
 import { useState, useEffect } from 'react';
 import { API_CONFIG, buildApiUrl } from '@/lib/config';
 
-// Tipos basados en la respuesta real de la API
+// Tipos simplificados - sin buffer, con gallery en lugar de images
 interface Property {
-  _id: { 
-    buffer: { [key: string]: number } // Objeto con propiedades numéricas, no array
-  };
+  _id: string; // Simplificado: solo string
   title: string;
   description: string;
   transactionType: 'venta' | 'alquiler' | 'alquiler_temporario';
@@ -29,7 +27,7 @@ interface Property {
   };
   rooms: Record<string, number>;
   image?: string;
-  images: Array<{ url: string; alt: string }>;
+  gallery: Array<{ url: string; alt: string }>; // Cambiado de images a gallery
   tags: string[];
   amenities: string[];
   year?: number;
@@ -46,6 +44,9 @@ interface ApiResponse {
     pagination: {
       total: number;
       page: number;
+      pages: number;
+      hasNext: boolean;
+      hasPrev: boolean;
       limit: number;
     };
   };
@@ -74,7 +75,7 @@ export const useProperties = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          mode: 'cors', // Agregar modo CORS
+          mode: 'cors',
         });
         const data: ApiResponse = await response.json();
         
@@ -101,7 +102,7 @@ export const useProperties = () => {
 };
 
 // Hook para obtener propiedades destacadas
-export const useFeaturedProperties = () => {
+export const useFeaturedProperties = (limit: number = 6) => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -110,7 +111,9 @@ export const useFeaturedProperties = () => {
     const fetchFeaturedProperties = async () => {
       try {
         setLoading(true);
-        const url = buildApiUrl(API_CONFIG.ENDPOINTS.FEATURED_PROPERTIES);
+        const url = buildApiUrl(API_CONFIG.ENDPOINTS.FEATURED_PROPERTIES, { 
+          limit: limit.toString() 
+        });
         console.log('⭐ Fetching featured properties from:', url);
         const response = await fetch(url, {
           method: 'GET',
@@ -138,7 +141,7 @@ export const useFeaturedProperties = () => {
     };
 
     fetchFeaturedProperties();
-  }, []);
+  }, [limit]);
 
   return { featuredProperties, loading, error };
 };
@@ -192,61 +195,46 @@ export const useProperty = (id: string) => {
   return { property, loading, error };
 };
 
-// Función para convertir ObjectId buffer a string - MEJORADA
-export const objectIdToString = (objectId: { buffer: { [key: string]: number } }): string => {
-  console.log('🔄 Converting objectId to string:', objectId);
-  
-  if (!objectId || !objectId.buffer) {
-    console.log('⚠️ Invalid objectId structure');
-    return 'unknown';
-  }
-
-  try {
-    // Convertir el objeto buffer a array de números
-    const bufferArray = Object.keys(objectId.buffer)
-      .sort((a, b) => parseInt(a) - parseInt(b)) // Ordenar por índice numérico
-      .map(key => objectId.buffer[key]);
-    
-    console.log('✅ Buffer array:', bufferArray);
-    
-    // Verificar que todos los valores sean números válidos
-    if (bufferArray.some(val => isNaN(val) || val < 0 || val > 255)) {
-      console.log('⚠️ Invalid buffer values');
-      return 'unknown';
-    }
-    
-    // Convertir a string hexadecimal
-    const hexString = bufferArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    console.log('✅ Hex string:', hexString);
-    
-    return hexString;
-  } catch (error) {
-    console.error('❌ Error converting objectId:', error);
-    return 'unknown';
-  }
+// Función simplificada para obtener ID de propiedad
+export const getPropertyId = (property: Property): string => {
+  return property._id || 'unknown';
 };
 
-// Función para generar key único para React
+// Función simplificada para generar key único para React
 export const getPropertyKey = (property: Property, index: number): string => {
-  try {
-    const id = objectIdToString(property._id);
-    if (id === 'unknown') {
-      console.warn('⚠️ Generated unknown ID for property, using index');
-      return `property-${index}`;
-    }
-    return id;
-  } catch (error) {
-    console.warn('Error generating property key, using index:', error);
-    return `property-${index}`;
-  }
+  return property._id || `property-${index}`;
 };
 
-// Función para convertir string a ObjectId buffer (para URLs)
-export const stringToObjectId = (id: string): { buffer: { [key: string]: number } } => {
-  const bytes: { [key: string]: number } = {};
-  for (let i = 0; i < id.length; i += 2) {
-    const byteIndex = Math.floor(i / 2);
-    bytes[byteIndex.toString()] = parseInt(id.substr(i, 2), 16);
-  }
-  return { buffer: bytes };
+// Función para mapear datos de la API al formato del PropertyCard
+export const mapPropertyToCard = (property: Property) => {
+  return {
+    id: property._id, // Usar directamente el ID
+    title: property.title,
+    price: property.price,
+    currency: property.currency,
+    location: property.location,
+    image: property.image || '',
+    images: property.gallery || [], // Mapear gallery a images para compatibilidad
+    features: {
+      bedrooms: property.features?.bedrooms || 0,
+      bathrooms: property.features?.bathrooms || 0,
+      coveredArea: property.features?.coveredArea || 0,
+      totalArea: property.features?.totalArea || 0,
+      garage: property.features?.garage || 0
+    },
+    isNew: property.year && property.year >= new Date().getFullYear() - 1,
+    isFeatured: property.isFeatured,
+    publishedDays: property.publishedAt ? 
+      Math.floor((Date.now() - new Date(property.publishedAt).getTime()) / (1000 * 60 * 60 * 24)) : 
+      0,
+    tags: property.tags || []
+  };
+};
+
+// Función para mapear datos para componentes que usan gallery
+export const mapPropertyToGallery = (property: Property) => {
+  return {
+    ...property,
+    images: property.gallery || [] // Mapear gallery a images para componentes de galería
+  };
 };

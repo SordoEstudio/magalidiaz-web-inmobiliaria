@@ -12,9 +12,15 @@
     "status": "disponible",
     "year": 2025,
     "image": "/modern-apartment-exterior.png",
-    "images": [
-      {"url": "/modern-studio-apartment.png", "alt": "Departamento 2 ambientes en San Vicente Centro"},
-      {"url": "/luxury-apartment-building-modern.png", "alt": "Departamento 2 ambientes en San Vicente Centro"}
+    "": [
+      {
+        "url": "/modern-studio-apartment.png",
+        "alt": "Departamento 2 ambientes en San Vicente Centro"
+      },
+      {
+        "url": "/luxury-apartment-building-modern.png",
+        "alt": "Departamento 2 ambientes en San Vicente Centro"
+      }
     ],
     "bedrooms": 2,
     "bathrooms": 1,
@@ -37,8 +43,11 @@
     "status": "disponible",
     "year": 2025,
     "image": "/house-with-garden-and-pool.png",
-    "images": [
-      {"url": "/house-with-garden-and-pool.png", "alt": "Casa 3 dormitorios con jardín y piscina"}
+    "gallery": [
+      {
+        "url": "/house-with-garden-and-pool.png",
+        "alt": "Casa 3 dormitorios con jardín y piscina"
+      }
     ],
     "bedrooms": 3,
     "bathrooms": 2,
@@ -61,8 +70,11 @@
     "status": "disponible",
     "year": 2025,
     "image": "/two-story-townhouse-urban.png",
-    "images": [
-      {"url": "/two-story-townhouse-urban.png", "alt": "Departamento 2 ambientes en San Vicente Centro"}
+    "gallery": [
+      {
+        "url": "/two-story-townhouse-urban.png",
+        "alt": "Departamento 2 ambientes en San Vicente Centro"
+      }
     ],
     "bedrooms": 3,
     "bathrooms": 2,
@@ -85,8 +97,11 @@
     "status": "disponible",
     "year": 2025,
     "image": "/luxury-apartment-building-modern.png",
-    "images": [
-      {"url": "/luxury-apartment-building-modern.png", "alt": "Departamento de lujo con amenities"}
+    "gallery": [
+      {
+        "url": "/luxury-apartment-building-modern.png",
+        "alt": "Departamento de lujo con amenities"
+      }
     ],
     "bedrooms": 2,
     "bathrooms": 2,
@@ -109,8 +124,11 @@
     "status": "disponible",
     "year": 2025,
     "image": "/country-house-large-yard.png",
-    "images": [
-      {"url": "/country-house-large-yard.png", "alt": "Casa quinta con amplio terreno"}
+    "gallery": [
+      {
+        "url": "/country-house-large-yard.png",
+        "alt": "Casa quinta con amplio terreno"
+      }
     ],
     "bedrooms": 4,
     "bathrooms": 3,
@@ -133,8 +151,11 @@
     "status": "disponible",
     "year": 2025,
     "image": "/modern-studio-apartment.png",
-    "images": [
-      {"url": "/modern-studio-apartment.png", "alt": "Monoambiente moderno en Palermo"}
+    "gallery": [
+      {
+        "url": "/modern-studio-apartment.png",
+        "alt": "Monoambiente moderno en Palermo"
+      }
     ],
     "bedrooms": 1,
     "bathrooms": 1,

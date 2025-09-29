@@ -1,7 +1,7 @@
 // Configuración de la API
 export const API_CONFIG = {
   // URL base de la API (backend en puerto 3000)
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL ,
   // Endpoints
   ENDPOINTS: {
     FEATURED_PROPERTIES: '/api/public/v1/properties/featured',
@@ -11,9 +11,9 @@ export const API_CONFIG = {
   
   // Configuración de cache
   CACHE: {
-    FEATURED_PROPERTIES: 30 * 60 * 1000, // 30 minutos
-    PROPERTIES: 15 * 60 * 1000, // 15 minutos
-    PROPERTY_DETAIL: 60 * 60 * 1000, // 1 hora
+    FEATURED_PROPERTIES: 24 * 60 * 60 * 1000, // 24 horas
+    PROPERTIES: 24 * 60 * 60 * 1000, // 24 horas
+    PROPERTY_DETAIL: 24 * 60 * 60 * 1000, // 24 horas
   }
 } as const;
 

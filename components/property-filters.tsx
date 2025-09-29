@@ -73,7 +73,7 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
   }
 
   return (
-    <Card className="sticky top-4 bg-card border-border">
+    <Card className="sticky top-24 bg-card border-border">
       <CardContent className="p-6">
         <div className="space-y-6">
           {/* Header */}

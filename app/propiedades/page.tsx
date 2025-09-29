@@ -6,8 +6,8 @@ import { PropertyFilters } from "@/components/property-filters"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
-import { Search, Grid3X3, List, Map, Bell, User } from "lucide-react"
-import { useProperties, getPropertyKey, objectIdToString } from "@/lib/hooks/useProperties"
+import { Search, Grid3X3, List } from "lucide-react"
+import { useProperties } from "@/lib/hooks/useProperties"
 import { useFilteredProperties } from "@/lib/hooks/usePropertyFilters"
 import Link from "next/link"
 import { Label } from "@/components/ui/label"
@@ -31,7 +31,7 @@ export default function PropertySearchPage() {
   const { properties, loading, error } = useProperties()
 
   // Aplicar filtros del lado del cliente
-  const filteredProperties = useFilteredProperties(properties, {
+  const filteredProperties = useFilteredProperties(properties , {
     ...filters,
     search: searchTerm
   })
