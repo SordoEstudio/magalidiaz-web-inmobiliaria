@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, Home, Building, MapPin } from "lucide-react"
 import heroImg from "@/public/house-with-garden-and-pool.png"
 import Image from "next/image"
+import Link from "next/link"
 export function HeroSearch() {
   const [searchType, setSearchType] = useState("compra")
   const [propertyType, setPropertyType] = useState("")
@@ -93,10 +94,12 @@ export function HeroSearch() {
               {/* Search Button */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-background block text-left">&nbsp;</label>
-                <Button size="lg" className="w-full h-10 bg-primary hover:bg-primary/90">
+                <Link href="/propiedades">
+                <Button size="lg" className="w-full h-10 bg-primary hover:bg-primary/90 cursor-pointer">
                   <Search className="h-4 w-4 mr-2" />
                   Buscar propiedad
                 </Button>
+                </Link>
               </div>
             </div>
 

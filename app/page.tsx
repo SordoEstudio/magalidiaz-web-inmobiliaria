@@ -57,11 +57,11 @@ export default function HomePage() {
       )}
 
       {/* Services Section */}
-      <BannerHero {...herobanners[0]} />
-      <BannerCard {...cardbanners[0]} />
+{/*       <BannerHero {...herobanners[0]} />
+      <BannerCard {...cardbanners[0]} /> */}
       <BannerCard {...cardbanners[1]} />
-      <BannerCard {...cardbanners[2]} />
-      <BannerHero {...herobanners[1]} />
+{/*       <BannerCard {...cardbanners[2]} />
+      <BannerHero {...herobanners[1]} /> */}
 
       <ServicesSectionHybrid />
       <BannerHero {...herobanners[2]} />

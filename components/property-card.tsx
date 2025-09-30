@@ -105,7 +105,7 @@ const formatPrice = useCallback((price: number, currency: string) => {
         </div>
       </div>
 
-      <Link href={`/propiedad/${id}`} className="block cursor-pointer">
+      <Link href={`/propiedad/${id}`} target="_blank" className="block cursor-pointer">
       <CardContent className="p-4">
 
         <div className="space-y-3">
@@ -153,7 +153,7 @@ const formatPrice = useCallback((price: number, currency: string) => {
 
 
           {/* Tags */}
-          {tags.length > 0 && (
+{/*           {tags.length > 0 && (
             <div className="flex flex-wrap gap-1">
               {tags.slice(0, 3).map((tag, index) => (
                 <Badge key={index} variant="secondary" className="text-xs px-2 py-1">
@@ -161,7 +161,7 @@ const formatPrice = useCallback((price: number, currency: string) => {
                 </Badge>
               ))}
             </div>
-          )}
+          )} */}
           {/* Published time */}
           <p className="text-xs text-muted-foreground">Publicado hace {publishedDays} días</p>
 

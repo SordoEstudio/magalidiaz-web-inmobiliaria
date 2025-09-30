@@ -14,7 +14,7 @@ const nextConfig = {
   async rewrites() {
     // Solo usar proxy si está habilitado en desarrollo
     if (process.env.NODE_ENV === 'development' && process.env.NEXT_PUBLIC_USE_PROXY === 'true') {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL ;
       
       return [
         {

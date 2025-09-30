@@ -208,7 +208,7 @@ export const getPropertyKey = (property: Property, index: number): string => {
 // Función para mapear datos de la API al formato del PropertyCard
 export const mapPropertyToCard = (property: Property) => {
   return {
-    id: property._id, // Usar directamente el ID
+    id: property._id.toString(), // Usar directamente el ID
     title: property.title,
     price: property.price,
     currency: property.currency,

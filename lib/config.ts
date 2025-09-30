@@ -6,8 +6,20 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 export const API_CONFIG = {
   // URL base según entorno
   BASE_URL: (() => {
-    // En producción: usar la URL completa de la API
+    // En producción: usar la URL completa de la API (nunca localhost)
     if (isProduction) {
+      const prodApiUrl = process.env.NEXT_PUBLIC_API_URL;
+      
+      // Si está configurado con localhost en producción, usar fallback
+      if (!prodApiUrl || prodApiUrl.includes('localhost')) {
+        console.warn('⚠️ NEXT_PUBLIC_API_URL contiene localhost en producción, usando fallback');
+        return 'https://micms.website/api/public/v1';
+      }
+      
+      return prodApiUrl;
+    }
+
+    if (isDevelopment) {
       return process.env.NEXT_PUBLIC_API_URL ;
     }
     
@@ -16,11 +28,11 @@ export const API_CONFIG = {
       return '/api/public/v1'; // Usa el proxy de Next.js
     }
     
-    return process.env.NEXT_PUBLIC_API_URL ;
+    return process.env.NEXT_PUBLIC_API_URL;
   })(),
   
   // Cliente configurado por variable de entorno
-  CLIENT_SLUG: process.env.NEXT_PUBLIC_CLIENT_SLUG ,
+  CLIENT_SLUG: process.env.NEXT_PUBLIC_CLIENT_SLUG || 'harvestech',
   
   // Endpoints
   ENDPOINTS: {
@@ -46,7 +58,7 @@ export const buildApiUrl = (endpoint: string, params?: Record<string, string>) =
     // En el servidor (SSR/SSG)
     if (API_CONFIG.BASE_URL.startsWith('/')) {
       // Para rutas relativas en servidor, usar localhost
-      baseUrl = `http://localhost:3000${API_CONFIG.BASE_URL}${endpoint}`;
+      baseUrl = `${process.env.NEXT_PUBLIC_API_URL}${API_CONFIG.BASE_URL}${endpoint}`;
     } else {
       baseUrl = `${API_CONFIG.BASE_URL}${endpoint}`;
     }

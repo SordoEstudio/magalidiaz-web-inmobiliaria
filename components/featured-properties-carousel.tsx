@@ -14,7 +14,30 @@ export function FeaturedPropertiesCarousel() {
 
   // Usar hook de API para obtener propiedades destacadas
   const { featuredProperties, loading, error } = useFeaturedProperties()
-
+    // Función para mapear datos de la API al formato del PropertyCard
+    const mapPropertyToCard = (property: any) => {
+      return {
+        id: property._id.toString(), // Convertir _id a string
+        title: property.title,
+        price: property.price,
+        currency: property.currency,
+        location: property.location,
+        image: property.image || '',
+        features: {
+          bedrooms: property.features?.bedrooms || 0,
+          bathrooms: property.features?.bathrooms || 0,
+          coveredArea: property.features?.coveredArea || 0,
+          totalArea: property.features?.totalArea || 0,
+          garage: property.features?.garage || 0
+        },
+        isNew: property.year && property.year >= new Date().getFullYear() - 1,
+        isFeatured: property.isFeatured,
+        publishedDays: property.publishedAt ? 
+          Math.floor((Date.now() - new Date(property.publishedAt).getTime()) / (1000 * 60 * 60 * 24)) : 
+          0,
+        tags: property.tags || []
+      }
+    }
   // Detectar si es mobile
   useEffect(() => {
     const checkIsMobile = () => {
@@ -170,10 +193,10 @@ export function FeaturedPropertiesCarousel() {
               {featuredProperties.map((property, index) => (
                 <div
                   key={getPropertyKey(property, index)}
-                  className="flex-shrink-0 px-3"
+                  className="flex-shrink-0 px-3 pb-12"
                   style={{ width: `${100 / cardsToShow}%` }}
                 >
-                  <PropertyCard {...property} />
+                  <PropertyCard {...mapPropertyToCard(property)} />
                 </div>
               ))}
             </div>
