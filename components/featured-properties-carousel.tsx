@@ -2,7 +2,9 @@
 
 import { useState, useRef, useEffect } from "react"
 import { PropertyCard } from "@/components/property-card"
+import { PropertyCardSkeleton } from "@/components/property-card-skeleton"
 import { Button } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import { useFeaturedProperties, getPropertyKey } from "@/lib/hooks/useProperties"
 import Link from "next/link"
@@ -103,18 +105,57 @@ export function FeaturedPropertiesCarousel() {
     setCurrentIndex(0)
   }, [featuredProperties])
 
-  // Mostrar loading si está cargando
+  // Mostrar loading con skeleton
   if (loading) {
     return (
       <div className="py-16 bg-background">
         <div className="container mx-auto px-4">
+          {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Propiedades Destacadas
             </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Cargando propiedades destacadas...
-            </p>
+            <div className="flex justify-center">
+              <Skeleton className="h-6 w-64" />
+            </div>
+          </div>
+
+          {/* Carousel Skeleton */}
+          <div className="relative">
+            {/* Navigation buttons skeleton */}
+            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 z-10">
+              <Skeleton className="h-10 w-10 rounded-full" />
+            </div>
+            <div className="absolute right-4 top-1/2 transform -translate-y-1/2 z-10">
+              <Skeleton className="h-10 w-10 rounded-full" />
+            </div>
+
+            {/* Cards skeleton */}
+            <div className="overflow-hidden">
+              <div className="flex gap-6 px-4">
+                {/* Show 1 card on mobile, 3 on desktop */}
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <div 
+                    key={index} 
+                    className={`flex-shrink-0 w-full md:w-1/3 ${index > 0 ? 'hidden md:block' : ''}`}
+                  >
+                    <PropertyCardSkeleton />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Dots indicator skeleton */}
+            <div className="flex justify-center mt-8 gap-2">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <Skeleton key={index} className="h-2 w-2 rounded-full" />
+              ))}
+            </div>
+          </div>
+
+          {/* CTA Button skeleton */}
+          <div className="text-center mt-12">
+            <Skeleton className="h-12 w-48 mx-auto" />
           </div>
         </div>
       </div>

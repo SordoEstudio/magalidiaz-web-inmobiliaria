@@ -3,10 +3,12 @@
 import { useState, useEffect, useCallback } from "react"
 import { useSearchParams } from "next/navigation"
 import { PropertyCard } from "@/components/property-card"
+import { PropertyCardSkeleton } from "@/components/property-card-skeleton"
 import { PropertyFilters } from "@/components/property-filters"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Search, Grid3X3, List } from "lucide-react"
 import { useProperties } from "@/lib/hooks/useProperties"
 import { useFilteredProperties } from "@/lib/hooks/usePropertyFilters"
@@ -85,7 +87,7 @@ export default function PropertySearchPage() {
     setFilters(newFilters)
   }, [])
 
-  // Mostrar loading
+  // Mostrar loading con skeleton
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -100,15 +102,59 @@ export default function PropertySearchPage() {
                   <span className="text-xl font-bold text-foreground">Inmobiliaria</span>
                 </div>
               </Link>
+              {/* Search Bar Skeleton */}
+              <div className="flex-1 max-w-2xl mx-8">
+                <Skeleton className="h-10 w-full" />
+              </div>
             </div>
           </div>
         </header>
+
         <div className="container mx-auto px-4 py-6">
-          <div className="flex justify-center items-center h-64">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-muted-foreground">Cargando propiedades...</p>
-            </div>
+          <div className="flex gap-6">
+            {/* Filters Sidebar Skeleton */}
+            <aside className="w-80 flex-shrink-0">
+              <div className="bg-card border border-border rounded-lg p-6 space-y-6">
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                  <Skeleton className="h-6 w-20" />
+                  <Skeleton className="h-8 w-16" />
+                </div>
+                
+                {/* Stats */}
+                <Skeleton className="h-12 w-full rounded-lg" />
+                
+                {/* Filter sections */}
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <div key={i} className="space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                ))}
+              </div>
+            </aside>
+
+            {/* Main Content Skeleton */}
+            <main className="flex-1">
+              {/* Results Header Skeleton */}
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <Skeleton className="h-8 w-48" />
+                  <Skeleton className="h-6 w-16" />
+                </div>
+                <div className="flex gap-2">
+                  <Skeleton className="h-9 w-9" />
+                  <Skeleton className="h-9 w-9" />
+                </div>
+              </div>
+
+              {/* Properties Grid Skeleton */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {Array.from({ length: 9 }).map((_, index) => (
+                  <PropertyCardSkeleton key={index} />
+                ))}
+              </div>
+            </main>
           </div>
         </div>
       </div>
