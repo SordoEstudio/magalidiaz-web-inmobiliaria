@@ -8,19 +8,29 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent } from "@/components/ui/card"
-import { Search, SlidersHorizontal, X, MapPin } from "lucide-react"
+import { Search, SlidersHorizontal, X, MapPin, ChevronDown, ChevronRight } from "lucide-react"
+import { Property } from "@/lib/types/properties"
+import { useDynamicFilters, useFilterStats } from "@/lib/hooks/useDynamicFilters"
+import { Combobox } from "@/components/ui/combobox"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 
 interface PropertyFiltersProps {
+  properties: Property[] | null
   onFiltersChange: (filters: any) => void
 }
 
-export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
-  const [propertyType, setPropertyType] = useState("")
-  const [operation, setOperation] = useState("")
+export function PropertyFilters({ properties, onFiltersChange }: PropertyFiltersProps) {
+  const [propertyType, setPropertyType] = useState("all")
+  const [operation, setOperation] = useState("all")
   const [bedrooms, setBedrooms] = useState("")
   const [bathrooms, setBathrooms] = useState("")
-  const [location, setLocation] = useState("")
+  const [location, setLocation] = useState("all")
   const [amenities, setAmenities] = useState<string[]>([])
+  const [amenitiesOpen, setAmenitiesOpen] = useState(false)
+
+  // Obtener filtros dinámicos basados en las propiedades disponibles
+  const dynamicFilters = useDynamicFilters(properties)
+  const filterStats = useFilterStats(properties)
 
   // Función para aplicar filtros automáticamente
   const applyFilters = () => {
@@ -54,26 +64,27 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
   }
 
   const resetFilters = () => {
-    setPropertyType("")
-    setOperation("")
+    setPropertyType("all")
+    setOperation("all")
     setBedrooms("")
     setBathrooms("")
-    setLocation("")
+    setLocation("all")
     setAmenities([])
+    setAmenitiesOpen(false)
     
     // Aplicar filtros vacíos inmediatamente
     onFiltersChange({
-      propertyType: "",
-      operation: "",
+      propertyType: "all",
+      operation: "all",
       bedrooms: "",
       bathrooms: "",
-      location: "",
+      location: "all",
       amenities: []
     })
   }
 
   return (
-    <Card className="sticky top-24 bg-card border-border">
+    <Card className="mt-4 bg-card border-border">
       <CardContent className="p-6">
         <div className="space-y-6">
           {/* Header */}
@@ -112,9 +123,12 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
                 <SelectValue placeholder="Seleccionar operación" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="venta">Venta</SelectItem>
-                <SelectItem value="alquiler">Alquiler</SelectItem>
-                <SelectItem value="alquiler_temporario">Alquiler Temporario</SelectItem>
+                <SelectItem value="all">Todas las operaciones</SelectItem>
+                {dynamicFilters.transactionTypes.map((type) => (
+                  <SelectItem key={type.value} value={type.value}>
+                    {type.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -143,15 +157,12 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
                 <SelectValue placeholder="Seleccionar tipo" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="departamento">Departamento</SelectItem>
-                <SelectItem value="casa">Casa</SelectItem>
-                <SelectItem value="terreno">Terreno</SelectItem>
-                <SelectItem value="lote">Lote</SelectItem>
-                <SelectItem value="local_comercial">Local Comercial</SelectItem>
-                <SelectItem value="oficina">Oficina</SelectItem>
-                <SelectItem value="campo">Campo</SelectItem>
-                <SelectItem value="deposito">Depósito</SelectItem>
-                <SelectItem value="galpon">Galpón</SelectItem>
+                <SelectItem value="all">Todos los tipos</SelectItem>
+                {dynamicFilters.propertyTypes.map((type) => (
+                  <SelectItem key={type.value} value={type.value}>
+                    {type.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -159,28 +170,29 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
           {/* Location */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Ubicación</Label>
-            <div className="relative">
-              <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Barrio, ciudad o zona"
-                value={location}
-                onChange={(e) => {
-                  setLocation(e.target.value)
-                  // Aplicar filtros automáticamente
-                  setTimeout(() => {
-                    onFiltersChange({
-                      propertyType,
-                      operation,
-                      bedrooms,
-                      bathrooms,
-                      location: e.target.value,
-                      amenities
-                    })
-                  }, 0)
-                }}
-                className="pl-10"
-              />
-            </div>
+            <Combobox
+              options={dynamicFilters.locations}
+              value={location}
+              onValueChange={(value) => {
+                setLocation(value)
+                // Aplicar filtros automáticamente
+                setTimeout(() => {
+                  onFiltersChange({
+                    propertyType,
+                    operation,
+                    bedrooms,
+                    bathrooms,
+                    location: value,
+                    amenities
+                  })
+                }, 0)
+              }}
+              placeholder="Seleccionar ubicación"
+              searchPlaceholder="Buscar ubicación..."
+              emptyText="No se encontraron ubicaciones."
+              showAllOption={true}
+              allOptionLabel="Todas las ubicaciones"
+            />
           </div>
 
           {/* Bedrooms and Bathrooms */}
@@ -208,10 +220,11 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
                   <SelectValue placeholder="1+" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">1+</SelectItem>
-                  <SelectItem value="2">2+</SelectItem>
-                  <SelectItem value="3">3+</SelectItem>
-                  <SelectItem value="4">4+</SelectItem>
+                  {dynamicFilters.bedrooms.map((bedroom) => (
+                    <SelectItem key={bedroom.value} value={bedroom.value}>
+                      {bedroom.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -239,40 +252,46 @@ export function PropertyFilters({ onFiltersChange }: PropertyFiltersProps) {
                   <SelectValue placeholder="1+" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">1+</SelectItem>
-                  <SelectItem value="2">2+</SelectItem>
-                  <SelectItem value="3">3+</SelectItem>
+                  {dynamicFilters.bathrooms.map((bathroom) => (
+                    <SelectItem key={bathroom.value} value={bathroom.value}>
+                      {bathroom.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           {/* Amenities */}
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Comodidades</Label>
-            <div className="grid grid-cols-2 gap-3">
-              {[
-                { id: "pool", label: "Piscina" },
-                { id: "garage", label: "Cochera" },
-                { id: "garden", label: "Jardín" },
-                { id: "balcony", label: "Balcón" },
-                { id: "gym", label: "Gimnasio" },
-                { id: "security", label: "Seguridad" },
-              ].map((amenity) => (
-                <div key={amenity.id} className="flex items-center space-x-2">
-                  <Checkbox
-                    id={amenity.id}
-                    checked={amenities.includes(amenity.id)}
-                    className="border-primary/50"
-                    onCheckedChange={(checked) => handleAmenityChange(amenity.id, checked as boolean)}
-                  />
-                  <Label htmlFor={amenity.id} className="text-sm">
-                    {amenity.label}
-                  </Label>
-                </div>
-              ))}
-            </div>
-          </div>
+          <Collapsible open={amenitiesOpen} onOpenChange={setAmenitiesOpen}>
+            <CollapsibleTrigger asChild>
+              <Button variant="ghost" className="w-full justify-between p-0 h-auto">
+                <Label className="text-sm font-medium cursor-pointer">Comodidades</Label>
+                {amenitiesOpen ? (
+                  <ChevronDown className="h-4 w-4" />
+                ) : (
+                  <ChevronRight className="h-4 w-4" />
+                )}
+              </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="space-y-3 mt-3">
+              <div className="grid grid-cols-2 gap-3">
+                {dynamicFilters.amenities.map((amenity) => (
+                  <div key={amenity.value} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={amenity.value}
+                      checked={amenities.includes(amenity.value)}
+                      className="border-primary/50"
+                      onCheckedChange={(checked) => handleAmenityChange(amenity.value, checked as boolean)}
+                    />
+                    <Label htmlFor={amenity.value} className="text-sm cursor-pointer">
+                      {amenity.label}
+                    </Label>
+                  </div>
+                ))}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
         </div>
       </CardContent>
     </Card>

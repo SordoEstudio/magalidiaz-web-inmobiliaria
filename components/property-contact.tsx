@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { MessageCircle, Phone, Share2 } from "lucide-react"
 import { FaWhatsapp } from "react-icons/fa"
 import aboutData from "@/public/data/aboutSection.json"
-import contactData from "@/public/data/contactSection.json"
 
 interface PropertyContactProps {
   whatsappNumber: string

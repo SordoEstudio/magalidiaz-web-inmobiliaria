@@ -163,7 +163,7 @@ export default function PropertySearchPage() {
         <div className="flex gap-6">
           {/* Filters Sidebar */}
           <aside className="w-80 flex-shrink-0">
-            <PropertyFilters onFiltersChange={handleFiltersChange} />
+            <PropertyFilters properties={properties} onFiltersChange={handleFiltersChange} />
           </aside>
 
           {/* Main Content */}

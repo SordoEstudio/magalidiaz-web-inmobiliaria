@@ -67,12 +67,12 @@ export const useFilteredProperties = (
     return properties.filter(property => {
       // Filtro por tipo de transacción (usar operation si está disponible)
       const transactionType = filters.operation || filters.transactionType;
-      if (transactionType && property.transactionType !== transactionType) {
+      if (transactionType && transactionType !== 'all' && property.transactionType !== transactionType) {
         return false;
       }
 
       // Filtro por tipo de propiedad
-      if (filters.propertyType && property.propertyType !== filters.propertyType) {
+      if (filters.propertyType && filters.propertyType !== 'all' && property.propertyType !== filters.propertyType) {
         return false;
       }
 
@@ -90,7 +90,7 @@ export const useFilteredProperties = (
       }
 
       // Filtro por ubicación
-      if (filters.location && !property.location.toLowerCase().includes(filters.location.toLowerCase())) {
+      if (filters.location && filters.location !== 'all' && !property.location.toLowerCase().includes(filters.location.toLowerCase())) {
         return false;
       }
 
@@ -128,12 +128,25 @@ export const useFilteredProperties = (
         }
       }
 
-      // Filtro por amenities
+      // Filtro por amenities (con mapeo dinámico)
       if (filters.amenities && filters.amenities.length > 0) {
-        const hasAllAmenities = filters.amenities.every(amenity => 
-          property.amenities.some(propAmenity => 
-            propAmenity.toLowerCase().includes(amenity.toLowerCase())
-          )
+        const hasAllAmenities = filters.amenities.every(selectedAmenity => 
+          property.amenities.some(propertyAmenity => {
+            const lowerPropertyAmenity = propertyAmenity.toLowerCase();
+            const lowerSelectedAmenity = selectedAmenity.toLowerCase();
+            
+            // Mapeos específicos para amenities comunes
+            if (selectedAmenity === 'pool' && lowerPropertyAmenity.includes('piscina')) return true;
+            if (selectedAmenity === 'garage' && lowerPropertyAmenity.includes('cochera')) return true;
+            if (selectedAmenity === 'garden' && lowerPropertyAmenity.includes('jardín')) return true;
+            if (selectedAmenity === 'balcony' && lowerPropertyAmenity.includes('balcón')) return true;
+            if (selectedAmenity === 'gym' && lowerPropertyAmenity.includes('gimnasio')) return true;
+            if (selectedAmenity === 'security' && lowerPropertyAmenity.includes('seguridad')) return true;
+            
+            // Coincidencia directa o por inclusión
+            return lowerPropertyAmenity.includes(lowerSelectedAmenity) || 
+                   lowerSelectedAmenity.includes(lowerPropertyAmenity);
+          })
         );
         if (!hasAllAmenities) {
           return false;
