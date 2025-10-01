@@ -3,38 +3,7 @@
 import { useMemo } from 'react';
 
 // Interface basada en el formato de la API
-interface Property {
-  _id: { buffer: number[] };
-  title: string;
-  description: string;
-  transactionType: 'venta' | 'alquiler' | 'alquiler_temporario';
-  propertyType: 'terreno' | 'lote' | 'departamento' | 'casa' | 'local_comercial' | 'oficina' | 'campo' | 'deposito' | 'galpon';
-  condition: string;
-  status: 'disponible' | 'reservado' | 'vendido' | 'alquilado';
-  address: string;
-  location: string;
-  coordinates?: { lat: number; lng: number };
-  addressLink?: string;
-  price: number;
-  currency: 'ARS' | 'USD';
-  features: {
-    bedrooms: number;
-    bathrooms: number;
-    garage: number;
-    coveredArea?: number;
-    totalArea?: number | null;
-  };
-  rooms: Record<string, number>;
-  image?: string;
-  gallery: Array<{ url: string; alt: string }>;
-  tags: string[];
-  amenities: string[];
-  year?: number;
-  isFeatured: boolean;
-  publishedAt: any;
-  createdAt: any;
-  updatedAt: any;
-}
+import { Property } from '@/lib/types/properties';
 
 interface PropertyFilters {
   transactionType?: string;

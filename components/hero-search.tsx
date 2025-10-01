@@ -8,10 +8,36 @@ import { Search, Home, Building, MapPin } from "lucide-react"
 import heroImg from "@/public/house-with-garden-and-pool.png"
 import Image from "next/image"
 import Link from "next/link"
+import { useProperties } from "@/lib/hooks/useProperties"
+import { useDynamicFilters } from "@/lib/hooks/useDynamicFilters"
 export function HeroSearch() {
-  const [searchType, setSearchType] = useState("compra")
-  const [propertyType, setPropertyType] = useState("")
-  const [location, setLocation] = useState("")
+  const [searchType, setSearchType] = useState("all")
+  const [propertyType, setPropertyType] = useState("all")
+  const [location, setLocation] = useState("all")
+
+  // Obtener datos dinámicos de propiedades
+  const { properties } = useProperties()
+  const dynamicFilters = useDynamicFilters(properties)
+
+  // Función para construir URL con parámetros de búsqueda
+  const buildSearchUrl = () => {
+    const params = new URLSearchParams()
+    
+    if (searchType && searchType !== 'all') {
+      params.set('operation', searchType)
+    }
+    
+    if (propertyType && propertyType !== 'all') {
+      params.set('propertyType', propertyType)
+    }
+    
+    if (location && location !== 'all') {
+      params.set('location', location)
+    }
+    
+    const queryString = params.toString()
+    return queryString ? `/propiedades?${queryString}` : '/propiedades'
+  }
 
   return (
     <section className="relative min-h-[100vh] md:min-h-[80vh] flex items-center justify-center"> 
@@ -44,8 +70,12 @@ export function HeroSearch() {
                     <SelectValue className="text-background" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="compra">Compra</SelectItem>
-                    <SelectItem value="alquiler">Alquiler</SelectItem>
+                    <SelectItem value="all">Todas las operaciones</SelectItem>
+                    {dynamicFilters.transactionTypes.map((type) => (
+                      <SelectItem key={type.value} value={type.value}>
+                        {type.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -58,21 +88,16 @@ export function HeroSearch() {
                     <SelectValue placeholder="Seleccionar" className="text-background placeholder:text-background/70" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="departamento">
-                      <div className="flex items-center gap-2">
-                        <Building className="h-4 w-4" />
-                        Departamento
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="casa">
-                      <div className="flex items-center gap-2">
-                        <Home className="h-4 w-4" />
-                        Casa
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="ph">PH</SelectItem>
-                    <SelectItem value="local">Local</SelectItem>
-                    <SelectItem value="oficina">Oficina</SelectItem>
+                    <SelectItem value="all">Todos los tipos</SelectItem>
+                    {dynamicFilters.propertyTypes.map((type) => (
+                      <SelectItem key={type.value} value={type.value}>
+                        <div className="flex items-center gap-2">
+                          {type.value === 'departamento' && <Building className="h-4 w-4" />}
+                          {type.value === 'casa' && <Home className="h-4 w-4" />}
+                          {type.label}
+                        </div>
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -80,21 +105,28 @@ export function HeroSearch() {
               {/* Location */}
               <div className="space-y-2">
                 <label className="text-sm font-medium pl-2 text-background block text-left">Ubicación</label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-background" />
-                  <Input
-                    placeholder="Barrio, ciudad..."
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    className="pl-10 text-background placeholder:text-background/70 border-white/20 bg-white/10 focus:bg-white/20 focus:border-white/40"
-                  />
-                </div>
+                <Select value={location} onValueChange={setLocation}>
+                  <SelectTrigger className="text-background border-white/20 bg-white/10 hover:bg-white/20 focus:bg-white/20 w-full">
+                    <SelectValue placeholder="Seleccionar ubicación" className="text-background placeholder:text-background/70" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todas las ubicaciones</SelectItem>
+                    {dynamicFilters.locations.map((loc) => (
+                      <SelectItem key={loc.value} value={loc.value}>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4" />
+                          {loc.label}
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Search Button */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-background block text-left">&nbsp;</label>
-                <Link href="/propiedades">
+                <Link href={buildSearchUrl()}>
                 <Button size="lg" className="w-full h-10 bg-primary hover:bg-primary/90 cursor-pointer">
                   <Search className="h-4 w-4 mr-2" />
                   Buscar propiedad

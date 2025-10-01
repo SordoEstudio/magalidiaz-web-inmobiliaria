@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -8,7 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent } from "@/components/ui/card"
-import { Search, SlidersHorizontal, X, MapPin, ChevronDown, ChevronRight } from "lucide-react"
+import {  SlidersHorizontal, X, ChevronDown, ChevronUp } from "lucide-react"
 import { Property } from "@/lib/types/properties"
 import { useDynamicFilters, useFilterStats } from "@/lib/hooks/useDynamicFilters"
 import { Combobox } from "@/components/ui/combobox"
@@ -17,9 +17,17 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 interface PropertyFiltersProps {
   properties: Property[] | null
   onFiltersChange: (filters: any) => void
+  initialFilters?: {
+    transactionType?: string
+    propertyType?: string
+    location?: string
+    bedrooms?: string
+    bathrooms?: string
+    amenities?: string[]
+  }
 }
 
-export function PropertyFilters({ properties, onFiltersChange }: PropertyFiltersProps) {
+export function PropertyFilters({ properties, onFiltersChange, initialFilters }: PropertyFiltersProps) {
   const [propertyType, setPropertyType] = useState("all")
   const [operation, setOperation] = useState("all")
   const [bedrooms, setBedrooms] = useState("")
@@ -31,6 +39,42 @@ export function PropertyFilters({ properties, onFiltersChange }: PropertyFilters
   // Obtener filtros dinámicos basados en las propiedades disponibles
   const dynamicFilters = useDynamicFilters(properties)
   const filterStats = useFilterStats(properties)
+
+  // Efecto para aplicar filtros iniciales desde URL (solo una vez)
+  useEffect(() => {
+    if (initialFilters) {
+      if (initialFilters.transactionType) {
+        setOperation(initialFilters.transactionType)
+      }
+      if (initialFilters.propertyType) {
+        setPropertyType(initialFilters.propertyType)
+      }
+      if (initialFilters.location) {
+        setLocation(initialFilters.location)
+      }
+      if (initialFilters.bedrooms) {
+        setBedrooms(initialFilters.bedrooms)
+      }
+      if (initialFilters.bathrooms) {
+        setBathrooms(initialFilters.bathrooms)
+      }
+      if (initialFilters.amenities) {
+        setAmenities(initialFilters.amenities)
+      }
+
+      // Aplicar filtros inmediatamente
+      setTimeout(() => {
+        onFiltersChange({
+          propertyType: initialFilters.propertyType || "all",
+          operation: initialFilters.transactionType || "all",
+          bedrooms: initialFilters.bedrooms || "",
+          bathrooms: initialFilters.bathrooms || "",
+          location: initialFilters.location || "all",
+          amenities: initialFilters.amenities || []
+        })
+      }, 0)
+    }
+  }, []) // Removemos las dependencias para evitar bucles
 
   // Función para aplicar filtros automáticamente
   const applyFilters = () => {
@@ -268,9 +312,9 @@ export function PropertyFilters({ properties, onFiltersChange }: PropertyFilters
               <Button variant="ghost" className="w-full justify-between p-0 h-auto">
                 <Label className="text-sm font-medium cursor-pointer">Comodidades</Label>
                 {amenitiesOpen ? (
-                  <ChevronDown className="h-4 w-4" />
+                  <ChevronUp className="h-4 w-4" />
                 ) : (
-                  <ChevronRight className="h-4 w-4" />
+                  <ChevronDown className="h-4 w-4" />
                 )}
               </Button>
             </CollapsibleTrigger>

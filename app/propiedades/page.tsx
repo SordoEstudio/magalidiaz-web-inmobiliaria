@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { useSearchParams } from "next/navigation"
 import { PropertyCard } from "@/components/property-card"
 import { PropertyFilters } from "@/components/property-filters"
 import { Button } from "@/components/ui/button"
@@ -14,6 +15,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function PropertySearchPage() {
+  const searchParams = useSearchParams()
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const [showMap, setShowMap] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
@@ -27,12 +29,30 @@ export default function PropertySearchPage() {
     amenities: [] as string[]
   })
 
+  // Efecto para pre-llenar filtros desde URL
+  useEffect(() => {
+    const urlOperation = searchParams.get('operation')
+    const urlPropertyType = searchParams.get('propertyType')
+    const urlLocation = searchParams.get('location')
+
+    if (urlOperation || urlPropertyType || urlLocation) {
+      setFilters(prev => ({
+        ...prev,
+        transactionType: urlOperation || "all",
+        propertyType: urlPropertyType || "all", 
+        location: urlLocation || "all"
+      }))
+    }
+  }, [searchParams])
+
   // Usar hook de API para obtener propiedades
   const { properties, loading, error } = useProperties()
 
   // Aplicar filtros del lado del cliente
   const filteredProperties = useFilteredProperties(properties , {
     ...filters,
+    bedrooms: filters.bedrooms ? parseInt(filters.bedrooms) : undefined,
+    bathrooms: filters.bathrooms ? parseInt(filters.bathrooms) : undefined,
     search: searchTerm
   })
 
@@ -61,9 +81,9 @@ export default function PropertySearchPage() {
     }
   }
 
-  const handleFiltersChange = (newFilters: any) => {
+  const handleFiltersChange = useCallback((newFilters: any) => {
     setFilters(newFilters)
-  }
+  }, [])
 
   // Mostrar loading
   if (loading) {
@@ -163,7 +183,11 @@ export default function PropertySearchPage() {
         <div className="flex gap-6">
           {/* Filters Sidebar */}
           <aside className="w-80 flex-shrink-0">
-            <PropertyFilters properties={properties} onFiltersChange={handleFiltersChange} />
+            <PropertyFilters 
+              properties={properties} 
+              onFiltersChange={handleFiltersChange}
+              initialFilters={filters}
+            />
           </aside>
 
           {/* Main Content */}
@@ -180,7 +204,7 @@ export default function PropertySearchPage() {
               {/* View Controls */}
               <div className="flex items-center gap-2">
                 {/* Sort By */}
-                <div className="flex items-center space-x-2">
+{/*                 <div className="flex items-center space-x-2">
                   <Label className="text-sm font-medium">Ordenar por</Label>
                   <Select value={sortBy} onValueChange={setSortBy}>
                     <SelectTrigger className="w-48">
@@ -193,7 +217,7 @@ export default function PropertySearchPage() {
                       <SelectItem value="area">Mayor superficie</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
+                </div> */}
                 <Button
                   variant={viewMode === "grid" ? "default" : "outline"}
                   size="sm"

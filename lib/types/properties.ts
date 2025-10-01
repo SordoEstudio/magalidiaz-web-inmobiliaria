@@ -23,7 +23,7 @@ export interface PropertyId {
 }
 
 export interface Property {
-  _id?: PropertyId;
+  _id: string; // Simplificado: solo string
   id?: string; // Para compatibilidad con formato anterior
   title: string;
   description: string;
