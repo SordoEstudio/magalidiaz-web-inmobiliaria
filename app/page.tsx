@@ -1,7 +1,5 @@
 "use client"
 
-import { FAQSection } from "@/components/faq-section"
-import { FAQExample } from "@/components/faq-example"
 import { HeroSearch } from "@/components/hero-search"
 import { FeaturedProperties } from "@/components/featured-properties"
 import { ServicesSection } from "@/components/services-section"
@@ -20,6 +18,7 @@ import { BannerCard } from "@/components/banner-card"
 import { FAQSimple } from "@/components/faq-simple"
 import { DebugConfig } from "@/components/debug-config"
 import { useFeaturedProperties } from "@/lib/hooks/useProperties"
+import { usePageCMS } from "@/lib/hooks/usePageCMS"
 import { Loader2 } from "lucide-react"
 
 import dataForBanners from "@/public/data/banners.json"
@@ -27,11 +26,33 @@ import dataForBanners from "@/public/data/banners.json"
 export default function HomePage() {
   const { featuredProperties, loading, error } = useFeaturedProperties()
   const { herobanners, cardbanners, minimalbanners, seasonalbanners, ctabanners } = dataForBanners
+  
+      // Hook centralizado para datos CMS
+      const { 
+        aboutData, 
+        contactData,
+        servicesData, 
+        faqData,
+        promotionalBannerData,
+        loading: cmsLoading, 
+        error: cmsError,
+        hasAboutData,
+        hasContactData,
+        hasServicesData,
+        hasFaqData,
+        hasPromotionalBannerData
+      } = usePageCMS()
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Promotional Banner */}
-      <PromotionalBanner />
+      {/* Promotional Banner - Con datos CMS */}
+      {hasPromotionalBannerData && (
+        <PromotionalBanner 
+          data={promotionalBannerData}
+          loading={cmsLoading}
+          error={cmsError}
+        />
+      )}
 
       {/* Hero Section with Search */}
       <HeroSearch />
@@ -63,13 +84,36 @@ export default function HomePage() {
 {/*       <BannerCard {...cardbanners[2]} />
       <BannerHero {...herobanners[1]} /> */}
 
-      <ServicesSectionHybrid />
+      {/* Services Section - Con datos CMS */}
+      {hasServicesData && (
+        <ServicesSectionHybrid 
+          data={servicesData}
+          loading={cmsLoading}
+          error={cmsError}
+        />
+      )}
+
       <BannerHero {...herobanners[2]} />
 
-      <FAQSimple />
+      {/* FAQ Section - Con datos CMS */}
+      {hasFaqData && (
+        <FAQSimple 
+          data={faqData}
+          loading={cmsLoading}
+          error={cmsError}
+          showContactCTA={false} 
+          variant="default" 
+        />
+      )}
       
-      {/* About & Contact Split Section */}
-      <AboutContactSection />
+      {/* About & Contact Split Section - Con datos CMS */}
+      {(hasAboutData || hasContactData) && (
+        <AboutContactSection 
+          data={{ aboutData, contactData }}
+          loading={cmsLoading}
+          error={cmsError}
+        />
+      )}
       
       {/* Debug Config Component (solo en desarrollo) */}
       <DebugConfig />

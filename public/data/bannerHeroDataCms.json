@@ -1,0 +1,22 @@
+{
+  "txt_titulo": "Tu hogar perfecto te está esperando",
+  "txt_subtitulo": "Inmobiliaria profesional",
+  "txt_descripcion": "Con más de 10 años de experiencia en el mercado inmobiliario, te ayudamos a encontrar la propiedad ideal para ti y tu familia.",
+  "img_fondo": "/placeholder-hero.jpg",
+  "lista_beneficios": [
+    "Asesoramiento profesional",
+    "Propiedades exclusivas",
+    "Financiamiento personalizado",
+    "Acompañamiento completo"
+  ],
+  "btn_principal": {
+    "txt_label": "Comenzar búsqueda",
+    "link_url": "/propiedades",
+    "icon_btn": "FaSearch"
+  },
+  "configuracion": {
+    "variant": "primary",
+    "overlay": "dark",
+    "alignment": "center"
+  }
+}

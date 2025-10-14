@@ -1,0 +1,37 @@
+{
+    "lista_contacto": [
+      {
+        "icon_contacto": "FaWhatsapp",
+        "txt_nombre": "WhatsApp",
+        "txt_etiqueta": "3492 693 712",
+        "link_destino": "https://wa.me/5493492693712",
+        "txt_horario": "Lunes a Viernes 9 a 20hs"
+      },
+      {
+        "icon_contacto": "FaEnvelope",
+        "txt_nombre": "Email",
+        "txt_etiqueta": "magalidiaz.cimp@gmail.com",
+        "link_destino": "mailto:magalidiaz.cimp@gmail.com"
+       
+      },
+      {
+        "icon_contacto": "FaMapMarkerAlt",
+        "txt_nombre": "Oficina",
+        "txt_etiqueta": "Alte. Brown 295, San Vicente, Santa Fe",
+        "link_destino": "https://maps.app.goo.gl/1234567890",
+        "txt_horario": "Lunes a Viernes 11 a 17hs - Con cita previa"
+      },
+      {
+        "icon_contacto": "FaInstagram",
+        "txt_nombre": "Instagram",
+        "txt_etiqueta": "@md.asesor.inmobiliario",
+        "link_destino": "https://www.instagram.com/md.asesor.inmobiliario"
+      },
+      {
+        "icon_contacto": "FaFacebook",
+        "txt_nombre": "face",
+        "txt_etiqueta": "@md.asesor.inmobiliario",
+        "link_destino": "https://www.facebook.com/magali.diaz.asesorinmobiliario"
+      }
+    ]
+  }

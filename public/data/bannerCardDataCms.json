@@ -1,0 +1,22 @@
+{
+  "txt_titulo": "Encuentra tu hogar ideal",
+  "txt_subtitulo": "Propiedades destacadas",
+  "txt_descripcion": "Descubre las mejores propiedades en venta y alquiler con la asesoría profesional que necesitas para tomar la decisión correcta.",
+  "img_principal": "/placeholder-banner.jpg",
+  "lista_beneficios": [
+    "Asesoramiento personalizado",
+    "Propiedades verificadas",
+    "Financiamiento disponible",
+    "Proceso transparente"
+  ],
+  "btn_principal": {
+    "txt_label": "Ver propiedades",
+    "link_url": "/propiedades",
+    "icon_btn": "FaSearch"
+  },
+  "configuracion": {
+    "variant": "primary",
+    "imagePosition": "left",
+    "size": "medium"
+  }
+}

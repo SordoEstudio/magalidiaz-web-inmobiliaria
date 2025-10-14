@@ -3,6 +3,9 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, ExternalLink, Phone, Check } from "lucide-react"
 import Image from "next/image"
+import { useCMSData } from "@/lib/hooks/useCMSData"
+import { CMSFallback } from "@/components/cms-fallback"
+import bannerHeroDataFallback from "@/public/data/bannerHeroDataCms.json"
 
 interface BannerHeroProps {
   image?: string
@@ -18,6 +21,11 @@ interface BannerHeroProps {
   variant?: 'primary' | 'secondary' | 'accent'
   overlay?: 'dark' | 'light' | 'gradient'
   alignment?: 'left' | 'center' | 'right'
+  // Props para CMS
+  data?: any
+  fallback?: any
+  loading?: boolean
+  error?: string | null
 }
 
 export function BannerHero({
@@ -29,8 +37,38 @@ export function BannerHero({
   cta,
   variant = 'primary',
   overlay = 'dark',
-  alignment = 'center'
+  alignment = 'center',
+  // Props para CMS
+  data,
+  fallback,
+  loading: propLoading,
+  error: propError
 }: BannerHeroProps) {
+  // Obtener datos del CMS de forma simplificada
+  const { data: bannerData, loading: hookLoading, error: hookError, isFromCMS } = useCMSData(
+    'banner_hero_component',
+    bannerHeroDataFallback  
+  )
+  
+  // Usar datos pasados como props o del hook
+  const finalData = data || bannerData || bannerHeroDataFallback
+  const finalLoading = propLoading !== undefined ? propLoading : hookLoading
+  const finalError = propError !== undefined ? propError : hookError
+  const safeBannerData = finalData || bannerHeroDataFallback
+  
+  const finalImage = image || safeBannerData.img_fondo
+  const finalTitle = title || safeBannerData.txt_titulo
+  const finalSubtitle = subtitle || safeBannerData.txt_subtitulo
+  const finalText = text || safeBannerData.txt_descripcion
+  const finalBulletPoints = bulletPoints || safeBannerData.lista_beneficios
+  const finalCta = cta || {
+    text: safeBannerData.btn_principal?.txt_label || 'Comenzar',
+    action: safeBannerData.btn_principal?.link_url || '#',
+    type: 'link' as const
+  }
+  const finalVariant = variant || safeBannerData.configuracion?.variant || 'primary'
+  const finalOverlay = overlay || safeBannerData.configuracion?.overlay || 'dark'
+  const finalAlignment = alignment || safeBannerData.configuracion?.alignment || 'center'
   const handleCTAAction = (action: string, type: string) => {
     switch (type) {
       case 'phone':
@@ -92,83 +130,94 @@ export function BannerHero({
   }
 
   return (
-    <section className="relative min-h-[60vh] flex items-center justify-center py-10">
-      {/* Background Image */}
-      {image && (
-        <div className="absolute inset-0">
-          <Image 
-            src={image} 
-            alt={title || "Banner"} 
-            fill
-            className="object-cover object-center"
-            priority
-            sizes="100vw"
-          />
-        </div>
-      )}
+    <CMSFallback 
+      fallbackData={safeBannerData}
+      componentType="banner_hero_component"
+      isLoading={finalLoading}
+      error={finalError}
+    >
+      <section className="relative min-h-[60vh] flex items-center justify-center py-10">
+        {/* Background Image */}
+        {finalImage && (
+          <div className="absolute inset-0">
+            <Image 
+              src={finalImage} 
+              alt={finalTitle || "Banner"} 
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+            />
+          </div>
+        )}
 
-      {/* Overlay */}
-      <div className={`absolute inset-0 ${getOverlayClasses()}`} />
+        {/* Overlay */}
+        <div className={`absolute inset-0 ${getOverlayClasses()}`} />
 
-      {/* Content */}
-      <div className="relative z-10 container mx-auto px-4">
-        <div className={`max-w-4xl mx-auto flex flex-col ${getAlignmentClasses()}`}>
-          {/* Subtitle */}
-          {subtitle && (
-            <p className="text-lg text-white/90 mb-4 font-medium drop-shadow-sm animate-fade-in-up">
-              {subtitle}
-            </p>
-          )}
-
-          {/* Title */}
-          {title && (
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 text-balance drop-shadow-lg animate-fade-in-up animation-delay-200">
-              {title}
-            </h1>
-          )}
-
-          {/* Text */}
-          {text && (
-            <p className="text-xl text-white/90 mb-6 text-pretty leading-relaxed drop-shadow-sm max-w-2xl animate-fade-in-up animation-delay-400">
-              {text}
-            </p>
-          )}
-
-          {/* Bullet Points */}
-          {bulletPoints && bulletPoints.length > 0 && (
-            <div className="mb-8 animate-fade-in-up animation-delay-600">
-              <ul className="space-y-3">
-                {bulletPoints.map((point, index) => (
-                  <li 
-                    key={index} 
-                    className="flex items-center gap-3 text-white/90 drop-shadow-sm animate-fade-in-left"
-                    style={{ animationDelay: `${800 + index * 100}ms` }}
-                  >
-                    <div className="w-6 h-6 bg-primary/80 rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                    <span className="text-lg">{point}</span>
-                  </li>
-                ))}
-              </ul>
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4">
+          {(isFromCMS || data) && (
+            <div className="text-xs text-green-300 mb-2 text-center">
+              ✓ Datos desde CMS
             </div>
           )}
+          <div className={`max-w-4xl mx-auto flex flex-col ${getAlignmentClasses()}`}>
+            {/* Subtitle */}
+            {finalSubtitle && (
+              <p className="text-lg text-white/90 mb-4 font-medium drop-shadow-sm animate-fade-in-up">
+                {finalSubtitle}
+              </p>
+            )}
 
-          {/* CTA Button */}
-          {cta && (
-            <div className="flex justify-center animate-fade-in-up animation-delay-1000">
-              <Button 
-                size="lg"
-                onClick={() => handleCTAAction(cta.action, cta.type)}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-3 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
-              >
-                {cta.text}
-                {getCTAIcon(cta.type)}
-              </Button>
-            </div>
-          )}
+            {/* Title */}
+            {finalTitle && (
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 text-balance drop-shadow-lg animate-fade-in-up animation-delay-200">
+                {finalTitle}
+              </h1>
+            )}
+
+            {/* Text */}
+            {finalText && (
+              <p className="text-xl text-white/90 mb-6 text-pretty leading-relaxed drop-shadow-sm max-w-2xl animate-fade-in-up animation-delay-400">
+                {finalText}
+              </p>
+            )}
+
+            {/* Bullet Points */}
+            {finalBulletPoints && finalBulletPoints.length > 0 && (
+              <div className="mb-8 animate-fade-in-up animation-delay-600">
+                <ul className="space-y-3">
+                  {finalBulletPoints.map((point, index) => (
+                    <li 
+                      key={index} 
+                      className="flex items-center gap-3 text-white/90 drop-shadow-sm animate-fade-in-left"
+                      style={{ animationDelay: `${800 + index * 100}ms` }}
+                    >
+                      <div className="w-6 h-6 bg-primary/80 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Check className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="text-lg">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* CTA Button */}
+            {finalCta && (
+              <div className="flex justify-center animate-fade-in-up animation-delay-1000">
+                <Button 
+                  size="lg"
+                  onClick={() => handleCTAAction(finalCta.action, finalCta.type)}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-3 text-lg shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer"
+                >
+                  {finalCta.text}
+                  {getCTAIcon(finalCta.type)}
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
       {/* CSS Animations */}
       <style jsx>{`
@@ -221,5 +270,6 @@ export function BannerHero({
         }
       `}</style>
     </section>
+    </CMSFallback>
   )
 }

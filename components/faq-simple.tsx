@@ -3,14 +3,23 @@
 import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { ChevronDown, ChevronUp, HelpCircle, MessageCircle, Phone } from "lucide-react"
+import { ChevronDown, ChevronUp } from "lucide-react"
 import { FaQuestionCircle, FaWhatsapp } from "react-icons/fa"
+import faqSectionFallback from "@/public/data/faqDataCms.json"
+import { CMSFallback } from "@/components/cms-fallback"
 
+interface FAQSimpleProps {
+  data?: any
+  fallback?: any
+  loading?: boolean
+  error?: string | null
+  showContactCTA?: boolean
+  variant?: 'default' | 'compact' | 'expanded'
+}
 interface FAQItem {
   id: string
-  question: string
-  answer: string
-  category?: string
+  txt_pregunta: string
+  txt_respuesta: string
 }
 
 interface FAQSectionProps {
@@ -20,55 +29,24 @@ interface FAQSectionProps {
   showContactCTA?: boolean
   variant?: 'default' | 'compact' | 'expanded'
 }
-
-const defaultFAQs: FAQItem[] = [
-  {
-    id: "1",
-    question: "¿Cómo funciona el proceso de compra de una propiedad?",
-    answer: "Nuestro proceso de compra es simple y transparente. Primero, te ayudamos a encontrar la propiedad ideal según tus necesidades y presupuesto. Luego, coordinamos las visitas, te asesoramos en la negociación y te acompañamos en todo el proceso legal hasta la escrituración.",
-    category: "Compra"
-  },
-  {
-    id: "2", 
-    question: "¿Qué comisiones cobran por la venta de mi propiedad?",
-    answer: "Nuestras comisiones son competitivas y transparentes. Trabajamos con una estructura de honorarios clara que se establece al inicio del proceso. Te proporcionamos toda la información detallada en nuestra primera reunión para que no tengas sorpresas.",
-    category: "Venta"
-  },
-  {
-    id: "3",
-    question: "¿Ofrecen financiamiento o créditos hipotecarios?",
-    answer: "Sí, trabajamos con las principales entidades financieras del país. Te ayudamos a encontrar las mejores opciones de financiamiento según tu perfil crediticio y te acompañamos en todo el proceso de solicitud del crédito hipotecario.",
-    category: "Financiamiento"
-  },
-  {
-    id: "4",
-    question: "¿Cuánto tiempo toma vender una propiedad?",
-    answer: "El tiempo de venta depende de varios factores como ubicación, precio, estado de la propiedad y condiciones del mercado. En promedio, nuestras propiedades se venden entre 2 a 6 meses. Te proporcionamos un análisis detallado del tiempo estimado para tu propiedad específica.",
-    category: "Venta"
-  },
-  {
-    id: "5",
-    question: "¿Hacen tasaciones de propiedades?",
-    answer: "Sí, ofrecemos servicios de tasación profesional realizados por tasadores certificados. Nuestras tasaciones son reconocidas por bancos y entidades financieras, y te ayudan a establecer el precio justo para tu propiedad.",
-    category: "Tasación"
-  },
-  {
-    id: "6",
-    question: "¿Qué documentación necesito para vender mi propiedad?",
-    answer: "Para vender tu propiedad necesitarás: título de propiedad, planos, boletas de servicios, certificado de deuda libre, y otros documentos según el tipo de propiedad. Te proporcionamos una lista completa y te ayudamos a obtener toda la documentación necesaria.",
-    category: "Documentación"
-  }
-]
+const safeFAQs = faqSectionFallback.lista_faqs  // Fallback estático
 
 export function FAQSimple({
-  title = "Preguntas Frecuentes",
-  subtitle = "Encontrá respuestas a las consultas más comunes sobre nuestros servicios inmobiliarios",
-  faqs = defaultFAQs,
-  showContactCTA = true,
-  variant = 'compact'
-}: FAQSectionProps) {
+  data,
+  fallback,
+  loading = false,
+  error = null,
+  showContactCTA = false,
+  variant = 'default'
+}: FAQSimpleProps) {
   const [openItems, setOpenItems] = useState<string[]>([])
-
+  
+  // Usar datos pasados como props o fallback
+  const faqData = data?.data || data || fallback || faqSectionFallback
+  
+  // Usar datos del CMS o fallback
+  const safeFaqData = faqData || faqSectionFallback
+  const faqsToRender = safeFaqData?.lista_faqs || []
   const toggleItem = (id: string) => {
     setOpenItems(prev => 
       prev.includes(id) 
@@ -78,7 +56,6 @@ export function FAQSimple({
   }
 
 
-  
 
   const getVariantClasses = () => {
     switch (variant) {
@@ -88,26 +65,32 @@ export function FAQSimple({
         return 'py-20'
       default:
         return 'py-16'
-    }
+    } 
   }
 
   return (
-    <section className={`${getVariantClasses()} bg-gradient-to-b from-background to-muted/20`}>
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-{/*           <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-gradient-to-br from-primary to-primary/70 rounded-xl flex items-center justify-center">
-              <HelpCircle className="w-8 h-8 text-white" />
-            </div>
-          </div> */}
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-            Preguntas <span className="text-primary">frecuentes</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
-            {subtitle}
-          </p>
-        </div>
+        <CMSFallback 
+          fallbackData={safeFaqData}
+          componentType="faq_component"
+          isLoading={loading}
+          error={error}
+        >
+      <section className={`${getVariantClasses()} bg-gradient-to-b from-background to-muted/20`}>
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-12">
+            {data && (
+              <div className="text-xs text-green-600 mb-2">
+                ✓ Datos desde CMS
+              </div>
+            )}
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
+              Preguntas <span className="text-primary">frecuentes</span>
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
+              {safeFaqData.txt_subtitulo || "Encontrá respuestas a las consultas más comunes sobre nuestros servicios inmobiliarios"}
+            </p>
+          </div>
 
         {/* Category Filter */}
 {/*         {categories.length > 1 && (
@@ -132,7 +115,7 @@ export function FAQSimple({
 
         {/* FAQ Items */}
         <div className="max-w-4xl mx-auto space-y-4">
-          {faqs.map((faq, index) => {
+              {faqsToRender.map((faq: any, index: number) => {
             const isOpen = openItems.includes(faq.id)
             
             return (
@@ -155,7 +138,7 @@ export function FAQSimple({
                       </div>
      
                         <h3 className="text-lg font-semibold text-card-foreground group-hover:text-primary transition-colors">
-                          {faq.question}
+                          {faq.txt_pregunta}
                         </h3>
 {/*                         {faq.category && (
                           <span className="inline-block mt-1 px-2 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full">
@@ -178,7 +161,7 @@ export function FAQSimple({
                       <div className="ml-12">
                         <div className="h-px bg-border/50 mb-4"></div>
                         <p className="text-muted-foreground leading-relaxed text-pretty">
-                          {faq.answer}
+                          {faq.txt_respuesta}
                         </p>
                       </div>
                     </div>
@@ -203,16 +186,16 @@ export function FAQSimple({
                   ¿No encontraste tu respuesta?
                 </h3>
                 <p className="text-muted-foreground my-8 text-pretty">
-                  Nuestro equipo está listo para ayudarte con cualquier consulta específica sobre nuestros servicios.
+                  {safeFaqData.txt_mensaje_contacto || "Nuestro equipo está listo para ayudarte con cualquier consulta específica sobre nuestros servicios."}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Button 
                     size="lg"
                     className="bg-primary hover:bg-primary/90 text-primary-foreground"
-                    onClick={() => window.location.href = '/contacto'}
+                    onClick={() => window.location.href = safeFaqData.btn_contacto?.link_url || '/contacto'}
                   >
                     <FaWhatsapp className="w-4 h-4 mr-2" />
-                    Contactanos
+                    {safeFaqData.btn_contacto?.txt_label || "Contactanos"}
                   </Button>
 {/*                   <Button 
                     size="lg"
@@ -248,5 +231,6 @@ export function FAQSimple({
         }
       `}</style>
     </section>
+    </CMSFallback>
   )
 }

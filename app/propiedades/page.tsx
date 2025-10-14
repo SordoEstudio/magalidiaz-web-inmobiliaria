@@ -12,6 +12,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Search, Grid3X3, List } from "lucide-react"
 import { useProperties } from "@/lib/hooks/useProperties"
 import { useFilteredProperties } from "@/lib/hooks/usePropertyFilters"
+import { useCMSComponents } from "@/lib/hooks/useCMSComponents"
+import { CMSDebugPanel } from "@/components/cms-debug-panel"
 import Link from "next/link"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -49,6 +51,9 @@ export default function PropertySearchPage() {
 
   // Usar hook de API para obtener propiedades
   const { properties, loading, error } = useProperties()
+  
+  // Usar hook de API para obtener componentes CMS
+  const { components: cmsComponents, loading: cmsLoading, error: cmsError } = useCMSComponents()
 
   // Aplicar filtros del lado del cliente
   const filteredProperties = useFilteredProperties(properties , {
@@ -86,6 +91,35 @@ export default function PropertySearchPage() {
   const handleFiltersChange = useCallback((newFilters: any) => {
     setFilters(newFilters)
   }, [])
+
+  // Mostrar datos de CMS Components en consola para debugging
+  useEffect(() => {
+    if (cmsComponents) {
+      console.log('🎨 CMS Components loaded:', cmsComponents.length, 'components');
+      console.log('📋 CMS Components data:', cmsComponents);
+      
+      // Mostrar información detallada de cada componente
+      cmsComponents.forEach((component, index) => {
+        console.log(`📄 Component ${index + 1}:`, {
+          id: component._id,
+          name: component.name,
+          type: component.type,
+          page: component.page,
+          status: component.status,
+          isActive: component.isActive,
+          isVisible: component.isVisible,
+          data: component.data,
+          thumbnail: component.thumbnail,
+          description: component.description,
+          clientName: component.clientName
+        });
+      });
+    }
+    
+    if (cmsError) {
+      console.error('❌ CMS Components Error:', cmsError);
+    }
+  }, [cmsComponents, cmsError])
 
   // Mostrar loading con skeleton
   if (loading) {
@@ -304,6 +338,9 @@ export default function PropertySearchPage() {
           </main>
         </div>
       </div>
+      
+      {/* Panel de Debug CMS */}
+      <CMSDebugPanel />
     </div>
   )
 }

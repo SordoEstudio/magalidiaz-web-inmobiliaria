@@ -1,0 +1,61 @@
+{
+  "txt_subtitulo": "eeeeEncontrá respuestas a las consultas más comunes sobre nuestros servicios inmobiliarios",
+  "lista_faqs": [
+    {
+      "id": "1",
+      "txt_pregunta": "¿Cómo funciona el proceso de compra de una propiedad?",
+      "txt_respuesta": "Nuestro proceso de compra es simple y transparente. Primero, te ayudamos a encontrar la propiedad ideal según tus necesidades y presupuesto. Luego, coordinamos las visitas, te asesoramos en la negociación y te acompañamos en todo el proceso legal hasta la escrituración."
+    },
+    {
+      "id": "2",
+      "txt_pregunta": "¿Qué comisiones cobran por la venta de mi propiedad?",
+      "txt_respuesta": "Nuestras comisiones son competitivas y transparentes. Trabajamos con una estructura de honorarios clara que se establece al inicio del proceso. Te proporcionamos toda la información detallada en nuestra primera reunión para que no tengas sorpresas."
+    },
+    {
+      "id": "3",
+      "txt_pregunta": "¿Ofrecen financiamiento o créditos hipotecarios?",
+      "txt_respuesta": "Sí, trabajamos con las principales entidades financieras del país. Te ayudamos a encontrar las mejores opciones de financiamiento según tu perfil crediticio y te acompañamos en todo el proceso de solicitud del crédito hipotecario."
+    },
+    {
+      "id": "4",
+      "txt_pregunta": "¿Cuánto tiempo toma vender una propiedad?",
+      "txt_respuesta": "El tiempo de venta depende de varios factores como ubicación, precio, estado de la propiedad y condiciones del mercado. En promedio, nuestras propiedades se venden entre 2 a 6 meses. Te proporcionamos un análisis detallado del tiempo estimado para tu propiedad específica."
+    },
+    {
+      "id": "5",
+      "txt_pregunta": "¿Hacen tasaciones de propiedades?",
+      "txt_respuesta": "Sí, ofrecemos servicios de tasación profesional realizados por tasadores certificados. Nuestras tasaciones son reconocidas por bancos y entidades financieras, y te ayudan a establecer el precio justo para tu propiedad."
+    },
+    {
+      "id": "6",
+      "txt_pregunta": "¿Qué documentación necesito para vender mi propiedad?",
+      "txt_respuesta": "Para vender tu propiedad necesitarás: título de propiedad, planos, boletas de servicios, certificado de deuda libre, y otros documentos según el tipo de propiedad. Te proporcionamos una lista completa y te ayudamos a obtener toda la documentación necesaria."
+    },
+    {
+      "id": "7",
+      "txt_pregunta": "¿Trabajan con propiedades comerciales?",
+      "txt_respuesta": "Sí, tenemos amplia experiencia en el mercado comercial. Ofrecemos servicios especializados para oficinas, locales comerciales, depósitos, terrenos industriales y otros tipos de propiedades comerciales."
+    },
+    {
+      "id": "8",
+      "txt_pregunta": "¿Ofrecen servicios de alquiler?",
+      "txt_respuesta": "Por supuesto. Gestionamos alquileres tanto para propietarios como para inquilinos. Te ayudamos a encontrar inquilinos confiables, gestionamos contratos, cobros y mantenimiento de la propiedad."
+    },
+    {
+      "id": "9",
+      "txt_pregunta": "¿Cómo calculan el valor de una propiedad?",
+      "txt_respuesta": "Utilizamos múltiples métodos de valuación: análisis comparativo de mercado, costo de reposición, y análisis de rentabilidad. Consideramos ubicación, características físicas, estado de conservación, y tendencias del mercado local."
+    },
+    {
+      "id": "10",
+      "txt_pregunta": "¿Qué zonas cubren?",
+      "txt_respuesta": "Trabajamos en toda la zona metropolitana de Buenos Aires y alrededores. Tenemos especialización en San Vicente, Llavallol, Lomas de Zamora, y otras localidades del sur del conurbano. También manejamos propiedades en Capital Federal."
+    }
+  ],
+  "btn_contacto": {
+    "txt_label": "Contactanos",
+    "link_url": "https://wa.me/5493492693712",
+    "icon_contacto": "FaWhatsapp"
+  },
+  "txt_mensaje_contacto": "¿No encontraste tu respuesta? Nuestro equipo está listo para ayudarte con cualquier consulta específica sobre nuestros servicios."
+}

@@ -20,7 +20,7 @@ export const API_CONFIG = {
     }
 
     if (isDevelopment) {
-      return process.env.NEXT_PUBLIC_API_URL ;
+      return process.env.NEXT_PUBLIC_API_DEV ;
     }
     
     // En desarrollo: usar proxy local o URL directa
@@ -38,7 +38,9 @@ export const API_CONFIG = {
   ENDPOINTS: {
     FEATURED_PROPERTIES: '/properties/featured',
     PROPERTIES: '/properties',
-    PROPERTY_DETAIL: '/properties'
+    PROPERTY_DETAIL: '/properties',
+    CMS_COMPONENTS: '/cms-components',
+    CMS_COMPONENT_DETAIL: '/cms-components'
   }
 } as const;
 
@@ -66,14 +68,16 @@ export const buildApiUrl = (endpoint: string, params?: Record<string, string>) =
   
   const url = new URL(baseUrl);
   
-  // Agregar clientSlug automáticamente
-  url.searchParams.append('clientSlug', API_CONFIG.CLIENT_SLUG);
-  
   // Agregar parámetros adicionales
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.append(key, value);
     });
+  }
+  
+  // Agregar clientSlug automáticamente solo si no está presente
+  if (!url.searchParams.has('clientSlug')) {
+    url.searchParams.append('clientSlug', API_CONFIG.CLIENT_SLUG);
   }
   
   return url.toString();

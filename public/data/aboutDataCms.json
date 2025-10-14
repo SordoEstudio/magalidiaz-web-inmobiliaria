@@ -1,0 +1,22 @@
+{
+    "img_perfil": "/client01.jpg",
+    "txt_image_alt": "Foto de Magalí Diaz",
+    
+    "txt_nombre": "Magalí",
+    "txt_apellido": "Díaz",
+    
+    "txt_descripcion": "Con más de 10 años de experiencia en el mercado inmobiliario , me especializo en ayudar a familias y inversores a encontrar la propiedad perfecta. Mi compromiso es brindar un servicio personalizado y transparente en cada operación.",
+    
+    "txt_destacado": "La propiedad que buscas puede estar a un par de clics de distancia.",
+    
+    "lista_titulos": [
+      { 
+        "txt_titulo": "Corredora Inmobiliaria", 
+        "txt_matricula": "Mat. 737"
+      },
+      {
+        "txt_titulo": "Martillera pública", 
+        "txt_matricula": "Mat. 1456"
+      } 
+    ]
+  }

@@ -1,0 +1,23 @@
+{
+  "txt_titulo": "¡Tasación sin cargo hasta fin de mes!",
+  "txt_subtitulo": "Conocé el valor real de tu propiedad con nuestros expertos",
+  "txt_mensaje": "Obtén una tasación profesional gratuita y descubre el valor real de tu propiedad",
+  "btn_principal": {
+    "txt_label": "Más información",
+    "link_url": "https://wa.me/5493492693712?text=Hola! Quiero información sobre la tasación gratuita",
+    "icon_btn": "FaWhatsapp"
+  },
+  "_configuracion": {
+    "variant": "primary",
+    "position": "top",
+    "dismissible": true,
+    "autoHide": false,
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+  "_estilo": {
+    "background": "gradient",
+    "border": "primary",
+    "shadow": "medium"
+  }
+}

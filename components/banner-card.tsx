@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight, ExternalLink, Phone, Check } from "lucide-react"
 import Image from "next/image"
+import { useCMSData } from "@/lib/hooks/useCMSData"
+import { CMSFallback } from "@/components/cms-fallback"
+import bannerCardDataFallback from "@/public/data/bannerCardDataCms.json"
 
 interface BannerCardProps {
   image?: string
@@ -32,6 +35,27 @@ export function BannerCard({
   imagePosition = 'left',
   size = 'medium'
 }: BannerCardProps) {
+  // Obtener datos del CMS de forma simplificada
+  const { data: bannerData, loading, error, isFromCMS } = useCMSData(
+    'banner_card_component',
+    bannerCardDataFallback  
+  )
+  
+  // Usar datos del CMS o props
+  const safeBannerData = bannerData || bannerCardDataFallback
+  const finalImage = image || safeBannerData.img_principal
+  const finalTitle = title || safeBannerData.txt_titulo
+  const finalSubtitle = subtitle || safeBannerData.txt_subtitulo
+  const finalText = text || safeBannerData.txt_descripcion
+  const finalBulletPoints = bulletPoints || safeBannerData.lista_beneficios
+  const finalCta = cta || {
+    text: safeBannerData.btn_principal?.txt_label || 'Ver más',
+    action: safeBannerData.btn_principal?.link_url || '#',
+    type: 'link' as const
+  }
+  const finalVariant = variant || safeBannerData.configuracion?.variant || 'primary'
+  const finalImagePosition = imagePosition || safeBannerData.configuracion?.imagePosition || 'left'
+  const finalSize = size || safeBannerData.configuracion?.size || 'medium'
   const handleCTAAction = (action: string, type: string) => {
     switch (type) {
       case 'phone':
@@ -88,82 +112,94 @@ export function BannerCard({
   }
 
   return (
-    <section className={`${getSizeClasses()} bg-gradient-to-b from-background to-muted/20`}>
-      <div className="container mx-auto px-4">
-        <Card className={`overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br ${getVariantClasses()} px-4`}>
-          <CardContent className="p-0">
-            <div className={`flex flex-col ${getImageClasses()} items-center min-h-[400px]`}>
-              {/* Image Section */}
-              {image && (
-                <div className="w-full lg:w-1/2 relative h-64 lg:h-full lg:min-h-[400px]">
-                  <Image 
-                    src={image} 
-                    alt={title || "Banner"} 
-                    fill
-                    className="object-cover rounded-lg"
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                  />
-                </div>
-              )}
-
-              {/* Content Section */}
-              <div className={`w-full ${image ? 'lg:w-1/2' : 'lg:w-full'} p-8 lg:p-12 flex flex-col justify-center`}>
-                {/* Subtitle */}
-                {subtitle && (
-                  <p className="text-primary font-semibold mb-3 uppercase text-sm tracking-wide">
-                    {subtitle}
-                  </p>
-                )}
-
-                {/* Title */}
-                {title && (
-                  <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 text-balance">
-                    {title}
-                  </h2>
-                )}
-
-                {/* Text */}
-                {text && (
-                  <p className="text-lg text-muted-foreground mb-6 text-pretty leading-relaxed">
-                    {text}
-                  </p>
-                )}
-
-                {/* Bullet Points */}
-                {bulletPoints && bulletPoints.length > 0 && (
-                  <div className="mb-8">
-                    <ul className="space-y-3">
-                      {bulletPoints.map((point, index) => (
-                        <li key={index} className="flex items-start gap-3 text-foreground">
-                          <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <Check className="w-3 h-3 text-white" />
-                          </div>
-                          <span className="text-base">{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                {/* CTA Button */}
-                {cta && (
-                  <div className="flex justify-start">
-                    <Button 
-                      size="lg"
-                      onClick={() => handleCTAAction(cta.action, cta.type)}
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-                    >
-                      {cta.text}
-                      {getCTAIcon(cta.type)}
-                    </Button>
-                  </div>
-                )}
-              </div>
+    <CMSFallback 
+      fallbackData={safeBannerData}
+      componentType="banner_card_component"
+      isLoading={loading}
+      error={error}
+    >
+      <section className={`${getSizeClasses()} bg-gradient-to-b from-background to-muted/20`}>
+        <div className="container mx-auto px-4">
+          {isFromCMS && (
+            <div className="text-xs text-green-600 mb-2 text-center">
+              ✓ Datos desde CMS
             </div>
-          </CardContent>
-        </Card>
-      </div>
-    </section>
+          )}
+          <Card className={`overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 border-0 bg-gradient-to-br ${getVariantClasses()} px-4`}>
+            <CardContent className="p-0">
+              <div className={`flex flex-col ${getImageClasses()} items-center min-h-[400px]`}>
+                {/* Image Section */}
+                {finalImage && (
+                  <div className="w-full lg:w-1/2 relative h-64 lg:h-full lg:min-h-[400px]">
+                    <Image 
+                      src={finalImage} 
+                      alt={finalTitle || "Banner"} 
+                      fill
+                      className="object-cover rounded-lg"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                  </div>
+                )}
+
+                {/* Content Section */}
+                <div className={`w-full ${finalImage ? 'lg:w-1/2' : 'lg:w-full'} p-8 lg:p-12 flex flex-col justify-center`}>
+                  {/* Subtitle */}
+                  {finalSubtitle && (
+                    <p className="text-primary font-semibold mb-3 uppercase text-sm tracking-wide">
+                      {finalSubtitle}
+                    </p>
+                  )}
+
+                  {/* Title */}
+                  {finalTitle && (
+                    <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6 text-balance">
+                      {finalTitle}
+                    </h2>
+                  )}
+
+                  {/* Text */}
+                  {finalText && (
+                    <p className="text-lg text-muted-foreground mb-6 text-pretty leading-relaxed">
+                      {finalText}
+                    </p>
+                  )}
+
+                  {/* Bullet Points */}
+                  {finalBulletPoints && finalBulletPoints.length > 0 && (
+                    <div className="mb-8">
+                      <ul className="space-y-3">
+                        {finalBulletPoints.map((point, index) => (
+                          <li key={index} className="flex items-start gap-3 text-foreground">
+                            <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                              <Check className="w-3 h-3 text-white" />
+                            </div>
+                            <span className="text-base">{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* CTA Button */}
+                  {finalCta && (
+                    <div className="flex justify-start">
+                      <Button 
+                        size="lg"
+                        onClick={() => handleCTAAction(finalCta.action, finalCta.type)}
+                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-3 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                      >
+                        {finalCta.text}
+                        {getCTAIcon(finalCta.type)}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+    </CMSFallback>
   )
 } 

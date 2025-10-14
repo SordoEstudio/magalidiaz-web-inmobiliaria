@@ -1,0 +1,70 @@
+{
+  "txt_subtitulo": "Ofrecemos una amplia gama de servicios inmobiliarios para acompañarte en cada paso de tu operación",
+  "lista_servicios": [
+    {
+      "txt_nombre": "Corretaje de inmuebles",
+      "txt_descripcion": "Asesoramiento integral en compra y venta de propiedades con el mejor precio del mercado.",
+      "_icon_servicio": "FaHome",
+      "boolean_destacado": true,
+      "btn_servicio": {
+        "txt_label": "Consultar",
+        "link_url": "https://wa.me/5491123456789"
+      }
+    },
+    {
+      "txt_nombre": "Tasaciones",
+      "txt_descripcion": "Valuaciones profesionales y certificadas para conocer el valor real de tu propiedad.",
+      "_icon_servicio": "FaCalculator",
+      "boolean_destacado": false,
+      "btn_servicio": {
+        "txt_label": "Solicitar tasación",
+        "link_url": "https://wa.me/5491123456789?text=Hola! Quiero solicitar una tasación"
+      }
+    },
+    {
+      "txt_nombre": "Administración de alquileres",
+      "txt_descripcion": "Gestión completa de propiedades en alquiler, desde la búsqueda hasta el cobro.",
+      "_icon_servicio": "FaBuilding",
+      "boolean_destacado": false,
+      "btn_servicio": {
+        "txt_label": "Administrar mi propiedad",
+        "link_url": "tel:+5491123456789"
+      }
+    },
+    {
+      "txt_nombre": "Estudios de títulos",
+      "txt_descripcion": "Análisis legal completo para garantizar operaciones seguras y sin inconvenientes.",
+      "_icon_servicio": "FaFileContract",
+      "boolean_destacado": false,
+      "btn_servicio": {
+        "txt_label": "Consultar estudio",
+        "link_url": "https://wa.me/5491123456789?text=Hola! Necesito un estudio de título"
+      }
+    },
+    {
+      "txt_nombre": "Venta y alquiler",
+      "txt_descripcion": "Amplio portfolio de propiedades en venta y alquiler en las mejores ubicaciones.",
+      "_icon_servicio": "FaKey",
+      "boolean_destacado": false,
+      "btn_servicio": {
+        "txt_label": "Ver propiedades",
+        "link_url": "/propiedades"
+      }
+    },
+    {
+      "txt_nombre": "Asesoramiento personalizado",
+      "txt_descripcion": "Atención personalizada para encontrar la solución que mejor se adapte a vos.",
+      "_icon_servicio": "FaUserTie",
+      "boolean_destacado": false,
+      "btn_servicio": {
+        "txt_label": "Agendar consulta",
+        "link_url": "https://wa.me/5491123456789?text=Hola! Quiero agendar una consulta"
+      }
+    }
+  ],
+  "txt_mensaje_cta": "¿Necesitas un servicio personalizado?",
+  "btn_contacto_general": {
+    "txt_label": "Contactanos",
+    "link_url": "https://wa.me/5491123456789"
+  }
+}
