@@ -22,7 +22,7 @@ export function usePageCMS() {
   const contactData = getComponentByType('contact_info')
   const servicesData = getComponentByType('service_section')
   const faqData = getComponentByType('faq_section')
-  const bannerCardData = getComponentByType('banner_card_component')
+  const bannerCardData = getComponentByType('banner_card')
   const bannerHeroData = getComponentByType('banner_hero_component')
   const promotionalBannerData = getComponentByType('banner_promocional')
 
