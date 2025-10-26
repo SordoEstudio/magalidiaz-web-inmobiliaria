@@ -1,20 +1,20 @@
 {
-  "txt_titulo": "Encuentra tu hogar ideal",
-  "txt_subtitulo": "Propiedades destacadas",
-  "txt_descripcion": "Descubre las mejores propiedades en venta y alquiler con la asesoría profesional que necesitas para tomar la decisión correcta.",
-  "img_principal": "/placeholder-banner.jpg",
+  "img_principal": "/house-with-garden-and-pool.png",
+  "txt_titulo": "Tasación Gratuita",
+  "txt_subtitulo": "Oferta Especial",
+  "txt_descripcion": "Conocé el valor real de tu propiedad con una evaluación profesional completamente gratuita. Sin compromiso.",
   "lista_beneficios": [
-    "Asesoramiento personalizado",
-    "Propiedades verificadas",
-    "Financiamiento disponible",
-    "Proceso transparente"
+    {"id":1, "txt_beneficio": "Evaluación profesional certificada"},
+    {"id":2, "txt_beneficio": "Informe detallado del mercado"},
+    {"id":3, "txt_beneficio": "Análisis comparativo de precios"},
+    {"id":4, "txt_beneficio": "Recomendaciones de mejoras"}
   ],
   "btn_principal": {
-    "txt_label": "Ver propiedades",
-    "link_url": "/propiedades",
-    "icon_btn": "FaSearch"
+    "txt_label": "Solicitar tasación",
+    "link_url": "https://wa.me/5491123456789?text=Hola! Quiero solicitar una tasación gratuita",
+    "icon_btn": "ExternalLink"
   },
-  "configuracion": {
+  "_configuracion": {
     "variant": "primary",
     "imagePosition": "left",
     "size": "medium"

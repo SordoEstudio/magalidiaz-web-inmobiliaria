@@ -163,7 +163,7 @@ const formatPrice = useCallback((price: number, currency: string) => {
             </div>
           )} */}
           {/* Published time */}
-          <p className="text-xs text-muted-foreground">Publicado hace {publishedDays} días</p>
+{/*           <p className="text-xs text-muted-foreground">Publicado hace {publishedDays} días</p> */}
 
           {/* View Detail Message */}
           <p className="mt-auto mx-auto border-primary/20 text-primary opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-4 left-1/2 -translate-x-1/2">

@@ -25,7 +25,10 @@ export function PromotionalBanner({
   // Usar datos pasados como props o fallback
   const safeBannerData = data?.data || data || fallback || promotionalBannerDataFallback
 
-  if (!isVisible) return null
+  // Verificar si el banner debe mostrarse según la configuración del CMS
+  const shouldShow = safeBannerData.boolean_visible !== false && isVisible
+
+  if (!shouldShow) return null
 
   const handleCTAAction = () => {
     if (safeBannerData.btn_principal?.link_url) {

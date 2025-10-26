@@ -1,20 +1,32 @@
 {
-  "txt_titulo": "Tu hogar perfecto te está esperando",
-  "txt_subtitulo": "Inmobiliaria profesional",
-  "txt_descripcion": "Con más de 10 años de experiencia en el mercado inmobiliario, te ayudamos a encontrar la propiedad ideal para ti y tu familia.",
-  "img_fondo": "/placeholder-hero.jpg",
+  "img_fondo": "/country-house-large-yard.png",
+  "txt_titulo": "Encontrá tu Hogar Ideal",
+  "txt_subtitulo": "Inmobiliaria Premium",
+  "txt_descripcion": "Miles de propiedades verificadas en las mejores ubicaciones de Buenos Aires. Tu próximo hogar te está esperando.",
   "lista_beneficios": [
-    "Asesoramiento profesional",
-    "Propiedades exclusivas",
-    "Financiamiento personalizado",
-    "Acompañamiento completo"
+    {
+      "id": 1,
+      "txt_beneficio": "Asesoramiento personalizado gratuito"
+    },
+    {
+      "id": 2, 
+      "txt_beneficio": "Propiedades verificadas y certificadas"
+    },
+    {
+      "id": 3,
+      "txt_beneficio": "Financiamiento disponible hasta 30 años"
+    },
+    {
+      "id": 4,
+      "txt_beneficio": "Acompañamiento en toda la operación"
+    }
   ],
   "btn_principal": {
-    "txt_label": "Comenzar búsqueda",
+    "txt_label": "Explorar propiedades",
     "link_url": "/propiedades",
-    "icon_btn": "FaSearch"
+    "icon_btn": "ArrowRight"
   },
-  "configuracion": {
+  "_configuracion": {
     "variant": "primary",
     "overlay": "dark",
     "alignment": "center"

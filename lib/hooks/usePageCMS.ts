@@ -24,7 +24,7 @@ export function usePageCMS() {
   const faqData = getComponentByType('faq_section')
   const bannerCardData = getComponentByType('banner_card_component')
   const bannerHeroData = getComponentByType('banner_hero_component')
-  const promotionalBannerData = getComponentByType('promotional_banner')
+  const promotionalBannerData = getComponentByType('banner_promocional')
 
   return {
     // Datos específicos
@@ -54,6 +54,8 @@ export function usePageCMS() {
     hasServicesData: !!servicesData,
     hasFaqData: !!faqData,
     hasPromotionalBannerData: !!promotionalBannerData,
+    hasBannerCardData: !!bannerCardData,
+    hasBannerHeroData: !!bannerHeroData,
   }
 }
 

@@ -139,7 +139,7 @@ export function HeroSearch() {
               <div className="border-t border-white/20 pt-4">
                 <a href="https://wa.me/5491123456789" target="_blank" rel="noopener noreferrer " className="hover:underline">
                 <p>
-                  <span className="font-bold">¿Queres tasar tu propiedad?</span>
+                  <span className="font-bold">¿Querés tasar tu propiedad?</span>
                   <br />Contactanos y te ayudamos a obtener el mejor precio.
                 </p>
                 </a>

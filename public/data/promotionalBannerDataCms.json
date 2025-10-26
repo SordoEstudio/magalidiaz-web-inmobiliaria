@@ -7,6 +7,7 @@
     "link_url": "https://wa.me/5493492693712?text=Hola! Quiero información sobre la tasación gratuita",
     "icon_btn": "FaWhatsapp"
   },
+  "boolean_visible": true,
   "_configuracion": {
     "variant": "primary",
     "position": "top",

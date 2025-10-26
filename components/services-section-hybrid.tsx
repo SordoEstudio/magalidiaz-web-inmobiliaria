@@ -245,11 +245,11 @@ export function ServicesSectionHybrid({
       <section className="py-16 bg-gradient-to-b from-muted/20 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            {data && (
+{/*             {data && (
               <div className="text-xs text-green-600 mb-2">
                 ✓ Datos desde CMS
               </div>
-            )}
+            )} */}
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
                Nuestros <span className="text-primary">servicios</span>
             </h2>

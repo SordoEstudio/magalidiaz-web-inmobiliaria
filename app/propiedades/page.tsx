@@ -15,8 +15,7 @@ import { useFilteredProperties } from "@/lib/hooks/usePropertyFilters"
 import { useCMSComponents } from "@/lib/hooks/useCMSComponents"
 import { CMSDebugPanel } from "@/components/cms-debug-panel"
 import Link from "next/link"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
 
 export default function PropertySearchPage() {
   const searchParams = useSearchParams()

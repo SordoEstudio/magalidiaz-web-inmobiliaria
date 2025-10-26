@@ -8,19 +8,6 @@ import { CMSFallback } from "@/components/cms-fallback"
 import bannerHeroDataFallback from "@/public/data/bannerHeroDataCms.json"
 
 interface BannerHeroProps {
-  image?: string
-  title?: string
-  subtitle?: string
-  bulletPoints?: string[]
-  text?: string
-  cta?: {
-    text: string
-    action: string
-    type: 'link' | 'phone' | 'external'
-  }
-  variant?: 'primary' | 'secondary' | 'accent'
-  overlay?: 'dark' | 'light' | 'gradient'
-  alignment?: 'left' | 'center' | 'right'
   // Props para CMS
   data?: any
   fallback?: any
@@ -29,15 +16,6 @@ interface BannerHeroProps {
 }
 
 export function BannerHero({
-  image,
-  title,
-  subtitle,
-  bulletPoints,
-  text,
-  cta,
-  variant = 'primary',
-  overlay = 'dark',
-  alignment = 'center',
   // Props para CMS
   data,
   fallback,
@@ -54,21 +32,21 @@ export function BannerHero({
   const finalData = data || bannerData || bannerHeroDataFallback
   const finalLoading = propLoading !== undefined ? propLoading : hookLoading
   const finalError = propError !== undefined ? propError : hookError
-  const safeBannerData = finalData || bannerHeroDataFallback
+  const safeBannerData = finalData?.data || finalData || bannerHeroDataFallback
   
-  const finalImage = image || safeBannerData.img_fondo
-  const finalTitle = title || safeBannerData.txt_titulo
-  const finalSubtitle = subtitle || safeBannerData.txt_subtitulo
-  const finalText = text || safeBannerData.txt_descripcion
-  const finalBulletPoints = bulletPoints || safeBannerData.lista_beneficios
-  const finalCta = cta || {
+  const finalImage = safeBannerData.img_fondo
+  const finalTitle = safeBannerData.txt_titulo
+  const finalSubtitle = safeBannerData.txt_subtitulo
+  const finalText = safeBannerData.txt_descripcion
+  const finalBulletPoints = safeBannerData.lista_beneficios || []
+  const finalCta = {
     text: safeBannerData.btn_principal?.txt_label || 'Comenzar',
     action: safeBannerData.btn_principal?.link_url || '#',
     type: 'link' as const
   }
-  const finalVariant = variant || safeBannerData.configuracion?.variant || 'primary'
-  const finalOverlay = overlay || safeBannerData.configuracion?.overlay || 'dark'
-  const finalAlignment = alignment || safeBannerData.configuracion?.alignment || 'center'
+  const finalVariant = safeBannerData._configuracion?.variant || 'primary'
+  const finalOverlay = safeBannerData._configuracion?.overlay || 'dark'
+  const finalAlignment = safeBannerData._configuracion?.alignment || 'center'
   const handleCTAAction = (action: string, type: string) => {
     switch (type) {
       case 'phone':
@@ -97,7 +75,7 @@ export function BannerHero({
   }
 
   const getVariantClasses = () => {
-    switch (variant) {
+    switch (finalVariant) {
       case 'secondary':
         return 'from-secondary/40 via-secondary/20 to-background/90'
       case 'accent':
@@ -108,7 +86,7 @@ export function BannerHero({
   }
 
   const getOverlayClasses = () => {
-    switch (overlay) {
+    switch (finalOverlay) {
       case 'dark':
         return 'bg-black/70'
       case 'light':
@@ -119,7 +97,7 @@ export function BannerHero({
   }
 
   const getAlignmentClasses = () => {
-    switch (alignment) {
+    switch (finalAlignment) {
       case 'left':
         return 'text-left items-start'
       case 'right':
@@ -156,11 +134,11 @@ export function BannerHero({
 
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4">
-          {(isFromCMS || data) && (
+{/*           {(isFromCMS || data) && (
             <div className="text-xs text-green-300 mb-2 text-center">
               ✓ Datos desde CMS
             </div>
-          )}
+          )} */}
           <div className={`max-w-4xl mx-auto flex flex-col ${getAlignmentClasses()}`}>
             {/* Subtitle */}
             {finalSubtitle && (
@@ -187,16 +165,16 @@ export function BannerHero({
             {finalBulletPoints && finalBulletPoints.length > 0 && (
               <div className="mb-8 animate-fade-in-up animation-delay-600">
                 <ul className="space-y-3">
-                  {finalBulletPoints.map((point, index) => (
+                  {finalBulletPoints.map((point: string, index: number) => (
                     <li 
-                      key={index} 
+                      key={point?.id} 
                       className="flex items-center gap-3 text-white/90 drop-shadow-sm animate-fade-in-left"
                       style={{ animationDelay: `${800 + index * 100}ms` }}
                     >
                       <div className="w-6 h-6 bg-primary/80 rounded-full flex items-center justify-center flex-shrink-0">
                         <Check className="w-4 h-4 text-white" />
                       </div>
-                      <span className="text-lg">{point}</span>
+                      <span className="text-lg">{point?.txt_beneficio}</span>
                     </li>
                   ))}
                 </ul>
