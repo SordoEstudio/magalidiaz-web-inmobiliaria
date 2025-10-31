@@ -75,27 +75,25 @@ export default function PropertyDetailPage({ params }: PropertyDetailPageProps) 
               <PropertyInfo {...property} />
             
             {/* Rooms */}
-            <PropertyRooms rooms={property.rooms} />
+{property.rooms.length > 0 &&            <PropertyRooms rooms={property.rooms} />}
             
             {/* Description */}
-            <PropertyDescription description={property.description} />
+{property.description &&            <PropertyDescription description={property.description} />}
 
             {/* Map */}
-            <PropertyMap 
+{property.coordinates &&            <PropertyMap 
               address={property.address} 
               coordinates={property.coordinates} 
               googleMapsLink={property.addressLink} 
-            />
+            />}
 
             {/* Amenities */}
-            <PropertyAmenities amenities={property.amenities} />
+{property.amenities.length > 0 &&            <PropertyAmenities amenities={property.amenities} />}
           </div>
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
             <PropertyContact
-              whatsappNumber="5491123456789"
-              phoneNumber="+54 11 2345-6789"
               propertyTitle={property.title}
             />
           </div>

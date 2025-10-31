@@ -13,7 +13,7 @@ interface PropertyContactProps {
   propertyTitle: string
 }
 
-export function PropertyContact({ whatsappNumber, phoneNumber, propertyTitle }: PropertyContactProps) {
+export function PropertyContact({ propertyTitle }: PropertyContactProps) {
   // Obtener datos del Context
   const { contactData, loading: contactLoading, error: contactError } = useContact()
   const { aboutData, loading: aboutLoading, error: aboutError } = useAbout()
@@ -22,8 +22,8 @@ export function PropertyContact({ whatsappNumber, phoneNumber, propertyTitle }: 
   const whatsappContact = contactData?.lista_contacto?.find((c: any) => c.icon_contacto === 'FaWhatsapp')
   const phoneContact = contactData?.lista_contacto?.find((c: any) => c.icon_contacto === 'FaPhone')
   
-  const finalWhatsappNumber = whatsappContact?.link_destino?.replace('https://wa.me/', '') || whatsappNumber
-  const finalPhoneNumber = phoneContact?.link_destino?.replace('tel:', '') || phoneNumber
+  const finalWhatsappNumber = whatsappContact?.link_destino?.replace('https://wa.me/', '') 
+  const finalPhoneNumber = phoneContact?.link_destino?.replace('tel:', '') 
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(`Hola! Me interesa la propiedad: ${propertyTitle}`)
@@ -31,7 +31,9 @@ export function PropertyContact({ whatsappNumber, phoneNumber, propertyTitle }: 
   }
 
   const handleCall = () => {
-    window.open(`tel:${finalPhoneNumber}`, "_self")
+    if (finalPhoneNumber) {
+      window.open(`tel:${finalPhoneNumber}`, "_self")
+    }
   }
 
   const handleShare = async () => {
@@ -65,10 +67,10 @@ export function PropertyContact({ whatsappNumber, phoneNumber, propertyTitle }: 
               Contactar por WhatsApp
             </Button>
 
-            <Button onClick={handleCall} variant="outline" className="w-full bg-transparent border-primary cursor-pointer" size="lg">
+{ finalPhoneNumber && <Button onClick={handleCall} variant="outline" className="w-full bg-transparent border-primary cursor-pointer" size="lg">
               <Phone className="h-5 w-5 mr-2" />
               Llamar ahora
-            </Button>
+            </Button> }
 
             <Button onClick={handleShare} variant="ghost" className="w-full cursor-pointer">
               <Share2 className="h-4 w-4 mr-2" />
