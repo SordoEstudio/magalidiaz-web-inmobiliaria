@@ -9,6 +9,14 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  compiler: {
+    removeConsole:
+      process.env.NODE_ENV === "production"
+        ? {
+            exclude: ["error", "warn"], // Mantener console.error y console.warn para debugging
+          }
+        : false,
+  },
   
   // Configuración condicional para desarrollo con proxy
   async rewrites() {
