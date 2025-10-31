@@ -17,7 +17,7 @@ const nextConfig = {
           }
         : false,
   },
-
+  
   // Configuración condicional para desarrollo con proxy
   async rewrites() {
     // Solo usar proxy si está habilitado en desarrollo
