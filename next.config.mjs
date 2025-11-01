@@ -7,7 +7,20 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    unoptimized: true,
+    unoptimized: false, // Habilitar optimización de imágenes para SEO
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+      },
+    ],
   },
   compiler: {
     removeConsole:
@@ -17,7 +30,7 @@ const nextConfig = {
           }
         : false,
   },
-  
+
   // Configuración condicional para desarrollo con proxy
   async rewrites() {
     // Solo usar proxy si está habilitado en desarrollo
