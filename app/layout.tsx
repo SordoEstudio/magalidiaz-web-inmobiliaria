@@ -5,9 +5,10 @@ import { Suspense } from "react"
 import "./globals.css"
 import { Footer } from "@/components/footer"
 import { CMSProvider } from "@/contexts/CMSProvider"
-import { defaultMetadata } from "@/lib/seo/metadata"
+import { defaultMetadata, PAGE_CONFIG } from "@/lib/seo/metadata"
 import { JsonLd } from "@/components/seo/json-ld"
 import { generateRealEstateAgentSchema } from "@/lib/seo/schema"
+import type { Metadata } from "next"
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -16,7 +17,44 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "600", "700"],
 })
 
-export const metadata = defaultMetadata
+// Metadata global con override desde JSON si existe configuración para home
+export const metadata: Metadata = {
+  ...defaultMetadata,
+  // Override con configuración específica de home desde JSON si existe
+  ...(PAGE_CONFIG.home?.title && {
+    title: {
+      default: PAGE_CONFIG.home.title,
+      template: `%s | ${defaultMetadata.title?.default}`,
+    },
+  }),
+  ...(PAGE_CONFIG.home?.description && {
+    description: PAGE_CONFIG.home.description,
+  }),
+  ...(PAGE_CONFIG.home?.keywords && {
+    keywords: PAGE_CONFIG.home.keywords,
+  }),
+  openGraph: {
+    ...defaultMetadata.openGraph,
+    ...(PAGE_CONFIG.home?.ogImage && {
+      images: [{ url: PAGE_CONFIG.home.ogImage }],
+    }),
+    ...(PAGE_CONFIG.home?.title && {
+      title: PAGE_CONFIG.home.title,
+    }),
+    ...(PAGE_CONFIG.home?.description && {
+      description: PAGE_CONFIG.home.description,
+    }),
+  },
+  twitter: {
+    ...defaultMetadata.twitter,
+    ...(PAGE_CONFIG.home?.title && {
+      title: PAGE_CONFIG.home.title,
+    }),
+    ...(PAGE_CONFIG.home?.description && {
+      description: PAGE_CONFIG.home.description,
+    }),
+  },
+}
 
 export default function RootLayout({
   children,

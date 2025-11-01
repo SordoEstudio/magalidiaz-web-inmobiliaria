@@ -1,12 +1,21 @@
 import type { Metadata } from "next"
 import { Property } from "@/lib/types/properties"
+import seoConfig from "@/lib/config/seoConfig.json"
 
-// Configuración del sitio
+// Configuración del sitio desde JSON
 export const SITE_CONFIG = {
-  name: "Magali Diaz Asesor Inmobiliario",
-  description: "Encuentra tu propiedad ideal - Venta y alquiler de casas, departamentos y terrenos",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://magalidiaz.com.ar",
-  locale: "es_ES"}
+  name: seoConfig.global.siteName,
+  description: seoConfig.global.siteDescription,
+  url: process.env.NEXT_PUBLIC_SITE_URL || seoConfig.global.siteUrl,
+  locale: seoConfig.global.defaultLocale,
+  twitterHandle: seoConfig.global.twitterHandle || undefined,
+}
+
+// Configuración del agente desde JSON
+export const AGENT_CONFIG = seoConfig.agent
+
+// Configuración por página desde JSON
+export const PAGE_CONFIG = seoConfig.pages
 
 // Helper para formatear precios
 function formatPrice(price: number, currency: string): string {
@@ -157,7 +166,7 @@ export const defaultMetadata: Metadata = {
     template: `%s | ${SITE_CONFIG.name}`,
   },
   description: SITE_CONFIG.description,
-  keywords: [
+  keywords: seoConfig.global.defaultKeywords || [
     "inmobiliaria",
     "propiedades",
     "casas en venta",
@@ -178,6 +187,9 @@ export const defaultMetadata: Metadata = {
     siteName: SITE_CONFIG.name,
     title: SITE_CONFIG.name,
     description: SITE_CONFIG.description,
+    ...(seoConfig.global.defaultOgImage && {
+      images: [{ url: seoConfig.global.defaultOgImage }],
+    }),
   },
   twitter: {
     card: "summary_large_image",

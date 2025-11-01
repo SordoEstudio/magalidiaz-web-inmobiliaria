@@ -1,5 +1,5 @@
 import { Property } from "@/lib/types/properties"
-import { SITE_CONFIG } from "./metadata"
+import { SITE_CONFIG, AGENT_CONFIG } from "./metadata"
 
 // Schema.org types
 export interface SchemaOrganization {
@@ -55,17 +55,24 @@ export interface SchemaBreadcrumbList {
 
 // Generar schema de RealEstateAgent para el sitio
 export function generateRealEstateAgentSchema(): SchemaOrganization {
+  const address = AGENT_CONFIG.agentAddress
+  
   return {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
-    name: SITE_CONFIG.name,
+    name: AGENT_CONFIG.agentName || SITE_CONFIG.name,
     url: SITE_CONFIG.url,
     description: SITE_CONFIG.description,
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "AR", // Actualizar según corresponda
-      addressLocality: "Argentina", // Actualizar con ciudad real
-    },
+    email: AGENT_CONFIG.agentEmail,
+    telephone: AGENT_CONFIG.agentPhone,
+    address: address?.city || address?.country ? {
+      "@type": "PostalAddress" as const,
+      streetAddress: address.street,
+      addressLocality: address.city,
+      addressRegion: address.state,
+      addressCountry: address.country,
+      postalCode: address.postalCode,
+    } : undefined,
   }
 }
 
