@@ -9,6 +9,7 @@ import { BannerHero } from "@/components/banner-hero"
 import { BannerCard } from "@/components/banner-card"
 import { FAQSimple } from "@/components/faq-simple"
 import { DebugConfig } from "@/components/debug-config"
+import { FloatingLogo } from "@/components/floating-logo"
 import { useFeaturedProperties } from "@/lib/hooks/useProperties"
 import { usePageCMS } from "@/lib/hooks/usePageCMS"
 import { Loader2 } from "lucide-react"
@@ -37,6 +38,9 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Logo flotante - Aparece al hacer scroll cuando el hero sale de vista */}
+      <FloatingLogo />
+
       {/* Promotional Banner - Con datos CMS */}
       {hasPromotionalBannerData && (
         <PromotionalBanner 
