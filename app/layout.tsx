@@ -5,7 +5,7 @@ import { Suspense } from "react"
 import "./globals.css"
 import { Footer } from "@/components/footer"
 import { CMSProvider } from "@/contexts/CMSProvider"
-import { defaultMetadata, PAGE_CONFIG } from "@/lib/seo/metadata"
+import { defaultMetadata, PAGE_CONFIG, SITE_CONFIG } from "@/lib/seo/metadata"
 import { JsonLd } from "@/components/seo/json-ld"
 import { generateRealEstateAgentSchema } from "@/lib/seo/schema"
 import type { Metadata } from "next"
@@ -20,11 +20,23 @@ const dmSans = DM_Sans({
 // Metadata global con override desde JSON si existe configuración para home
 export const metadata: Metadata = {
   ...defaultMetadata,
+  // Configuración de iconos/favicon
+  icons: {
+    icon: [
+      { url: "/logo-lila.png", sizes: "any" },
+      { url: "/logo-lila.png", type: "image/png", sizes: "32x32" },
+      { url: "/logo-lila.png", type: "image/png", sizes: "16x16" },
+    ],
+    apple: [
+      { url: "/logo-lila.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/logo-lila.png",
+  },
   // Override con configuración específica de home desde JSON si existe
   ...(PAGE_CONFIG.home?.title && {
     title: {
       default: PAGE_CONFIG.home.title,
-      template: `%s | ${defaultMetadata.title?.default}`,
+      template: `%s | ${SITE_CONFIG.name}`,
     },
   }),
   ...(PAGE_CONFIG.home?.description && {

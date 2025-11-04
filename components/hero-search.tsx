@@ -52,6 +52,20 @@ export function HeroSearch() {
       {/* Hero Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="max-w-4xl mx-auto">
+
+
+             {/* Logo */}
+              <Image
+                src="/logo-lila.png"
+                alt="Magali Diaz Asesor Inmobiliario"
+                width={150}
+                height={150}
+                className={"rounded-full mx-auto"}
+                priority
+              />
+
+
+
           <h1 className="text-4xl md:text-6xl font-bold text-background mb-6 text-balance">
             Encontrá tu <span className="text-primary">lugar ideal</span>
           </h1>

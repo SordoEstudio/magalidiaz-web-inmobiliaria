@@ -15,6 +15,77 @@ import { useFilteredProperties } from "@/lib/hooks/usePropertyFilters"
 import { useCMSComponents } from "@/lib/hooks/useCMSComponents"
 import { CMSDebugPanel } from "@/components/cms-debug-panel"
 import Link from "next/link"
+import Image from "next/image"
+
+
+// Header reutilizable según estado
+function PropertyHeader({
+  loading,
+  error,
+  searchTerm,
+  setSearchTerm,
+  showSkeleton = false,
+}: {
+  loading?: boolean
+  error?: boolean
+  searchTerm?: string
+  setSearchTerm?: (val: string) => void
+  showSkeleton?: boolean
+}) {
+  return (
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+      <div className="container mx-auto px-4 py-4">
+        <div className="flex items-center justify-between">
+        <div className="flex items-start justify-start">
+
+<div className="flex items-center space-x-2">
+             {/* Logo */}
+            <Link href="/">
+            <div className="flex items-center space-x-2">
+              <Image
+                src="/logo-img-lila.png"
+                alt="Magali Diaz Asesor Inmobiliario"
+                width={50}
+                height={50}
+                className={"rounded-full"}
+                priority
+              />
+            </div>
+          </Link>
+          <div className="flex flex-col">
+            <span className="text-lg font-bold">  
+              MAGALÍ DIAZ
+              </span>
+           <span className="text-sm text-muted-foreground">
+             Asesor Inmobiliario
+           </span>
+          </div>
+  </div> 
+          </div>
+          {/* Search Bar o Skeleton */}
+          <div className="flex-1 max-w-2xl mx-8">
+            {showSkeleton ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              // Solo mostrar Input en modo normal (no error, no loading), además necesitamos setSearchTerm
+              searchTerm !== undefined && setSearchTerm !== undefined ? (
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar propiedades por ubicación, tipo..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 pr-4 py-2 w-full"
+                  />
+                </div>
+              ) : null
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+}
 
 
 export default function PropertySearchPage() {
@@ -124,25 +195,7 @@ export default function PropertySearchPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold text-lg">I</span>
-                  </div>
-                  <span className="text-xl font-bold text-foreground">Inmobiliaria</span>
-                </div>
-              </Link>
-              {/* Search Bar Skeleton */}
-              <div className="flex-1 max-w-2xl mx-8">
-                <Skeleton className="h-10 w-full" />
-              </div>
-            </div>
-          </div>
-        </header>
-
+        <PropertyHeader loading showSkeleton />
         <div className="container mx-auto px-4 py-6">
           <div className="flex gap-6">
             {/* Filters Sidebar Skeleton */}
@@ -153,10 +206,8 @@ export default function PropertySearchPage() {
                   <Skeleton className="h-6 w-20" />
                   <Skeleton className="h-8 w-16" />
                 </div>
-                
                 {/* Stats */}
                 <Skeleton className="h-12 w-full rounded-lg" />
-                
                 {/* Filter sections */}
                 {Array.from({ length: 5 }).map((_, i) => (
                   <div key={i} className="space-y-2">
@@ -198,20 +249,7 @@ export default function PropertySearchPage() {
   if (error) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <Link href="/">
-                <div className="flex items-center space-x-2">
-                  <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                    <span className="text-primary-foreground font-bold text-lg">I</span>
-                  </div>
-                  <span className="text-xl font-bold text-foreground">Inmobiliaria</span>
-                </div>
-              </Link>
-            </div>
-          </div>
-        </header>
+        <PropertyHeader error />
         <div className="container mx-auto px-4 py-6">
           <div className="flex justify-center items-center h-64">
             <div className="text-center">
@@ -226,38 +264,16 @@ export default function PropertySearchPage() {
     )
   }
 
+  // Render principal
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <Link href="/">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">I</span>
-              </div>
-              <span className="text-xl font-bold text-foreground">Inmobiliaria</span>
-            </div>
-            </Link>
-
-            {/* Search Bar */}
-            <div className="flex-1 max-w-2xl mx-8">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="Buscar propiedades por ubicación, tipo..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 w-full"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <PropertyHeader
+        loading={false}
+        error={false}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
       <div className="container mx-auto px-4 py-6">
         <div className="flex gap-6">
           {/* Filters Sidebar */}
