@@ -68,7 +68,7 @@ Este archivo contiene toda la configuración crítica de SEO que puede ser edita
     "agentPhone": "+54 11 1234-5678",
     "agentAddress": {
       "street": "Calle Falsa 123",
-      "city": "Buenos Aires",
+      "city": "Santa Fe",
       "state": "CABA",
       "country": "Argentina",
       "postalCode": "C1234ABC"
@@ -175,8 +175,8 @@ Este archivo contiene toda la configuración crítica de SEO que puede ser edita
   "pages": {
     "home": {
       "title": "Inmobiliaria Premium - Encuentra tu Hogar Ideal",
-      "description": "Las mejores propiedades en Buenos Aires. Casas, departamentos y terrenos.",
-      "keywords": ["inmobiliaria", "buenos aires", "propiedades premium"]
+      "description": "Las mejores propiedades en Santa Fe. Casas, departamentos y terrenos.",
+      "keywords": ["inmobiliaria", "Santa Fe", "propiedades premium"]
     }
   }
 }

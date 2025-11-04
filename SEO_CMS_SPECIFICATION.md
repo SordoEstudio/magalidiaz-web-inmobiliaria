@@ -256,7 +256,7 @@ interface SEOContent {
     "agentEmail": "contacto@magalidiaz.com.ar",
     "agentPhone": "+54 11 1234-5678",
     "agentAddress": {
-      "city": "Buenos Aires",
+      "city": "Santa Fe",
       "state": "CABA",
       "country": "Argentina"
     },
@@ -282,7 +282,7 @@ interface SEOContent {
   "page": "home",
   "data": {
     "title": "Inmobiliaria Magali Diaz - Encuentra tu Hogar Ideal",
-    "description": "Propiedades en venta y alquiler en Buenos Aires...",
+    "description": "Propiedades en venta y alquiler en Santa Fe...",
     "keywords": ["propiedades", "casas venta", "departamentos alquiler"],
     "ogImage": "/images/og-home.jpg",
     "robotsIndex": true,

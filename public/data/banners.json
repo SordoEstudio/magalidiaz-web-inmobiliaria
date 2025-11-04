@@ -6,7 +6,7 @@
       "image": "/country-house-large-yard.png",
       "title": "Encontrá tu Hogar Ideal",
       "subtitle": "Inmobiliaria Premium",
-      "text": "Miles de propiedades verificadas en las mejores ubicaciones de Buenos Aires. Tu próximo hogar te está esperando.",
+      "text": "Miles de propiedades verificadas en las mejores ubicaciones de Santa Fe. Tu próximo hogar te está esperando.",
       "bulletPoints": [
         "Asesoramiento personalizado gratuito",
         "Propiedades verificadas y certificadas",
@@ -263,7 +263,7 @@
       "id": "cta-rent",
       "type": "minimal",
       "title": "¿Buscás Alquilar?",
-      "text": "Tenemos más de 500 propiedades en alquiler en las mejores zonas de Buenos Aires.",
+      "text": "Tenemos más de 500 propiedades en alquiler en las mejores zonas de Santa Fe.",
       "cta": {
         "text": "Ver alquileres",
         "action": "/propiedades?type=rent",

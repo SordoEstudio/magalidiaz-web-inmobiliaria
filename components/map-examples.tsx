@@ -5,12 +5,12 @@ import { PropertyMapAlternatives, RecommendedPropertyMap, GooglePropertyMap } fr
 
 // Datos de ejemplo
 const sampleProperty = {
-  address: "Av. Corrientes 1234, San Vicente, Buenos Aires",
+  address: "Av. Corrientes 1234, San Vicente, Santa Fe",
   coordinates: {
     lat: -34.6037,
     lng: -58.3816
   },
-  googleMapsLink: "https://www.google.com/maps/place/Av.+Corrientes+1234,+San+Vicente,+Buenos+Aires"
+  googleMapsLink: "https://www.google.com/maps/place/Av.+Corrientes+1234,+San+Vicente,+Santa+Fe"
 }
 
 export function MapExamples() {

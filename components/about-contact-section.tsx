@@ -20,7 +20,7 @@ export function AboutContactSection({
   error = null 
 }: AboutContactSectionProps) {
   // Usar datos pasados como props o fallback
-  const safeAboutData = data?.aboutData?.data || data?.aboutData || aboutDataFallback
+  const safeAboutData = data?.aboutData?.data || data?.aboutData 
   const safeContactData = data?.contactData?.data || data?.contactData 
   
 

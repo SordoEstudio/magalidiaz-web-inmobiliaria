@@ -113,8 +113,7 @@ export function FeaturedPropertiesCarousel() {
           {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Propiedades Destacadas
-            </h2>
+PROPIEDADES DESTACADAS            </h2>
             <div className="flex justify-center">
               <Skeleton className="h-6 w-64" />
             </div>
@@ -169,8 +168,7 @@ export function FeaturedPropertiesCarousel() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Propiedades Destacadas
-            </h2>
+PROPIEDADES DESTACADAS            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               No se pudieron cargar las propiedades destacadas.
             </p>
@@ -186,7 +184,7 @@ export function FeaturedPropertiesCarousel() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Propiedades Destacadas
+PROPIEDADES DESTACADAS
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Descubrí las mejores oportunidades inmobiliarias seleccionadas especialmente para vos

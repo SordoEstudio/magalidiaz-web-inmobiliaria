@@ -251,7 +251,7 @@ export function ServicesSectionHybrid({
               </div>
             )} */}
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-balance">
-               Nuestros <span className="text-primary">servicios</span>
+               NUESTROS <span className="text-primary">SERVICIOS</span>
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">
               {safeServicesData.txt_subtitulo}

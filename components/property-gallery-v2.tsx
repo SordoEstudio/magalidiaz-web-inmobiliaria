@@ -192,6 +192,7 @@ export function PropertyGallery({
               width={80}
               height={64}
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </button>
         ))}
@@ -216,7 +217,8 @@ export function PropertyGallery({
         className={`transition-all duration-300 ${
           mode === 'fullscreen' ? 'object-contain' : 'object-cover'
         }`}
-        priority={currentIndex === 0}
+        priority={currentIndex === 0 && mode === 'embedded'}
+        loading={currentIndex === 0 && mode === 'embedded' ? undefined : 'lazy'}
         sizes={mode === 'fullscreen' ? '100vw' : '(max-width: 768px) 100vw, 50vw'}
       />
 
@@ -248,7 +250,7 @@ export function PropertyGallery({
             alt={`${title} - Imagen ${currentIndex + 1}`}
             fill
             className="object-contain"
-            priority={currentIndex === 0}
+            loading="lazy"
             sizes="100vw"
           />
         </div>
