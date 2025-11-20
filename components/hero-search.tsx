@@ -60,7 +60,7 @@ export function HeroSearch() {
                 alt="Magali Diaz Asesor Inmobiliario"
                 width={150}
                 height={150}
-                className={"rounded-full mx-auto"}
+                className={"rounded-full mx-auto mb-4"}
                 priority
               />
 

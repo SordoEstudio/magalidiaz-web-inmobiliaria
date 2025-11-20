@@ -88,7 +88,9 @@ export function PropertyInfo({ title, address, price, currency, propertyType, tr
 
       {/* Price */}
       <div className="flex items-center gap-3">
-        <span className="text-3xl md:text-4xl font-bold text-primary">{formatPrice(price, currency)}</span>
+{price !== 0 ? ( <span className="text-3xl md:text-4xl font-bold text-primary">{formatPrice(price, currency)}</span>):(
+  <span className="text-3xl md:text-4xl font-bold text-primary">Consultar precio</span>
+)}
       </div>
 
       {/* Key Features */}
