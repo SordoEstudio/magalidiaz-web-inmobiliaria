@@ -33,6 +33,16 @@ export interface ServiceComponentData {
   }>
 }
 
+export interface HeroSearchData {
+  txt_title: string
+  txt_featured_text: string
+  txt_description: string
+  img_background: string
+  txt_cta_text: string
+  txt_cta_description: string
+  txt_cta_label: string
+  txt_url_cta: string
+}
 // Mapeador de componentes CMS
 export class CMSComponentMapper {
   private static instance: CMSComponentMapper
@@ -76,6 +86,17 @@ export class CMSComponentMapper {
       titulo: data.titulo || '',
       descripcion: data.descripcion || '',
       servicios: data.servicios || []
+    }))
+    // Mapper para Hero Search
+    this.componentMappers.set('hero_search', (data: any): HeroSearchData => ({
+      txt_title: data.txt_title || '',
+      txt_featured_text: data.txt_featured_text || '',
+      txt_description: data.txt_description || '',
+      img_background: data.img_background || '',
+      txt_cta_text: data.txt_cta_text || '',
+      txt_cta_description: data.txt_cta_description || '',
+      txt_cta_label: data.txt_cta_label || '',
+      txt_url_cta: data.txt_url_cta || ''
     }))
   }
 

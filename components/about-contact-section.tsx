@@ -59,11 +59,7 @@ export function AboutContactSection({
                 isLoading={loading}
                 error={error}
               >
-{/*             {isFromCMS && (
-              <div className="text-xs text-green-600 mb-2 text-center">
-                ✓ Datos desde CMS
-              </div>
-            )} */}
+
             <div className="space-y-6 max-w-2xl mx-auto p-6">
               <div className="flex justify-center">
                 <img 
