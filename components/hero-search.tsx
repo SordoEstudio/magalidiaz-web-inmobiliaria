@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Search, Home, Building, MapPin } from "lucide-react"
 import heroImg from "@/public/house-with-garden-and-pool.png"
@@ -12,6 +11,7 @@ import { useProperties } from "@/lib/hooks/useProperties"
 import { useDynamicFilters } from "@/lib/hooks/useDynamicFilters"
 import { useCMSData } from "@/lib/hooks/useCMSData"
 import { CMSFallback } from "@/components/cms-fallback"
+import { useContact } from "@/contexts/ContactContext"
 import heroDataCmsFallback from "@/public/data/heroDataCms.json"
 
 interface HeroSearchProps {
@@ -31,27 +31,17 @@ export function HeroSearch({
   const [searchType, setSearchType] = useState("all")
   const [propertyType, setPropertyType] = useState("all")
   const [location, setLocation] = useState("all")
-
+  const { contactData } = useContact()
   // Obtener datos del CMS de forma simplificada
-  const { data: heroData, loading: hookLoading, error: hookError, isFromCMS } = useCMSData(
+  const { data: heroData } = useCMSData(
     'hero_search',
     heroDataCmsFallback
   )
 
   // Usar datos pasados como props o del hook
   const finalData = data || heroData || heroDataCmsFallback
-  const finalLoading = propLoading !== undefined ? propLoading : hookLoading
-  const finalError = propError !== undefined ? propError : hookError
   const safeHeroData = finalData?.data || finalData || heroDataCmsFallback
 
-  // Extraer datos del hero
-  const heroTitle = safeHeroData.txt_title || ''
-  const heroFeaturedText = safeHeroData.txt_featured_text || ''
-  const heroDescription = safeHeroData.txt_description || ''
-  const heroBackground = safeHeroData.img_background || heroImg
-  const heroCtaText = safeHeroData.txt_cta_text || ''
-  const heroCtaDescription = safeHeroData.txt_cta_description || ''
-  const heroCtaUrl = safeHeroData.txt_url_cta || 'https://wa.me/5491123456789'
 
   // Obtener datos dinámicos de propiedades
   const { properties } = useProperties()
@@ -76,28 +66,21 @@ export function HeroSearch({
     const queryString = params.toString()
     return queryString ? `/propiedades?${queryString}` : '/propiedades'
   }
+  // Usar datos del Context o props como fallback
+  const whatsappContact = contactData?.lista_contacto?.find((c: any) => c.icon_contacto === 'FaWhatsapp')
 
-  // Determinar la imagen de fondo
-  const getBackgroundImage = () => {
-    if (typeof heroBackground === 'string') {
-      if (heroBackground.startsWith('/') || heroBackground.startsWith('http')) {
-        return heroBackground
-      }
-    }
-    return heroImg
+  
+  const finalWhatsappNumber = whatsappContact?.link_destino?.replace('https://wa.me/', '') 
+
+  const handleWhatsApp = () => {
+    const message = encodeURIComponent(`Hola! Me interesa la propuesta de tasación`)
+    window.open(`https://wa.me/${finalWhatsappNumber}?text=${message}`, "_blank")
   }
-
   return (
-    <CMSFallback
-      fallbackData={heroDataCmsFallback}
-      componentType="hero_search"
-      isLoading={finalLoading}
-      error={finalError}
-    >
       <section className="relative min-h-[100vh] md:min-h-[80vh] flex items-center justify-center"> 
         {/* Background Image with Overlay */}
         <Image 
-          src={getBackgroundImage()} 
+          src={safeHeroData.img_background} 
           alt="Hero Search" 
           className="absolute inset-0 w-full h-full object-cover" 
           fill 
@@ -122,10 +105,10 @@ export function HeroSearch({
             />
 
             <h1 className="text-4xl md:text-6xl font-bold text-background mb-6 text-balance">
-              {heroTitle} <span className="text-primary">{heroFeaturedText}</span>
+              {safeHeroData.txt_title} <span className="text-primary">{safeHeroData.txt_featured_text}</span>
             </h1>
             <p className="text-xl text-background mb-8 text-pretty">
-              {heroDescription}
+              {safeHeroData.txt_description}
             </p>
 
             {/* Search Form con glassmorphism effect*/}
@@ -206,10 +189,10 @@ export function HeroSearch({
 
               <div className="text-sm text-background pt-4 mt-4">
                 <div className="border-t border-white/20 pt-4">
-                  <a href={heroCtaUrl} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                  <a onClick={handleWhatsApp} className="hover:underline">
                     <p>
-                      <span className="font-bold">{heroCtaText}</span>
-                      <br />{heroCtaDescription}
+                      <span className="font-bold">{safeHeroData.txt_cta_text}</span>
+                      <br />{safeHeroData.txt_cta_description}
                     </p>
                   </a>
                 </div>
@@ -218,6 +201,5 @@ export function HeroSearch({
           </div>
         </div>
       </section>
-    </CMSFallback>
   )
 }
